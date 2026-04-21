@@ -18,6 +18,7 @@
             --accent: #0f9a8d;
             --text-primary: #0f1419;
             --text-secondary: #4a5568;
+            --text-tertiary: #718096;
             --bg-light: #f7f9fc;
             --bg-white: #ffffff;
             --border: #e2e8f0;
@@ -27,6 +28,7 @@
             :root {
                 --text-primary: #f0f4f8;
                 --text-secondary: #cbd5e0;
+                --text-tertiary: #a0aec0;
                 --bg-light: #0f1419;
                 --bg-white: #1a202c;
                 --border: #2d3748;
@@ -58,16 +60,18 @@
         }
 
         nav {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 1.5rem 2rem;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 700;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             -webkit-background-clip: text;
@@ -76,16 +80,25 @@
             text-decoration: none;
         }
 
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
         nav a {
             color: var(--text-secondary);
             text-decoration: none;
-            margin-left: 2rem;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border-radius: 4px;
         }
 
-        nav a:hover {
+        nav a:hover,
+        nav a.active {
             color: var(--primary);
+            background: rgba(26, 77, 122, 0.1);
         }
 
         /* Hero Section */
@@ -360,6 +373,17 @@
             }
         }
 
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             h1 {
@@ -375,13 +399,17 @@
             }
 
             nav {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
+                padding: 1rem;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: center;
             }
 
             nav a {
-                margin-left: 0;
+                padding: 0.5rem 0.75rem;
+                font-size: 0.85rem;
             }
 
             .cta-buttons {
@@ -392,6 +420,39 @@
             .btn {
                 width: 100%;
             }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            section h2 {
+                font-size: 1.8rem;
+            }
+
+            .timeline {
+                padding-left: 1rem;
+            }
+
+            .timeline::before {
+                left: -5px;
+            }
+
+            .timeline-item::before {
+                left: -1.8rem;
+            }
+
+            .timeline-item:hover::before {
+                left: -2rem;
+            }
+
+            .timeline-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -399,8 +460,11 @@
     <header>
         <nav>
             <a href="#" class="logo">ichrak</a>
-            <div>
-                <a href="#cv">CV</a>
+            <div class="nav-links">
+                <a href="#experience">Expérience</a>
+                <a href="#education">Formation</a>
+                <a href="#publications">Publications</a>
+                <a href="#projects">Projets</a>
                 <a href="https://github.com/Ichraknaceur" target="_blank">GitHub</a>
                 <a href="https://linkedin.com/in/ichrak-ennaceur-8979b0114/" target="_blank">LinkedIn</a>
             </div>
@@ -516,6 +580,267 @@
         </div>
     </section>
 
+    <!-- EXPERIENCE SECTION -->
+    <section id="experience">
+        <h2>Expérience</h2>
+        <div class="timeline">
+            <!-- Inokufu -->
+            <div class="timeline-item">
+                <div class="timeline-header">
+                    <div>
+                        <div class="timeline-title">Data Scientist R&D / Data Engineer</div>
+                        <div class="timeline-company">Inokufu, Lyon</div>
+                    </div>
+                    <div class="timeline-date">2022 - Présent</div>
+                </div>
+                <div class="timeline-description">
+                    Conception de systèmes IA end-to-end : BERT4Rec + RAG + évaluation hallucinations
+                </div>
+                <div class="timeline-tags">
+                    <span class="tag">LLM</span>
+                    <span class="tag">RAG</span>
+                    <span class="tag">BERT4Rec</span>
+                    <span class="tag">FastAPI</span>
+                    <span class="tag">ChromaDB</span>
+                </div>
+                <div class="details">
+                    <ul>
+                        <li>Conception de systèmes de recommandation combinant modèles séquentiels et RAG</li>
+                        <li>Développement de pipelines intégrant embeddings, recherche vectorielle et génération LLM</li>
+                        <li>Analyse de la fiabilité des systèmes avec focus sur les hallucinations</li>
+                        <li>Contribution au Learning Records Converter (SCORM, IMS Caliper, xAPI)</li>
+                        <li>Conception d'APIs et pipelines de données pour l'ingestion et validation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- MathildeCreations -->
+            <div class="timeline-item">
+                <div class="timeline-header">
+                    <div>
+                        <div class="timeline-title">Lead AI Engineer — Plateforme de prévision des ventes</div>
+                        <div class="timeline-company">MathildeCreations, Freelance</div>
+                    </div>
+                    <div class="timeline-date">6 mois</div>
+                </div>
+                <div class="timeline-description">
+                    Architecture backend et agent IA pour prévision de la demande
+                </div>
+                <div class="timeline-tags">
+                    <span class="tag">FastAPI</span>
+                    <span class="tag">Hexagonal Architecture</span>
+                    <span class="tag">Docker</span>
+                    <span class="tag">LLM Agent</span>
+                </div>
+                <div class="details">
+                    <ul>
+                        <li>Architecture backend en Python/FastAPI avec architecture hexagonale</li>
+                        <li>Endpoints pour prévision de ventes et analyse du potentiel produit</li>
+                        <li>Environnement Docker-first pour déploiement reproductible</li>
+                        <li>Implémentation d'outils de qualité du code et tests automatisés</li>
+                        <li>Agent IA pour l'explicabilité des prédictions</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ContentCrea -->
+            <div class="timeline-item">
+                <div class="timeline-header">
+                    <div>
+                        <div class="timeline-title">Generative AI Engineer — Évaluation de contenus</div>
+                        <div class="timeline-company">ContentCrea, Freelance</div>
+                    </div>
+                    <div class="timeline-date">6 mois</div>
+                </div>
+                <div class="timeline-description">
+                    Système d'évaluation automatique avec LLM-as-a-Judge
+                </div>
+                <div class="timeline-tags">
+                    <span class="tag">LLM-as-Judge</span>
+                    <span class="tag">Claude API</span>
+                    <span class="tag">Prompt Engineering</span>
+                </div>
+                <div class="details">
+                    <ul>
+                        <li>Modèles LLM-as-a-Judge pour évaluer la qualité des contenus éditoriaux</li>
+                        <li>Pipeline génération → critique → correction pour améliorer les textes</li>
+                        <li>Analyse des modifications utilisateur pour optimiser les prompts</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 1waycom -->
+            <div class="timeline-item">
+                <div class="timeline-header">
+                    <div>
+                        <div class="timeline-title">Lead Data Scientist</div>
+                        <div class="timeline-company">1waycom, Tunis</div>
+                    </div>
+                    <div class="timeline-date">2020 - 2022</div>
+                </div>
+                <div class="timeline-description">
+                    Système d'auto-évaluation end-to-end pour centres d'appels
+                </div>
+                <div class="timeline-tags">
+                    <span class="tag">Deep Learning</span>
+                    <span class="tag">NLP</span>
+                    <span class="tag">Audio</span>
+                    <span class="tag">Dashboard</span>
+                </div>
+                <div class="details">
+                    <ul>
+                        <li>Système d'auto-évaluation pour productivité agents et émotions clients</li>
+                        <li>Modèles Deep Learning pour analyse audio (Speech-to-Text, sentiment)</li>
+                        <li>Mise en production de services Python avec frontend Laravel</li>
+                        <li>Dashboards interactifs et contribution à ERP interne</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EDUCATION SECTION -->
+    <section id="education">
+        <h2>Formation</h2>
+
+        <div class="education-item">
+            <div class="education-school">Université Claude Bernard Lyon 1 — LIRIS</div>
+            <div class="education-degree">Doctorat en Intelligence Artificielle (Thèse Industrielle)</div>
+            <div class="education-period">2023 - 2026</div>
+        </div>
+
+        <div class="education-item">
+            <div class="education-school">Université de Sfax</div>
+            <div class="education-degree">Master en Sciences et Ingénierie des Données</div>
+            <div class="education-period">2019 - 2021</div>
+        </div>
+
+        <div class="education-item">
+            <div class="education-school">Université de Sfax</div>
+            <div class="education-degree">Licence en Informatique (Computer Science)</div>
+            <div class="education-period">2015 - 2019</div>
+        </div>
+    </section>
+
+    <!-- PUBLICATIONS SECTION -->
+    <section id="publications">
+        <h2>Publications</h2>
+
+        <div class="publication">
+            <div class="publication-title">CLARE: A Category-Aware RAG-Based Framework for Recommending Learning Objects</div>
+            <div class="publication-meta">
+                <span>📅 WISE 2025</span>
+                <span>✍️ Ichrak Ennaceur et al.</span>
+            </div>
+        </div>
+
+        <div class="publication">
+            <div class="publication-title">Prompt-Based Recommendation with In-Context Learning and Category-Enriched Modeling</div>
+            <div class="publication-meta">
+                <span>📅 AICCSA 2025</span>
+                <span>✍️ Ichrak Ennaceur et al.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section id="projects">
+        <h2>Projets & Portfolio</h2>
+
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-title">🔍 RAG Hallucination Evaluator</div>
+                <div class="project-desc">
+                    Framework end-to-end pour évaluer et corriger les hallucinations dans les pipelines RAG. Utilise Claude API comme juge et boucle de correction itérative.
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/Ichraknaceur/rag-hallucination-eval" target="_blank" class="project-link">Code →</a>
+                </div>
+                <div class="timeline-tags">
+                    <span class="tag">Claude API</span>
+                    <span class="tag">FastAPI</span>
+                    <span class="tag">ChromaDB</span>
+                    <span class="tag">LangGraph</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-title">🎯 BERT4Rec + RAG Recommender</div>
+                <div class="project-desc">
+                    Système de recommandation hybride combinant modèles séquentiels (BERT4Rec) avec retrieval-augmented generation pour contenu éducatif.
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/Ichraknaceur/bert4rec-rag-recommender" target="_blank" class="project-link">Code →</a>
+                </div>
+                <div class="timeline-tags">
+                    <span class="tag">BERT4Rec</span>
+                    <span class="tag">PyTorch</span>
+                    <span class="tag">RAG</span>
+                    <span class="tag">FAISS</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-title">📝 LLM Content Agent</div>
+                <div class="project-desc">
+                    Agent multi-tâche pour transformer des notes en posts LinkedIn et articles Medium. Orchestration LangGraph avec évaluation de qualité.
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/Ichraknaceur/llm-content-agent" target="_blank" class="project-link">Code →</a>
+                </div>
+                <div class="timeline-tags">
+                    <span class="tag">LangGraph</span>
+                    <span class="tag">Claude API</span>
+                    <span class="tag">Multi-Agent</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-title">⚙️ FastAPI Hexagonal Template</div>
+                <div class="project-desc">
+                    Template production-ready en architecture hexagonale. Utilisé dans des projets freelance avec Docker, tests et CI/CD.
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/Ichraknaceur/fastapi-hexagonal-template" target="_blank" class="project-link">Code →</a>
+                </div>
+                <div class="timeline-tags">
+                    <span class="tag">FastAPI</span>
+                    <span class="tag">Docker</span>
+                    <span class="tag">Clean Architecture</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-title">🌐 GitHub Profile</div>
+                <div class="project-desc">
+                    Profil GitHub avec projects épinglés, contributions actives, et documentation complète. Reflète expertise en IA générative et architecture système.
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/Ichraknaceur" target="_blank" class="project-link">Visiter →</a>
+                </div>
+                <div class="timeline-tags">
+                    <span class="tag">GitHub</span>
+                    <span class="tag">Portfolio</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-title">📚 CV Web Moderne</div>
+                <div class="project-desc">
+                    Landing page + CV one-pager avec sections interactives, timeline animée, dark mode. Deployé sur Netlify avec domaine personnalisé.
+                </div>
+                <div class="project-links">
+                    <a href="index.html" class="project-link">Visiter →</a>
+                </div>
+                <div class="timeline-tags">
+                    <span class="tag">HTML/CSS</span>
+                    <span class="tag">Responsive</span>
+                    <span class="tag">Portfolio</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer>
         <div class="footer-content">
             <div class="footer-links">
@@ -528,6 +853,16 @@
     </footer>
 
     <script>
+        // Timeline items - toggle details
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const details = this.querySelector('.details');
+                if (details) {
+                    details.classList.toggle('show');
+                }
+            });
+        });
+
         // Smooth scroll for navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -535,6 +870,27 @@
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Update active nav link on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
                 }
             });
         });
