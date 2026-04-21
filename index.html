@@ -14,33 +14,47 @@
 
         :root {
             --primary: #1a4d7a;
+            --primary-light: #2563eb;
             --secondary: #6b3aab;
             --accent: #0f9a8d;
             --text-primary: #0f1419;
             --text-secondary: #4a5568;
             --text-tertiary: #718096;
-            --bg-light: #f7f9fc;
             --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-card: #ffffff;
             --border: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 50px -10px rgba(0, 0, 0, 0.15);
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --text-primary: #f0f4f8;
+                --text-primary: #f8fafc;
                 --text-secondary: #cbd5e0;
                 --text-tertiary: #a0aec0;
-                --bg-light: #0f1419;
-                --bg-white: #1a202c;
-                --border: #2d3748;
+                --bg-white: #0f172a;
+                --bg-light: #1e293b;
+                --bg-card: #1a202c;
+                --border: #334155;
+                --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+                --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+                --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+                --shadow-xl: 0 20px 50px -10px rgba(0, 0, 0, 0.6);
             }
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             background: var(--bg-white);
             color: var(--text-primary);
             line-height: 1.6;
-            transition: background 0.3s ease;
         }
 
         /* Header Navigation */
@@ -48,26 +62,27 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
         }
 
         @media (prefers-color-scheme: dark) {
             header {
-                background: rgba(26, 32, 44, 0.95);
+                background: rgba(15, 23, 42, 0.8);
             }
         }
 
         nav {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 1rem 2rem;
+            padding: 1.2rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
         .logo {
@@ -78,21 +93,24 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-decoration: none;
+            letter-spacing: -0.5px;
         }
 
         .nav-links {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.25rem;
             flex-wrap: wrap;
+            align-items: center;
         }
 
         nav a {
             color: var(--text-secondary);
             text-decoration: none;
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1.2rem;
             font-size: 0.9rem;
+            font-weight: 500;
             transition: all 0.3s ease;
-            border-radius: 4px;
+            border-radius: 6px;
         }
 
         nav a:hover,
@@ -103,11 +121,10 @@
 
         /* Hero Section */
         .hero {
-            max-width: 1200px;
-            margin: 0 auto;
+            background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-white) 100%);
             padding: 6rem 2rem;
             text-align: center;
-            min-height: 70vh;
+            min-height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -116,11 +133,11 @@
 
         .hero-badge {
             display: inline-block;
-            background: linear-gradient(135deg, rgba(26, 77, 122, 0.1), rgba(107, 58, 171, 0.1));
+            background: rgba(26, 77, 122, 0.1);
             border: 1px solid var(--primary);
             border-radius: 24px;
             padding: 0.75rem 1.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             font-size: 0.85rem;
             font-weight: 600;
             color: var(--primary);
@@ -130,21 +147,23 @@
         h1 {
             font-size: 3.5rem;
             font-weight: 800;
-            line-height: 1.2;
+            line-height: 1.1;
             margin-bottom: 1.5rem;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: fadeInUp 1s ease-out 0.1s both;
+            animation: fadeInUp 0.8s ease-out 0.1s both;
+            letter-spacing: -1px;
         }
 
         .subtitle {
             font-size: 1.25rem;
             color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 2rem;
-            animation: fadeInUp 1s ease-out 0.2s both;
+            max-width: 650px;
+            margin: 0 auto 2.5rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+            line-height: 1.8;
         }
 
         .cta-buttons {
@@ -152,12 +171,12 @@
             gap: 1rem;
             justify-content: center;
             margin-bottom: 4rem;
-            animation: fadeInUp 1s ease-out 0.3s both;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
             flex-wrap: wrap;
         }
 
         .btn {
-            padding: 1rem 2rem;
+            padding: 1rem 2.5rem;
             border-radius: 8px;
             font-weight: 600;
             text-decoration: none;
@@ -168,13 +187,14 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
+            box-shadow: var(--shadow-md);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(26, 77, 122, 0.3);
+            box-shadow: var(--shadow-lg);
         }
 
         .btn-secondary {
@@ -186,29 +206,56 @@
         .btn-secondary:hover {
             background: var(--primary);
             color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Section Container */
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+            scroll-margin-top: 80px;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 3.5rem;
+            color: var(--text-primary);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
         }
 
         /* Highlights Section */
         .highlights {
             background: var(--bg-light);
-            padding: 4rem 2rem;
         }
 
         .highlights-container {
-            max-width: 1200px;
-            margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
         }
 
         .highlight-card {
-            background: var(--bg-white);
-            padding: 2rem;
+            background: var(--bg-card);
+            padding: 2.5rem 2rem;
             border-radius: 12px;
             border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
             transition: all 0.3s ease;
-            animation: fadeInUp 1s ease-out;
+            animation: fadeInUp 0.8s ease-out;
         }
 
         .highlight-card:nth-child(2) {
@@ -225,31 +272,31 @@
 
         .highlight-card:hover {
             border-color: var(--primary);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
         }
 
         .highlight-icon {
             font-size: 2.5rem;
             margin-bottom: 1rem;
+            display: block;
         }
 
         .highlight-card h3 {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             margin-bottom: 0.75rem;
             color: var(--primary);
+            font-weight: 700;
         }
 
         .highlight-card p {
             color: var(--text-secondary);
             font-size: 0.95rem;
+            line-height: 1.7;
         }
 
         /* Stats Section */
         .stats {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 2rem;
@@ -257,28 +304,28 @@
         }
 
         .stat {
-            animation: fadeInUp 1s ease-out;
+            animation: fadeInUp 0.8s ease-out;
         }
 
         .stat-number {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 800;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            margin-bottom: 0.5rem;
         }
 
         .stat-label {
             color: var(--text-secondary);
             font-size: 0.95rem;
-            margin-top: 0.5rem;
+            font-weight: 500;
         }
 
         /* Skills Section */
         .skills-section {
             background: var(--bg-light);
-            padding: 4rem 2rem;
         }
 
         .skills-container {
@@ -286,21 +333,15 @@
             margin: 0 auto;
         }
 
-        .skills-container h2 {
-            font-size: 2rem;
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-
         .skill-category {
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
         }
 
         .skill-category h3 {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             color: var(--primary);
-            margin-bottom: 1rem;
-            font-weight: 600;
+            margin-bottom: 1.2rem;
+            font-weight: 700;
         }
 
         .skill-tags {
@@ -310,19 +351,287 @@
         }
 
         .skill-tag {
-            background: var(--bg-white);
+            background: var(--bg-card);
             border: 1px solid var(--border);
             padding: 0.65rem 1.25rem;
             border-radius: 20px;
             font-size: 0.9rem;
             color: var(--text-primary);
             transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         .skill-tag:hover {
             border-color: var(--accent);
-            background: rgba(15, 154, 141, 0.05);
+            background: rgba(15, 154, 141, 0.08);
             color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary), var(--accent));
+        }
+
+        .timeline-item {
+            margin-bottom: 3rem;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 3px solid var(--bg-white);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 3px rgba(26, 77, 122, 0.1);
+        }
+
+        .timeline-item:hover::before {
+            width: 16px;
+            height: 16px;
+            left: -3rem;
+            background: var(--secondary);
+            box-shadow: 0 0 0 5px rgba(107, 58, 171, 0.1);
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.5rem;
+            margin-left: 0.5rem;
+            gap: 1rem;
+        }
+
+        .timeline-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .timeline-date {
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            background: rgba(26, 77, 122, 0.1);
+            padding: 0.35rem 0.9rem;
+            border-radius: 12px;
+            white-space: nowrap;
+            font-weight: 600;
+        }
+
+        .timeline-company {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            margin-left: 0.5rem;
+            font-weight: 500;
+        }
+
+        .timeline-description {
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            margin-left: 0.5rem;
+            font-weight: 500;
+        }
+
+        .timeline-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-left: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .tag {
+            background: rgba(107, 58, 171, 0.12);
+            color: var(--secondary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .details {
+            display: none;
+            margin-top: 1.2rem;
+            margin-left: 0.5rem;
+            padding: 1.2rem;
+            background: rgba(26, 77, 122, 0.05);
+            border-left: 3px solid var(--accent);
+            border-radius: 6px;
+        }
+
+        .details.show {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .details ul {
+            list-style: none;
+        }
+
+        .details li {
+            margin-bottom: 0.6rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .details li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Education */
+        .education-item {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .education-item:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .education-school {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.05rem;
+        }
+
+        .education-degree {
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .education-period {
+            font-size: 0.9rem;
+            color: var(--text-tertiary);
+            font-weight: 500;
+        }
+
+        /* Publications */
+        .publication {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .publication:hover {
+            transform: translateX(4px);
+            border-left-color: var(--secondary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .publication-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            font-size: 1.05rem;
+        }
+
+        .publication-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            flex-wrap: wrap;
+            font-weight: 500;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .project-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .project-desc {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .project-link:hover {
+            color: var(--secondary);
+            gap: 0.6rem;
         }
 
         /* Footer */
@@ -347,17 +656,18 @@
         }
 
         .footer-links a {
-            color: var(--text-secondary);
+            color: var(--primary);
             text-decoration: none;
+            font-weight: 600;
             transition: color 0.3s ease;
         }
 
         .footer-links a:hover {
-            color: var(--primary);
+            color: var(--secondary);
         }
 
         .footer-credit {
-            color: var(--text-secondary);
+            color: var(--text-tertiary);
             font-size: 0.9rem;
         }
 
@@ -387,38 +697,26 @@
         /* Responsive */
         @media (max-width: 768px) {
             h1 {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
             }
 
             .subtitle {
-                font-size: 1.1rem;
+                font-size: 1.05rem;
             }
 
             .hero {
                 padding: 3rem 1.5rem;
+                min-height: 60vh;
             }
 
             nav {
                 padding: 1rem;
+                gap: 1rem;
             }
 
             .nav-links {
                 width: 100%;
                 justify-content: center;
-            }
-
-            nav a {
-                padding: 0.5rem 0.75rem;
-                font-size: 0.85rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .btn {
-                width: 100%;
             }
 
             section {
@@ -427,6 +725,11 @@
 
             section h2 {
                 font-size: 1.8rem;
+                margin-bottom: 2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
             }
 
             .timeline {
@@ -450,8 +753,13 @@
                 align-items: flex-start;
             }
 
-            .projects-grid {
-                grid-template-columns: 1fr;
+            .cta-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
             }
         }
     </style>
@@ -476,7 +784,7 @@
         <h1>Generative AI Systems & RAG</h1>
         <p class="subtitle">Building production-grade AI pipelines with LLMs, retrieval-augmented generation, and recommendation systems. Published researcher. Available for CDI in Lyon or Paris.</p>
         <div class="cta-buttons">
-            <a href="#cv" class="btn btn-primary">Voir mon CV</a>
+            <a href="#experience" class="btn btn-primary">Voir mon expérience</a>
             <a href="https://github.com/Ichraknaceur" target="_blank" class="btn btn-secondary">Mes projets GitHub</a>
         </div>
     </section>
@@ -484,24 +792,24 @@
     <section class="highlights">
         <div class="highlights-container">
             <div class="highlight-card">
-                <div class="highlight-icon">📚</div>
+                <span class="highlight-icon">📚</span>
                 <h3>Publications</h3>
-                <p>2 peer-reviewed papers published at WISE 2025 and AICCSA 2025 on RAG-based recommendation systems.</p>
+                <p>2 peer-reviewed papers at WISE 2025 and AICCSA 2025 on RAG-based recommendation systems for education.</p>
             </div>
             <div class="highlight-card">
-                <div class="highlight-icon">🔬</div>
-                <h3>Recherche</h3>
-                <p>Thèse industrielle sur les systèmes de recommandation basés sur l'IA générative pour les plateformes éducatives.</p>
+                <span class="highlight-icon">🔬</span>
+                <h3>PhD Research</h3>
+                <p>Industrial thesis on generative AI-based recommendation systems for educational platforms at UCBL/LIRIS.</p>
             </div>
             <div class="highlight-card">
-                <div class="highlight-icon">🏗️</div>
+                <span class="highlight-icon">🏗️</span>
                 <h3>End-to-End Systems</h3>
-                <p>Expert en conception de pipelines IA complets : ingestion données, embeddings, retrieval, génération, évaluation.</p>
+                <p>Expert in designing complete AI pipelines: ingestion, embeddings, retrieval, generation, and evaluation.</p>
             </div>
             <div class="highlight-card">
-                <div class="highlight-icon">⚙️</div>
-                <h3>Production-Ready Code</h3>
-                <p>FastAPI, Docker, LangGraph, LLM-as-a-Judge. Code testé, documenté, prêt pour la production.</p>
+                <span class="highlight-icon">⚙️</span>
+                <h3>Production Code</h3>
+                <p>FastAPI, Docker, LangGraph, LLM-as-a-Judge. Tested, documented, and ready for production deployment.</p>
             </div>
         </div>
     </section>
@@ -513,7 +821,7 @@
         </div>
         <div class="stat">
             <div class="stat-number">2</div>
-            <div class="stat-label">Publications peer-reviewed</div>
+            <div class="stat-label">Peer-reviewed papers</div>
         </div>
         <div class="stat">
             <div class="stat-number">5+</div>
@@ -526,65 +834,61 @@
     </section>
 
     <section class="skills-section">
-        <div class="skills-container">
-            <h2>Core Expertise</h2>
+        <h2>Core Expertise</h2>
 
-            <div class="skill-category">
-                <h3>🤖 Generative AI & LLMs</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">Claude API</span>
-                    <span class="skill-tag">RAG</span>
-                    <span class="skill-tag">Prompt Engineering</span>
-                    <span class="skill-tag">LLMOps</span>
-                    <span class="skill-tag">Hallucination Evaluation</span>
-                    <span class="skill-tag">In-Context Learning</span>
-                    <span class="skill-tag">Transformers</span>
-                </div>
+        <div class="skill-category">
+            <h3>🤖 Generative AI & LLMs</h3>
+            <div class="skill-tags">
+                <span class="skill-tag">Claude API</span>
+                <span class="skill-tag">RAG</span>
+                <span class="skill-tag">Prompt Engineering</span>
+                <span class="skill-tag">LLMOps</span>
+                <span class="skill-tag">Hallucination Evaluation</span>
+                <span class="skill-tag">In-Context Learning</span>
+                <span class="skill-tag">Transformers</span>
             </div>
+        </div>
 
-            <div class="skill-category">
-                <h3>📊 ML & Recommendation Systems</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">BERT4Rec</span>
-                    <span class="skill-tag">Sequential Models</span>
-                    <span class="skill-tag">Deep Learning</span>
-                    <span class="skill-tag">Feature Engineering</span>
-                    <span class="skill-tag">Model Evaluation</span>
-                    <span class="skill-tag">PyTorch</span>
-                </div>
+        <div class="skill-category">
+            <h3>📊 ML & Recommendation Systems</h3>
+            <div class="skill-tags">
+                <span class="skill-tag">BERT4Rec</span>
+                <span class="skill-tag">Sequential Models</span>
+                <span class="skill-tag">Deep Learning</span>
+                <span class="skill-tag">Feature Engineering</span>
+                <span class="skill-tag">Model Evaluation</span>
+                <span class="skill-tag">PyTorch</span>
             </div>
+        </div>
 
-            <div class="skill-category">
-                <h3>🔍 Vector Search & Retrieval</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">ChromaDB</span>
-                    <span class="skill-tag">FAISS</span>
-                    <span class="skill-tag">Embeddings</span>
-                    <span class="skill-tag">Vector Search</span>
-                    <span class="skill-tag">Semantic Search</span>
-                </div>
+        <div class="skill-category">
+            <h3>🔍 Vector Search & Retrieval</h3>
+            <div class="skill-tags">
+                <span class="skill-tag">ChromaDB</span>
+                <span class="skill-tag">FAISS</span>
+                <span class="skill-tag">Embeddings</span>
+                <span class="skill-tag">Vector Search</span>
+                <span class="skill-tag">Semantic Search</span>
             </div>
+        </div>
 
-            <div class="skill-category">
-                <h3>🛠️ Backend & Infrastructure</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">FastAPI</span>
-                    <span class="skill-tag">Python</span>
-                    <span class="skill-tag">Docker</span>
-                    <span class="skill-tag">Git</span>
-                    <span class="skill-tag">PostgreSQL</span>
-                    <span class="skill-tag">MongoDB</span>
-                    <span class="skill-tag">LangGraph</span>
-                </div>
+        <div class="skill-category">
+            <h3>🛠️ Backend & Infrastructure</h3>
+            <div class="skill-tags">
+                <span class="skill-tag">FastAPI</span>
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">Docker</span>
+                <span class="skill-tag">Git</span>
+                <span class="skill-tag">PostgreSQL</span>
+                <span class="skill-tag">MongoDB</span>
+                <span class="skill-tag">LangGraph</span>
             </div>
         </div>
     </section>
 
-    <!-- EXPERIENCE SECTION -->
     <section id="experience">
         <h2>Expérience</h2>
         <div class="timeline">
-            <!-- Inokufu -->
             <div class="timeline-item">
                 <div class="timeline-header">
                     <div>
@@ -593,9 +897,7 @@
                     </div>
                     <div class="timeline-date">2022 - Présent</div>
                 </div>
-                <div class="timeline-description">
-                    Conception de systèmes IA end-to-end : BERT4Rec + RAG + évaluation hallucinations
-                </div>
+                <div class="timeline-description">Systèmes IA end-to-end : BERT4Rec + RAG + évaluation hallucinations</div>
                 <div class="timeline-tags">
                     <span class="tag">LLM</span>
                     <span class="tag">RAG</span>
@@ -605,16 +907,15 @@
                 </div>
                 <div class="details">
                     <ul>
-                        <li>Conception de systèmes de recommandation combinant modèles séquentiels et RAG</li>
-                        <li>Développement de pipelines intégrant embeddings, recherche vectorielle et génération LLM</li>
+                        <li>Conception de systèmes de recommandation combinant modèles séquentiels et architectures RAG</li>
+                        <li>Développement de pipelines intégrant embeddings, recherche vectorielle et génération par LLM</li>
                         <li>Analyse de la fiabilité des systèmes avec focus sur les hallucinations</li>
                         <li>Contribution au Learning Records Converter (SCORM, IMS Caliper, xAPI)</li>
-                        <li>Conception d'APIs et pipelines de données pour l'ingestion et validation</li>
+                        <li>Conception d'APIs et pipelines de données pour ingestion et validation</li>
                     </ul>
                 </div>
             </div>
 
-            <!-- MathildeCreations -->
             <div class="timeline-item">
                 <div class="timeline-header">
                     <div>
@@ -623,12 +924,10 @@
                     </div>
                     <div class="timeline-date">6 mois</div>
                 </div>
-                <div class="timeline-description">
-                    Architecture backend et agent IA pour prévision de la demande
-                </div>
+                <div class="timeline-description">Architecture backend et agent IA pour prévision de la demande</div>
                 <div class="timeline-tags">
                     <span class="tag">FastAPI</span>
-                    <span class="tag">Hexagonal Architecture</span>
+                    <span class="tag">Architecture Hexagonale</span>
                     <span class="tag">Docker</span>
                     <span class="tag">LLM Agent</span>
                 </div>
@@ -638,12 +937,11 @@
                         <li>Endpoints pour prévision de ventes et analyse du potentiel produit</li>
                         <li>Environnement Docker-first pour déploiement reproductible</li>
                         <li>Implémentation d'outils de qualité du code et tests automatisés</li>
-                        <li>Agent IA pour l'explicabilité des prédictions</li>
+                        <li>Agent IA pour explicabilité des prédictions</li>
                     </ul>
                 </div>
             </div>
 
-            <!-- ContentCrea -->
             <div class="timeline-item">
                 <div class="timeline-header">
                     <div>
@@ -652,9 +950,7 @@
                     </div>
                     <div class="timeline-date">6 mois</div>
                 </div>
-                <div class="timeline-description">
-                    Système d'évaluation automatique avec LLM-as-a-Judge
-                </div>
+                <div class="timeline-description">Système d'évaluation automatique avec LLM-as-a-Judge</div>
                 <div class="timeline-tags">
                     <span class="tag">LLM-as-Judge</span>
                     <span class="tag">Claude API</span>
@@ -669,7 +965,6 @@
                 </div>
             </div>
 
-            <!-- 1waycom -->
             <div class="timeline-item">
                 <div class="timeline-header">
                     <div>
@@ -678,9 +973,7 @@
                     </div>
                     <div class="timeline-date">2020 - 2022</div>
                 </div>
-                <div class="timeline-description">
-                    Système d'auto-évaluation end-to-end pour centres d'appels
-                </div>
+                <div class="timeline-description">Système d'auto-évaluation end-to-end pour centres d'appels</div>
                 <div class="timeline-tags">
                     <span class="tag">Deep Learning</span>
                     <span class="tag">NLP</span>
@@ -699,7 +992,6 @@
         </div>
     </section>
 
-    <!-- EDUCATION SECTION -->
     <section id="education">
         <h2>Formation</h2>
 
@@ -722,7 +1014,6 @@
         </div>
     </section>
 
-    <!-- PUBLICATIONS SECTION -->
     <section id="publications">
         <h2>Publications</h2>
 
@@ -743,16 +1034,13 @@
         </div>
     </section>
 
-    <!-- PROJECTS SECTION -->
     <section id="projects">
         <h2>Projets & Portfolio</h2>
 
         <div class="projects-grid">
             <div class="project-card">
                 <div class="project-title">🔍 RAG Hallucination Evaluator</div>
-                <div class="project-desc">
-                    Framework end-to-end pour évaluer et corriger les hallucinations dans les pipelines RAG. Utilise Claude API comme juge et boucle de correction itérative.
-                </div>
+                <div class="project-desc">Framework end-to-end pour évaluer et corriger les hallucinations dans les pipelines RAG. Utilise Claude API comme juge et boucle de correction itérative.</div>
                 <div class="project-links">
                     <a href="https://github.com/Ichraknaceur/rag-hallucination-eval" target="_blank" class="project-link">Code →</a>
                 </div>
@@ -766,9 +1054,7 @@
 
             <div class="project-card">
                 <div class="project-title">🎯 BERT4Rec + RAG Recommender</div>
-                <div class="project-desc">
-                    Système de recommandation hybride combinant modèles séquentiels (BERT4Rec) avec retrieval-augmented generation pour contenu éducatif.
-                </div>
+                <div class="project-desc">Système de recommandation hybride combinant modèles séquentiels avec retrieval-augmented generation pour contenu éducatif.</div>
                 <div class="project-links">
                     <a href="https://github.com/Ichraknaceur/bert4rec-rag-recommender" target="_blank" class="project-link">Code →</a>
                 </div>
@@ -782,9 +1068,7 @@
 
             <div class="project-card">
                 <div class="project-title">📝 LLM Content Agent</div>
-                <div class="project-desc">
-                    Agent multi-tâche pour transformer des notes en posts LinkedIn et articles Medium. Orchestration LangGraph avec évaluation de qualité.
-                </div>
+                <div class="project-desc">Agent multi-tâche pour transformer des notes en posts LinkedIn et articles Medium. Orchestration LangGraph avec évaluation de qualité.</div>
                 <div class="project-links">
                     <a href="https://github.com/Ichraknaceur/llm-content-agent" target="_blank" class="project-link">Code →</a>
                 </div>
@@ -797,9 +1081,7 @@
 
             <div class="project-card">
                 <div class="project-title">⚙️ FastAPI Hexagonal Template</div>
-                <div class="project-desc">
-                    Template production-ready en architecture hexagonale. Utilisé dans des projets freelance avec Docker, tests et CI/CD.
-                </div>
+                <div class="project-desc">Template production-ready en architecture hexagonale. Utilisé dans des projets freelance avec Docker, tests et CI/CD.</div>
                 <div class="project-links">
                     <a href="https://github.com/Ichraknaceur/fastapi-hexagonal-template" target="_blank" class="project-link">Code →</a>
                 </div>
@@ -812,9 +1094,7 @@
 
             <div class="project-card">
                 <div class="project-title">🌐 GitHub Profile</div>
-                <div class="project-desc">
-                    Profil GitHub avec projects épinglés, contributions actives, et documentation complète. Reflète expertise en IA générative et architecture système.
-                </div>
+                <div class="project-desc">Profil GitHub avec projects épinglés, contributions actives, et documentation complète. Reflète expertise en IA générative.</div>
                 <div class="project-links">
                     <a href="https://github.com/Ichraknaceur" target="_blank" class="project-link">Visiter →</a>
                 </div>
@@ -826,11 +1106,9 @@
 
             <div class="project-card">
                 <div class="project-title">📚 CV Web Moderne</div>
-                <div class="project-desc">
-                    Landing page + CV one-pager avec sections interactives, timeline animée, dark mode. Deployé sur Netlify avec domaine personnalisé.
-                </div>
+                <div class="project-desc">Landing page + CV one-pager avec sections interactives, timeline animée, dark mode. Deployé sur Netlify avec domaine personnalisé.</div>
                 <div class="project-links">
-                    <a href="index.html" class="project-link">Visiter →</a>
+                    <a href="#" class="project-link">Visiter →</a>
                 </div>
                 <div class="timeline-tags">
                     <span class="tag">HTML/CSS</span>
@@ -866,10 +1144,13 @@
         // Smooth scroll for navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
                 }
             });
         });
