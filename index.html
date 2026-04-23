@@ -1,10 +1,32 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ichrak Ennaceur — AI Engineer | LLM · RAG · Recommender Systems</title>
-    <meta name="description" content="AI Engineer specialized in Generative AI, RAG architectures, and recommendation systems. PhD candidate at UCBL.">
+    <meta name="description" content="AI Engineer specialized in Generative AI, RAG architectures, and recommendation systems. PhD candidate at UCBL Lyon.">
+
+    <!-- SEO -->
+    <meta name="author" content="Ichrak Ennaceur">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ichrak.dev/">
+    <meta name="theme-color" content="#1a4d7a">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ichrak.dev/">
+    <meta property="og:title" content="Ichrak Ennaceur — AI Engineer | LLM · RAG · Recommender Systems">
+    <meta property="og:description" content="AI Engineer specialized in Generative AI, RAG architectures, and recommendation systems. PhD candidate at UCBL Lyon.">
+    <meta property="og:site_name" content="Ichrak Ennaceur">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Ichrak Ennaceur — AI Engineer">
+    <meta name="twitter:description" content="Building production-grade AI pipelines with LLMs, RAG, and recommendation systems. PhD candidate @ UCBL Lyon.">
+
+    <!-- Favicon inline SVG -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%231a4d7a'/><text x='50' y='68' font-family='system-ui,sans-serif' font-size='52' font-weight='800' text-anchor='middle' fill='white'>IE</text></svg>">
     <style>
         * {
             margin: 0;
@@ -121,69 +143,145 @@
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-white) 100%);
-            padding: 6rem 2rem;
+            background: linear-gradient(160deg, var(--bg-light) 0%, var(--bg-white) 60%);
+            padding: 7rem 2rem 5rem;
             text-align: center;
-            min-height: 80vh;
+            min-height: 90vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .hero-badge {
-            display: inline-block;
-            background: rgba(26, 77, 122, 0.1);
-            border: 1px solid var(--primary);
-            border-radius: 24px;
-            padding: 0.75rem 1.5rem;
-            margin-bottom: 2rem;
-            font-size: 0.85rem;
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(26, 77, 122, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(107, 58, 171, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* Role badges row */
+        .hero-roles {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.7s ease-out both;
+        }
+
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1.1rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
             font-weight: 600;
+            letter-spacing: 0.02em;
+            border: 1px solid;
+        }
+
+        .role-researcher {
+            background: rgba(107, 58, 171, 0.08);
+            border-color: rgba(107, 58, 171, 0.3);
+            color: var(--secondary);
+        }
+
+        .role-engineer {
+            background: rgba(26, 77, 122, 0.08);
+            border-color: rgba(26, 77, 122, 0.3);
             color: var(--primary);
-            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .role-available {
+            background: rgba(15, 154, 141, 0.08);
+            border-color: rgba(15, 154, 141, 0.3);
+            color: var(--accent);
+        }
+
+        .role-available::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
         }
 
         h1 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
+            line-height: 1.05;
+            margin-bottom: 1rem;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: fadeInUp 0.8s ease-out 0.1s both;
-            letter-spacing: -1px;
+            animation: fadeInUp 0.7s ease-out 0.1s both;
+            letter-spacing: -1.5px;
+        }
+
+        .hero-tagline {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-tertiary);
+            margin-bottom: 1.75rem;
+            animation: fadeInUp 0.7s ease-out 0.2s both;
+            letter-spacing: 0.01em;
         }
 
         .subtitle {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             color: var(--text-secondary);
-            max-width: 650px;
+            max-width: 620px;
             margin: 0 auto 2.5rem;
-            animation: fadeInUp 0.8s ease-out 0.2s both;
-            line-height: 1.8;
+            animation: fadeInUp 0.7s ease-out 0.3s both;
+            line-height: 1.85;
         }
 
         .cta-buttons {
             display: flex;
-            gap: 1rem;
+            gap: 0.85rem;
             justify-content: center;
-            margin-bottom: 4rem;
-            animation: fadeInUp 0.8s ease-out 0.3s both;
+            animation: fadeInUp 0.7s ease-out 0.4s both;
             flex-wrap: wrap;
         }
 
         .btn {
-            padding: 1rem 2.5rem;
+            padding: 0.85rem 2rem;
             border-radius: 8px;
             font-weight: 600;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
             border: none;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
         }
 
         .btn-primary {
@@ -207,6 +305,17 @@
             background: var(--primary);
             color: white;
             box-shadow: var(--shadow-md);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--text-secondary);
+            color: var(--text-primary);
         }
 
         /* Section Container */
@@ -753,6 +862,24 @@
                 align-items: flex-start;
             }
 
+            h1 {
+                font-size: 2.6rem;
+                letter-spacing: -1px;
+            }
+
+            .hero-tagline {
+                font-size: 1rem;
+            }
+
+            .hero-roles {
+                gap: 0.5rem;
+            }
+
+            .role-badge {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.9rem;
+            }
+
             .cta-buttons {
                 flex-direction: column;
                 width: 100%;
@@ -769,10 +896,11 @@
         <nav>
             <a href="#" class="logo">ichrak</a>
             <div class="nav-links">
-                <a href="#experience">Expérience</a>
-                <a href="#education">Formation</a>
+                <a href="#experience">Experience</a>
+                <a href="#education">Education</a>
                 <a href="#publications">Publications</a>
-                <a href="#projects">Projets</a>
+                <a href="#projects">Projects</a>
+                <a href="cv.html" target="_blank">CV</a>
                 <a href="https://github.com/Ichraknaceur" target="_blank">GitHub</a>
                 <a href="https://linkedin.com/in/ichrak-ennaceur-8979b0114/" target="_blank">LinkedIn</a>
             </div>
@@ -780,12 +908,24 @@
     </header>
 
     <section class="hero">
-        <div class="hero-badge">🚀 PhD Candidate @ UCBL · AI Engineer</div>
-        <h1>Generative AI Systems & RAG</h1>
-        <p class="subtitle">Building production-grade AI pipelines with LLMs, retrieval-augmented generation, and recommendation systems. Published researcher. Available for CDI in Lyon or Paris.</p>
+        <div class="hero-roles">
+            <span class="role-badge role-researcher">🔬 PhD Researcher · UCBL/LIRIS</span>
+            <span class="role-badge role-engineer">⚙️ Applied AI Engineer</span>
+            <span class="role-badge role-available">Open to full-time · Lyon / Paris</span>
+        </div>
+
+        <h1>Ichrak Ennaceur</h1>
+        <p class="hero-tagline">AI Engineer & Applied Researcher in Generative AI</p>
+
+        <p class="subtitle">
+            I design and build AI systems end-to-end — RAG pipelines, LLM evaluation, and recommendation models.
+            PhD candidate at UCBL/LIRIS with 4 peer-reviewed publications and 6+ years delivering production-grade AI.
+        </p>
+
         <div class="cta-buttons">
-            <a href="#experience" class="btn btn-primary">Voir mon expérience</a>
-            <a href="https://github.com/Ichraknaceur" target="_blank" class="btn btn-secondary">Mes projets GitHub</a>
+            <a href="mailto:ichraknaceurr@gmail.com" class="btn btn-primary">✉ Get in touch</a>
+            <a href="cv.html" target="_blank" class="btn btn-secondary">Download CV</a>
+            <a href="#experience" class="btn btn-ghost">View work ↓</a>
         </div>
     </section>
 
@@ -794,7 +934,7 @@
             <div class="highlight-card">
                 <span class="highlight-icon">📚</span>
                 <h3>Publications</h3>
-                <p>2 peer-reviewed papers at WISE 2025 and AICCSA 2025 on RAG-based recommendation systems for education.</p>
+                <p>4 peer-reviewed papers on RAG-based recommendation systems, LLMs, and educational AI.</p>
             </div>
             <div class="highlight-card">
                 <span class="highlight-icon">🔬</span>
@@ -816,20 +956,20 @@
 
     <section class="stats">
         <div class="stat">
-            <div class="stat-number">3+</div>
+            <div class="stat-number">6+</div>
             <div class="stat-label">Years in AI/Data</div>
         </div>
         <div class="stat">
-            <div class="stat-number">2</div>
+            <div class="stat-number">4</div>
             <div class="stat-label">Peer-reviewed papers</div>
         </div>
         <div class="stat">
-            <div class="stat-number">5+</div>
+            <div class="stat-number">10+</div>
             <div class="stat-label">Projects delivered</div>
         </div>
         <div class="stat">
-            <div class="stat-number">10+</div>
-            <div class="stat-label">Tech skills mastered</div>
+            <div class="stat-number">15+</div>
+            <div class="stat-label">AI skills mastered</div>
         </div>
     </section>
 
@@ -840,12 +980,52 @@
             <h3>🤖 Generative AI & LLMs</h3>
             <div class="skill-tags">
                 <span class="skill-tag">Claude API</span>
+                <span class="skill-tag">OpenAI API</span>
+                <span class="skill-tag">Mistral</span>
+                <span class="skill-tag">Llama 3</span>
+                <span class="skill-tag">Gemma</span>
+                <span class="skill-tag">Qwen</span>
+                <span class="skill-tag">DeepSeek</span>
                 <span class="skill-tag">RAG</span>
                 <span class="skill-tag">Prompt Engineering</span>
-                <span class="skill-tag">LLMOps</span>
-                <span class="skill-tag">Hallucination Evaluation</span>
+                <span class="skill-tag">Fine-tuning (LoRA / QLoRA)</span>
+                <span class="skill-tag">Hugging Face</span>
                 <span class="skill-tag">In-Context Learning</span>
                 <span class="skill-tag">Transformers</span>
+                <span class="skill-tag">Structured Outputs</span>
+            </div>
+        </div>
+
+        <div class="skill-category">
+            <h3>🤝 AI Agents & Orchestration</h3>
+            <div class="skill-tags">
+                <span class="skill-tag">LangGraph</span>
+                <span class="skill-tag">LangChain</span>
+                <span class="skill-tag">n8n</span>
+                <span class="skill-tag">CrewAI</span>
+                <span class="skill-tag">AutoGen</span>
+                <span class="skill-tag">Multi-Agent Systems</span>
+                <span class="skill-tag">Tool Use / Function Calling</span>
+                <span class="skill-tag">MCP</span>
+                <span class="skill-tag">Agentic Workflows</span>
+            </div>
+        </div>
+
+        <div class="skill-category">
+            <h3>📈 Evaluation, MLOps & Observability</h3>
+            <div class="skill-tags">
+                <span class="skill-tag">LLM-as-a-Judge</span>
+                <span class="skill-tag">RAGAS</span>
+                <span class="skill-tag">DeepEval</span>
+                <span class="skill-tag">Evidently AI</span>
+                <span class="skill-tag">MLflow</span>
+                <span class="skill-tag">Weights & Biases</span>
+                <span class="skill-tag">Langfuse</span>
+                <span class="skill-tag">Arize Phoenix</span>
+                <span class="skill-tag">Hallucination Detection</span>
+                <span class="skill-tag">LLMOps</span>
+                <span class="skill-tag">A/B Testing</span>
+                <span class="skill-tag">Data Drift Detection</span>
             </div>
         </div>
 
@@ -853,11 +1033,17 @@
             <h3>📊 ML & Recommendation Systems</h3>
             <div class="skill-tags">
                 <span class="skill-tag">BERT4Rec</span>
+                <span class="skill-tag">RecBole</span>
                 <span class="skill-tag">Sequential Models</span>
+                <span class="skill-tag">Collaborative Filtering</span>
+                <span class="skill-tag">Matrix Factorization</span>
                 <span class="skill-tag">Deep Learning</span>
+                <span class="skill-tag">PyTorch</span>
+                <span class="skill-tag">TensorFlow / Keras</span>
+                <span class="skill-tag">scikit-learn</span>
+                <span class="skill-tag">XGBoost / LightGBM</span>
                 <span class="skill-tag">Feature Engineering</span>
                 <span class="skill-tag">Model Evaluation</span>
-                <span class="skill-tag">PyTorch</span>
             </div>
         </div>
 
@@ -866,28 +1052,72 @@
             <div class="skill-tags">
                 <span class="skill-tag">ChromaDB</span>
                 <span class="skill-tag">FAISS</span>
-                <span class="skill-tag">Embeddings</span>
-                <span class="skill-tag">Vector Search</span>
+                <span class="skill-tag">Pinecone</span>
+                <span class="skill-tag">Milvus</span>
+                <span class="skill-tag">Qdrant</span>
+                <span class="skill-tag">Weaviate</span>
+                <span class="skill-tag">pgvector</span>
+                <span class="skill-tag">Elasticsearch</span>
+                <span class="skill-tag">Hybrid Search</span>
+                <span class="skill-tag">Reranking</span>
                 <span class="skill-tag">Semantic Search</span>
             </div>
         </div>
 
         <div class="skill-category">
-            <h3>🛠️ Backend & Infrastructure</h3>
+            <h3>🗣️ NLP & Data Processing</h3>
+            <div class="skill-tags">
+                <span class="skill-tag">spaCy</span>
+                <span class="skill-tag">NLTK</span>
+                <span class="skill-tag">Named Entity Recognition</span>
+                <span class="skill-tag">Text Classification</span>
+                <span class="skill-tag">Tokenization</span>
+                <span class="skill-tag">pandas</span>
+                <span class="skill-tag">NumPy</span>
+                <span class="skill-tag">Apache Spark</span>
+                <span class="skill-tag">dbt</span>
+                <span class="skill-tag">Apache Airflow</span>
+            </div>
+        </div>
+
+        <div class="skill-category">
+            <h3>🛠️ Backend, Infra & Deployment</h3>
             <div class="skill-tags">
                 <span class="skill-tag">FastAPI</span>
                 <span class="skill-tag">Python</span>
                 <span class="skill-tag">Docker</span>
-                <span class="skill-tag">Git</span>
+                <span class="skill-tag">Kubernetes</span>
+                <span class="skill-tag">REST APIs</span>
                 <span class="skill-tag">PostgreSQL</span>
                 <span class="skill-tag">MongoDB</span>
-                <span class="skill-tag">LangGraph</span>
+                <span class="skill-tag">Redis</span>
+                <span class="skill-tag">Kafka</span>
+                <span class="skill-tag">GitHub Actions</span>
+                <span class="skill-tag">CI/CD</span>
+                <span class="skill-tag">Terraform</span>
+                <span class="skill-tag">AWS / GCP</span>
+                <span class="skill-tag">Netlify / Vercel</span>
+                <span class="skill-tag">Git</span>
+            </div>
+        </div>
+
+        <div class="skill-category">
+            <h3>🔐 AI Governance & Security</h3>
+            <div class="skill-tags">
+                <span class="skill-tag">Responsible AI</span>
+                <span class="skill-tag">Bias Detection</span>
+                <span class="skill-tag">AI Safety</span>
+                <span class="skill-tag">Red Teaming</span>
+                <span class="skill-tag">Data Privacy (GDPR)</span>
+                <span class="skill-tag">Model Cards</span>
+                <span class="skill-tag">Explainability (XAI)</span>
+                <span class="skill-tag">Watermarking</span>
             </div>
         </div>
     </section>
 
     <section id="experience">
-        <h2>Expérience</h2>
+        <h2>Experience</h2>
         <div class="timeline">
             <div class="timeline-item">
                 <div class="timeline-header">
@@ -895,9 +1125,9 @@
                         <div class="timeline-title">Data Scientist R&D / Data Engineer</div>
                         <div class="timeline-company">Inokufu, Lyon</div>
                     </div>
-                    <div class="timeline-date">2022 - Présent</div>
+                    <div class="timeline-date">2022 - Present</div>
                 </div>
-                <div class="timeline-description">Systèmes IA end-to-end : BERT4Rec + RAG + évaluation hallucinations</div>
+                <div class="timeline-description">End-to-end AI systems: BERT4Rec + RAG + hallucination evaluation</div>
                 <div class="timeline-tags">
                     <span class="tag">LLM</span>
                     <span class="tag">RAG</span>
@@ -907,11 +1137,11 @@
                 </div>
                 <div class="details">
                     <ul>
-                        <li>Conception de systèmes de recommandation combinant modèles séquentiels et architectures RAG</li>
-                        <li>Développement de pipelines intégrant embeddings, recherche vectorielle et génération par LLM</li>
-                        <li>Analyse de la fiabilité des systèmes avec focus sur les hallucinations</li>
-                        <li>Contribution au Learning Records Converter (SCORM, IMS Caliper, xAPI)</li>
-                        <li>Conception d'APIs et pipelines de données pour ingestion et validation</li>
+                        <li>Designed recommendation systems combining sequential models with RAG architectures</li>
+                        <li>Built pipelines integrating embeddings, vector search, and LLM-based generation</li>
+                        <li>Analyzed system reliability with a focus on hallucination detection and mitigation</li>
+                        <li>Contributed to the Learning Records Converter (SCORM, IMS Caliper, xAPI)</li>
+                        <li>Designed APIs and data pipelines for ingestion and validation</li>
                     </ul>
                 </div>
             </div>
@@ -919,25 +1149,25 @@
             <div class="timeline-item">
                 <div class="timeline-header">
                     <div>
-                        <div class="timeline-title">Lead AI Engineer — Plateforme de prévision des ventes</div>
+                        <div class="timeline-title">Lead AI Engineer — Sales Forecasting Platform</div>
                         <div class="timeline-company">MathildeCreations, Freelance</div>
                     </div>
-                    <div class="timeline-date">6 mois</div>
+                    <div class="timeline-date">6 months</div>
                 </div>
-                <div class="timeline-description">Architecture backend et agent IA pour prévision de la demande</div>
+                <div class="timeline-description">Backend architecture and AI agent for demand forecasting</div>
                 <div class="timeline-tags">
                     <span class="tag">FastAPI</span>
-                    <span class="tag">Architecture Hexagonale</span>
+                    <span class="tag">Hexagonal Architecture</span>
                     <span class="tag">Docker</span>
                     <span class="tag">LLM Agent</span>
                 </div>
                 <div class="details">
                     <ul>
-                        <li>Architecture backend en Python/FastAPI avec architecture hexagonale</li>
-                        <li>Endpoints pour prévision de ventes et analyse du potentiel produit</li>
-                        <li>Environnement Docker-first pour déploiement reproductible</li>
-                        <li>Implémentation d'outils de qualité du code et tests automatisés</li>
-                        <li>Agent IA pour explicabilité des prédictions</li>
+                        <li>Python/FastAPI backend with hexagonal (clean) architecture</li>
+                        <li>Endpoints for sales forecasting and product potential analysis</li>
+                        <li>Docker-first environment for reproducible deployments</li>
+                        <li>Code quality tooling and automated test suite</li>
+                        <li>AI agent for prediction explainability</li>
                     </ul>
                 </div>
             </div>
@@ -945,12 +1175,12 @@
             <div class="timeline-item">
                 <div class="timeline-header">
                     <div>
-                        <div class="timeline-title">Generative AI Engineer — Évaluation de contenus</div>
+                        <div class="timeline-title">Generative AI Engineer — Content Evaluation</div>
                         <div class="timeline-company">ContentCrea, Freelance</div>
                     </div>
-                    <div class="timeline-date">6 mois</div>
+                    <div class="timeline-date">6 months</div>
                 </div>
-                <div class="timeline-description">Système d'évaluation automatique avec LLM-as-a-Judge</div>
+                <div class="timeline-description">Automated content evaluation system with LLM-as-a-Judge</div>
                 <div class="timeline-tags">
                     <span class="tag">LLM-as-Judge</span>
                     <span class="tag">Claude API</span>
@@ -958,9 +1188,9 @@
                 </div>
                 <div class="details">
                     <ul>
-                        <li>Modèles LLM-as-a-Judge pour évaluer la qualité des contenus éditoriaux</li>
-                        <li>Pipeline génération → critique → correction pour améliorer les textes</li>
-                        <li>Analyse des modifications utilisateur pour optimiser les prompts</li>
+                        <li>LLM-as-a-Judge models to assess editorial content quality</li>
+                        <li>Generate → critique → refine pipeline for iterative text improvement</li>
+                        <li>User edit analysis to continuously optimize prompts</li>
                     </ul>
                 </div>
             </div>
@@ -973,7 +1203,7 @@
                     </div>
                     <div class="timeline-date">2020 - 2022</div>
                 </div>
-                <div class="timeline-description">Système d'auto-évaluation end-to-end pour centres d'appels</div>
+                <div class="timeline-description">End-to-end auto-evaluation system for call centers</div>
                 <div class="timeline-tags">
                     <span class="tag">Deep Learning</span>
                     <span class="tag">NLP</span>
@@ -982,10 +1212,10 @@
                 </div>
                 <div class="details">
                     <ul>
-                        <li>Système d'auto-évaluation pour productivité agents et émotions clients</li>
-                        <li>Modèles Deep Learning pour analyse audio (Speech-to-Text, sentiment)</li>
-                        <li>Mise en production de services Python avec frontend Laravel</li>
-                        <li>Dashboards interactifs et contribution à ERP interne</li>
+                        <li>Auto-evaluation system for agent productivity and customer sentiment analysis</li>
+                        <li>Deep Learning models for audio analysis (Speech-to-Text, sentiment)</li>
+                        <li>Python services deployed to production with a Laravel frontend</li>
+                        <li>Interactive dashboards and contribution to internal ERP</li>
                     </ul>
                 </div>
             </div>
@@ -993,23 +1223,23 @@
     </section>
 
     <section id="education">
-        <h2>Formation</h2>
+        <h2>Education</h2>
 
         <div class="education-item">
             <div class="education-school">Université Claude Bernard Lyon 1 — LIRIS</div>
-            <div class="education-degree">Doctorat en Intelligence Artificielle (Thèse Industrielle)</div>
+            <div class="education-degree">PhD in Artificial Intelligence (Industrial Thesis)</div>
             <div class="education-period">2023 - 2026</div>
         </div>
 
         <div class="education-item">
-            <div class="education-school">Université de Sfax</div>
-            <div class="education-degree">Master en Sciences et Ingénierie des Données</div>
+            <div class="education-school">University of Sfax</div>
+            <div class="education-degree">Master's in Data Science & Engineering</div>
             <div class="education-period">2019 - 2021</div>
         </div>
 
         <div class="education-item">
-            <div class="education-school">Université de Sfax</div>
-            <div class="education-degree">Licence en Informatique (Computer Science)</div>
+            <div class="education-school">University of Sfax</div>
+            <div class="education-degree">Bachelor's in Computer Science</div>
             <div class="education-period">2015 - 2019</div>
         </div>
     </section>
@@ -1018,29 +1248,39 @@
         <h2>Publications</h2>
 
         <div class="publication">
-            <div class="publication-title">CLARE: A Category-Aware RAG-Based Framework for Recommending Learning Objects</div>
+            <div class="publication-title">
+                <a href="https://link.springer.com/conference/wise" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
+                    CLARE: A Category-Aware RAG-Based Framework for Recommending Learning Objects
+                </a>
+            </div>
             <div class="publication-meta">
                 <span>📅 WISE 2025</span>
                 <span>✍️ Ichrak Ennaceur et al.</span>
+                <span>🏷️ RAG · Recommender Systems · Education</span>
             </div>
         </div>
 
         <div class="publication">
-            <div class="publication-title">Prompt-Based Recommendation with In-Context Learning and Category-Enriched Modeling</div>
+            <div class="publication-title">
+                <a href="https://aiccsa.net" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
+                    Prompt-Based Recommendation with In-Context Learning and Category-Enriched Modeling
+                </a>
+            </div>
             <div class="publication-meta">
                 <span>📅 AICCSA 2025</span>
                 <span>✍️ Ichrak Ennaceur et al.</span>
+                <span>🏷️ LLM · In-Context Learning · NLP</span>
             </div>
         </div>
     </section>
 
     <section id="projects">
-        <h2>Projets & Portfolio</h2>
+        <h2>Projects & Portfolio</h2>
 
         <div class="projects-grid">
             <div class="project-card">
                 <div class="project-title">🔍 RAG Hallucination Evaluator</div>
-                <div class="project-desc">Framework end-to-end pour évaluer et corriger les hallucinations dans les pipelines RAG. Utilise Claude API comme juge et boucle de correction itérative.</div>
+                <div class="project-desc">End-to-end framework for evaluating and correcting hallucinations in RAG pipelines. Uses Claude API as judge with an iterative correction loop.</div>
                 <div class="project-links">
                     <a href="https://github.com/Ichraknaceur/rag-hallucination-eval" target="_blank" class="project-link">Code →</a>
                 </div>
@@ -1054,7 +1294,7 @@
 
             <div class="project-card">
                 <div class="project-title">🎯 BERT4Rec + RAG Recommender</div>
-                <div class="project-desc">Système de recommandation hybride combinant modèles séquentiels avec retrieval-augmented generation pour contenu éducatif.</div>
+                <div class="project-desc">Hybrid recommendation system combining sequential models with retrieval-augmented generation for educational content.</div>
                 <div class="project-links">
                     <a href="https://github.com/Ichraknaceur/bert4rec-rag-recommender" target="_blank" class="project-link">Code →</a>
                 </div>
@@ -1068,7 +1308,7 @@
 
             <div class="project-card">
                 <div class="project-title">📝 LLM Content Agent</div>
-                <div class="project-desc">Agent multi-tâche pour transformer des notes en posts LinkedIn et articles Medium. Orchestration LangGraph avec évaluation de qualité.</div>
+                <div class="project-desc">Multi-task agent that transforms notes into LinkedIn posts and Medium articles. LangGraph orchestration with built-in quality evaluation.</div>
                 <div class="project-links">
                     <a href="https://github.com/Ichraknaceur/llm-content-agent" target="_blank" class="project-link">Code →</a>
                 </div>
@@ -1081,7 +1321,7 @@
 
             <div class="project-card">
                 <div class="project-title">⚙️ FastAPI Hexagonal Template</div>
-                <div class="project-desc">Template production-ready en architecture hexagonale. Utilisé dans des projets freelance avec Docker, tests et CI/CD.</div>
+                <div class="project-desc">Production-ready template with hexagonal (clean) architecture. Used in freelance projects with Docker, automated tests, and CI/CD.</div>
                 <div class="project-links">
                     <a href="https://github.com/Ichraknaceur/fastapi-hexagonal-template" target="_blank" class="project-link">Code →</a>
                 </div>
@@ -1094,9 +1334,9 @@
 
             <div class="project-card">
                 <div class="project-title">🌐 GitHub Profile</div>
-                <div class="project-desc">Profil GitHub avec projects épinglés, contributions actives, et documentation complète. Reflète expertise en IA générative.</div>
+                <div class="project-desc">GitHub profile with pinned projects, active contributions, and thorough documentation. Reflects expertise in generative AI.</div>
                 <div class="project-links">
-                    <a href="https://github.com/Ichraknaceur" target="_blank" class="project-link">Visiter →</a>
+                    <a href="https://github.com/Ichraknaceur" target="_blank" class="project-link">Visit →</a>
                 </div>
                 <div class="timeline-tags">
                     <span class="tag">GitHub</span>
@@ -1105,10 +1345,10 @@
             </div>
 
             <div class="project-card">
-                <div class="project-title">📚 CV Web Moderne</div>
-                <div class="project-desc">Landing page + CV one-pager avec sections interactives, timeline animée, dark mode. Deployé sur Netlify avec domaine personnalisé.</div>
+                <div class="project-title">📚 Modern Web Portfolio</div>
+                <div class="project-desc">Landing page + one-pager CV with interactive sections, animated timeline, and dark mode. Deployed on Netlify with a custom domain.</div>
                 <div class="project-links">
-                    <a href="#" class="project-link">Visiter →</a>
+                    <a href="#" class="project-link">Visit →</a>
                 </div>
                 <div class="timeline-tags">
                     <span class="tag">HTML/CSS</span>
