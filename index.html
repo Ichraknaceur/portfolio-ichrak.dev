@@ -211,6 +211,12 @@
             color: var(--primary);
         }
 
+        .role-consultant {
+            background: rgba(234, 120, 40, 0.08);
+            border-color: rgba(234, 120, 40, 0.3);
+            color: #c4621a;
+        }
+
         .role-available {
             background: rgba(15, 154, 141, 0.08);
             border-color: rgba(15, 154, 141, 0.3);
@@ -1614,7 +1620,37 @@
 <body>
     <header>
         <nav>
-            <a href="#" class="logo">ichrak</a>
+            <a href="#" class="logo" style="display:inline-flex;align-items:center;line-height:0;">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="48" height="48" rx="11" fill="#080d1a"/>
+                    <defs>
+                        <linearGradient id="ie-g" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#4d90ff"/>
+                            <stop offset="100%" stop-color="#aa44ff"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- I -->
+                    <rect x="8" y="10" width="7" height="28" rx="1.5" fill="url(#ie-g)"/>
+                    <!-- circuit trace on I -->
+                    <line x1="11.5" y1="24" x2="11.5" y2="30" stroke="#080d1a" stroke-width="1.5"/>
+                    <circle cx="11.5" cy="30" r="2.2" fill="none" stroke="#080d1a" stroke-width="1.5"/>
+                    <!-- E vertical bar -->
+                    <rect x="19" y="10" width="5" height="28" rx="1.5" fill="url(#ie-g)"/>
+                    <!-- E top bar -->
+                    <rect x="19" y="10" width="19" height="5" rx="1.5" fill="url(#ie-g)"/>
+                    <!-- E mid bar -->
+                    <rect x="19" y="21.5" width="15" height="5" rx="1.5" fill="url(#ie-g)"/>
+                    <!-- E bottom bar -->
+                    <rect x="19" y="33" width="19" height="5" rx="1.5" fill="url(#ie-g)"/>
+                    <!-- circuit traces on E -->
+                    <line x1="38" y1="12.5" x2="42" y2="12.5" stroke="#4d90ff" stroke-width="1.2" opacity="0.7"/>
+                    <circle cx="42" cy="12.5" r="1.8" fill="none" stroke="#4d90ff" stroke-width="1.2" opacity="0.7"/>
+                    <line x1="34" y1="24" x2="38" y2="24" stroke="#8844ff" stroke-width="1.2" opacity="0.7"/>
+                    <circle cx="38" cy="24" r="1.8" fill="none" stroke="#8844ff" stroke-width="1.2" opacity="0.7"/>
+                    <line x1="38" y1="35.5" x2="42" y2="35.5" stroke="#aa44ff" stroke-width="1.2" opacity="0.7"/>
+                    <circle cx="42" cy="35.5" r="1.8" fill="none" stroke="#aa44ff" stroke-width="1.2" opacity="0.7"/>
+                </svg>
+            </a>
             <div class="nav-links">
                 <a href="#experience">Experience</a>
                 <a href="#education">Education</a>
@@ -1623,42 +1659,30 @@
                 <a href="#projects">Projects</a>
                 <a href="#blog">Blog</a>
                 <a href="#contact">Contact</a>
-                <a href="cv.html" target="_blank">CV</a>
-                <a href="https://github.com/Ichraknaceur" target="_blank">GitHub</a>
-                <a href="https://linkedin.com/in/ichrak-ennaceur-8979b0114/" target="_blank">LinkedIn</a>
             </div>
         </nav>
     </header>
 
     <section class="hero">
-        <div class="hero-inner">
-            <div class="hero-text">
-                <div class="hero-roles">
-                    <span class="role-badge role-researcher">🔬 PhD Researcher · UCBL/LIRIS</span>
-                    <span class="role-badge role-engineer">⚙️ Applied AI Engineer</span>
-                    <span class="role-badge role-available">Open to full-time · Lyon / Paris</span>
-                </div>
+        <div class="hero-roles">
+            <span class="role-badge role-researcher">🔬 PhD Researcher · UCBL/LIRIS</span>
+            <span class="role-badge role-engineer">⚙️ Applied AI Engineer</span>
+            <span class="role-badge role-consultant">💡 AI Consultant</span>
+            <span class="role-badge role-available">Open to full-time · Lyon / Paris</span>
+        </div>
 
-                <h1>Ichrak Ennaceur</h1>
-                <p class="hero-tagline">AI Engineer & Applied Researcher in Generative AI</p>
+        <h1>Ichrak Ennaceur</h1>
+        <p class="hero-tagline">AI Engineer · AI Consultant & Applied Researcher in Generative AI</p>
 
-                <p class="subtitle">
-                    I design and build AI systems end-to-end — RAG pipelines, LLM evaluation, and recommendation models.
-                    PhD candidate at UCBL/LIRIS with 4 peer-reviewed publications and 6+ years delivering production-grade AI.
-                </p>
+        <p class="subtitle">
+            I design and build AI systems end-to-end — RAG pipelines, LLM evaluation, and recommendation models.
+            PhD candidate at UCBL/LIRIS with 4 peer-reviewed publications and 6+ years delivering production-grade AI.
+        </p>
 
-                <div class="cta-buttons">
-                    <a href="mailto:ichraknaceurr@gmail.com" class="btn btn-primary">✉ Get in touch</a>
-                    <a href="cv.html" target="_blank" class="btn btn-secondary">Download CV</a>
-                    <a href="#experience" class="btn btn-ghost">View work ↓</a>
-                </div>
-            </div>
-
-            <div class="hero-photo-wrap">
-                <div class="hero-photo-frame">
-                    <img src="images/ichrak.jpeg" alt="Ichrak Ennaceur — AI Engineer">
-                </div>
-            </div>
+        <div class="cta-buttons">
+            <a href="mailto:ichraknaceurr@gmail.com" class="btn btn-primary">✉ Get in touch</a>
+            <a href="CV_Ichrak_Ennaceur.pdf" download class="btn btn-secondary">Download CV</a>
+            <a href="#experience" class="btn btn-ghost">View work ↓</a>
         </div>
     </section>
 
@@ -2496,6 +2520,25 @@
                 </div>
             </a>
 
+            <a href="https://medium.com/@ichraknaceurr/the-honest-ai-kpi-nobody-puts-on-the-slide-were-measuring-the-wrong-things-and-we-know-it-bd672034bdb8" target="_blank" class="blog-card">
+                <div class="blog-card-cover" style="background: linear-gradient(135deg, #1a0a2e 0%, #6b1a1a 50%, #c0392b 100%);">
+                    📊
+                </div>
+                <div class="blog-card-body">
+                    <span class="blog-platform-badge badge-medium">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
+                        Medium
+                    </span>
+                    <div class="blog-eyebrow">AI Evaluation · KPIs · Opinion</div>
+                    <div class="blog-title">The Honest AI KPI Nobody Puts on the Slide</div>
+                    <div class="blog-excerpt">We're measuring the wrong things — and we know it. A critical look at the vanity metrics dominating AI project reporting and what actually matters.</div>
+                    <div class="blog-footer">
+                        <span>Ichrak Ennaceur</span>
+                        <span class="blog-read-more">Read on Medium →</span>
+                    </div>
+                </div>
+            </a>
+
         </div>
     </section>
 
@@ -2507,7 +2550,7 @@
             <a href="mailto:ichraknaceurr@gmail.com" class="btn-contact-primary">✉ Send me an email</a>
             <a href="https://linkedin.com/in/ichrak-ennaceur-8979b0114/" target="_blank" class="btn-contact-ghost">💼 LinkedIn</a>
             <a href="https://github.com/Ichraknaceur" target="_blank" class="btn-contact-ghost">⌥ GitHub</a>
-            <a href="cv.html" target="_blank" class="btn-contact-ghost">📄 Download CV</a>
+            <a href="CV_Ichrak_Ennaceur.pdf" download class="btn-contact-ghost">📄 Download CV</a>
         </div>
         <div class="contact-info">
             <span class="contact-info-item">📍 Lyon, France</span>
