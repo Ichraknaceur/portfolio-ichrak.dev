@@ -349,59 +349,108 @@
         /* Highlights Section */
         .highlights {
             background: var(--bg-light);
+            padding: 5rem 2rem;
+        }
+
+        .highlights-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .highlights-inner h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            color: var(--text-primary);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .highlights-inner h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
         }
 
         .highlights-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
         }
 
         .highlight-card {
             background: var(--bg-card);
-            padding: 2.5rem 2rem;
-            border-radius: 12px;
+            padding: 2rem;
+            border-radius: 14px;
             border: 1px solid var(--border);
             box-shadow: var(--shadow-sm);
             transition: all 0.3s ease;
-            animation: fadeInUp 0.8s ease-out;
+            animation: fadeInUp 0.6s ease-out both;
+            position: relative;
+            overflow: hidden;
         }
 
-        .highlight-card:nth-child(2) {
-            animation-delay: 0.1s;
+        .highlight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--card-accent, linear-gradient(90deg, var(--primary), var(--secondary)));
         }
 
-        .highlight-card:nth-child(3) {
-            animation-delay: 0.2s;
-        }
-
-        .highlight-card:nth-child(4) {
-            animation-delay: 0.3s;
-        }
+        .highlight-card:nth-child(1) { --card-accent: linear-gradient(90deg, #6b3aab, #2563eb); animation-delay: 0.05s; }
+        .highlight-card:nth-child(2) { --card-accent: linear-gradient(90deg, #1a4d7a, #0f9a8d); animation-delay: 0.1s; }
+        .highlight-card:nth-child(3) { --card-accent: linear-gradient(90deg, #0f9a8d, #2563eb); animation-delay: 0.15s; }
+        .highlight-card:nth-child(4) { --card-accent: linear-gradient(90deg, #2563eb, #6b3aab); animation-delay: 0.2s; }
 
         .highlight-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-6px);
+            transform: translateY(-5px);
             box-shadow: var(--shadow-lg);
+            border-color: transparent;
         }
 
-        .highlight-icon {
-            font-size: 2.5rem;
+        .highlight-card-top {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
             margin-bottom: 1rem;
-            display: block;
+        }
+
+        .highlight-stat {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: var(--card-accent, linear-gradient(90deg, var(--primary), var(--secondary)));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
         }
 
         .highlight-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.75rem;
-            color: var(--primary);
+            font-size: 1.05rem;
+            color: var(--text-primary);
             font-weight: 700;
+            margin: 0;
         }
 
         .highlight-card p {
             color: var(--text-secondary);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             line-height: 1.7;
+            margin: 0;
+        }
+
+        @media (max-width: 640px) {
+            .highlights-container {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Stats Section */
@@ -532,34 +581,77 @@
         }
 
         .timeline-title {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: var(--text-primary);
+            margin-bottom: 0.2rem;
         }
 
-        .timeline-date {
-            font-size: 0.85rem;
-            color: var(--text-tertiary);
-            background: rgba(26, 77, 122, 0.1);
-            padding: 0.35rem 0.9rem;
-            border-radius: 12px;
-            white-space: nowrap;
-            font-weight: 600;
+        .timeline-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.5rem;
         }
 
         .timeline-company {
             font-size: 0.95rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.75rem;
-            margin-left: 0.5rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .contract-badge {
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 0.2rem 0.65rem;
+            border-radius: 999px;
+            letter-spacing: 0.03em;
+        }
+
+        .badge-fulltime {
+            background: rgba(26, 77, 122, 0.1);
+            color: var(--primary);
+            border: 1px solid rgba(26, 77, 122, 0.25);
+        }
+
+        .badge-freelance {
+            background: rgba(107, 58, 171, 0.1);
+            color: var(--secondary);
+            border: 1px solid rgba(107, 58, 171, 0.25);
+        }
+
+        .badge-current {
+            background: rgba(15, 154, 141, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(15, 154, 141, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .badge-current::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .timeline-date {
+            font-size: 0.82rem;
+            color: var(--text-tertiary);
+            white-space: nowrap;
             font-weight: 500;
         }
 
         .timeline-description {
             color: var(--text-secondary);
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.6rem;
             margin-left: 0.5rem;
-            font-weight: 500;
+            font-size: 0.95rem;
+            font-style: italic;
         }
 
         .timeline-tags {
@@ -571,22 +663,63 @@
         }
 
         .tag {
-            background: rgba(107, 58, 171, 0.12);
+            background: rgba(107, 58, 171, 0.08);
             color: var(--secondary);
-            padding: 0.4rem 0.8rem;
+            padding: 0.3rem 0.75rem;
             border-radius: 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border: 1px solid rgba(107, 58, 171, 0.15);
+        }
+
+        .expand-hint {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-left: 0.5rem;
+            margin-top: 1rem;
             font-size: 0.8rem;
             font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+            background: rgba(26, 77, 122, 0.08);
+            border: 1px solid rgba(26, 77, 122, 0.2);
+            padding: 0.35rem 0.9rem;
+            border-radius: 20px;
+        }
+
+        .expand-hint:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .expand-hint .arrow {
+            transition: transform 0.3s ease;
+            display: inline-block;
+            font-size: 0.75rem;
+        }
+
+        .timeline-item.open .expand-hint .arrow {
+            transform: rotate(180deg);
+        }
+
+        .timeline-item.open .expand-hint {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
         }
 
         .details {
             display: none;
-            margin-top: 1.2rem;
+            margin-top: 1rem;
             margin-left: 0.5rem;
-            padding: 1.2rem;
-            background: rgba(26, 77, 122, 0.05);
+            padding: 1.25rem 1.5rem;
+            background: rgba(26, 77, 122, 0.04);
             border-left: 3px solid var(--accent);
-            border-radius: 6px;
+            border-radius: 0 8px 8px 0;
         }
 
         .details.show {
@@ -599,66 +732,185 @@
         }
 
         .details li {
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.75rem;
             padding-left: 1.5rem;
             position: relative;
             color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.6;
+            font-size: 0.92rem;
+            line-height: 1.65;
         }
 
+        .details li:last-child { margin-bottom: 0; }
+
         .details li::before {
-            content: '›';
+            content: '▸';
             position: absolute;
             left: 0;
             color: var(--accent);
-            font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 0.9rem;
+            top: 0.05rem;
+        }
+
+        .details li strong {
+            color: var(--text-primary);
+            font-weight: 600;
         }
 
         /* Education */
+        .education-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
         .education-item {
             background: var(--bg-card);
-            padding: 2rem;
-            border-radius: 10px;
+            border-radius: 14px;
             border: 1px solid var(--border);
-            margin-bottom: 1.5rem;
             box-shadow: var(--shadow-sm);
             transition: all 0.3s ease;
+            overflow: hidden;
+            display: flex;
         }
 
         .education-item:hover {
-            border-color: var(--primary);
             box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .education-item.featured {
+            border-color: rgba(107, 58, 171, 0.3);
+            box-shadow: 0 4px 20px rgba(107, 58, 171, 0.08);
+        }
+
+        .education-item.featured:hover {
+            box-shadow: 0 8px 30px rgba(107, 58, 171, 0.15);
+        }
+
+        .education-accent {
+            width: 5px;
+            flex-shrink: 0;
+            background: var(--edu-color, linear-gradient(180deg, var(--primary), var(--secondary)));
+        }
+
+        .education-body {
+            padding: 1.5rem 1.75rem;
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .education-left {
+            flex: 1;
+        }
+
+        .education-top {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.35rem;
+            flex-wrap: wrap;
         }
 
         .education-school {
             font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            font-size: 1.05rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .edu-badge {
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+        }
+
+        .edu-badge-current {
+            background: rgba(15, 154, 141, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(15, 154, 141, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .edu-badge-current::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
         }
 
         .education-degree {
-            font-size: 1rem;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--primary);
             font-weight: 600;
+            margin-bottom: 0.5rem;
         }
 
-        .education-period {
-            font-size: 0.9rem;
-            color: var(--text-tertiary);
+        .education-thesis {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-style: italic;
+            margin-bottom: 0.6rem;
+        }
+
+        .education-tags {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .edu-tag {
+            background: rgba(26, 77, 122, 0.07);
+            color: var(--primary);
+            border: 1px solid rgba(26, 77, 122, 0.15);
+            padding: 0.2rem 0.65rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
             font-weight: 500;
         }
 
+        .education-right {
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .education-period {
+            font-size: 0.82rem;
+            color: var(--text-tertiary);
+            font-weight: 600;
+            background: var(--bg-light);
+            padding: 0.3rem 0.75rem;
+            border-radius: 10px;
+            white-space: nowrap;
+        }
+
+        .education-location {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            margin-top: 0.4rem;
+        }
+
         /* Publications */
+        .publications-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.1rem;
+        }
+
         .publication {
             background: var(--bg-card);
-            padding: 2rem;
-            border-radius: 10px;
+            padding: 1.5rem 1.75rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
             border-left: 4px solid var(--accent);
-            margin-bottom: 1.5rem;
             box-shadow: var(--shadow-sm);
             transition: all 0.3s ease;
         }
@@ -669,78 +921,546 @@
             box-shadow: var(--shadow-md);
         }
 
+        .publication.best-paper {
+            border-left-color: #f59e0b;
+            background: linear-gradient(to right, rgba(245, 158, 11, 0.04), var(--bg-card));
+        }
+
+        .publication.best-paper:hover {
+            border-left-color: #d97706;
+        }
+
+        .pub-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 0.6rem;
+        }
+
         .publication-title {
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 0.75rem;
-            font-size: 1.05rem;
+            font-size: 0.98rem;
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .publication-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .publication-title a:hover {
+            color: var(--primary);
+        }
+
+        .best-paper-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: rgba(245, 158, 11, 0.12);
+            color: #b45309;
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            padding: 0.25rem 0.7rem;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .publication-meta {
             display: flex;
-            gap: 1.5rem;
-            font-size: 0.9rem;
+            gap: 1rem;
+            font-size: 0.82rem;
             color: var(--text-secondary);
             flex-wrap: wrap;
+            font-weight: 500;
+            align-items: center;
+        }
+
+        .pub-venue {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .pub-keywords {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            margin-top: 0.6rem;
+        }
+
+        .pub-kw {
+            background: rgba(15, 154, 141, 0.07);
+            color: var(--accent);
+            border: 1px solid rgba(15, 154, 141, 0.2);
+            padding: 0.15rem 0.6rem;
+            border-radius: 8px;
+            font-size: 0.73rem;
+            font-weight: 500;
+        }
+
+        /* Academic Service */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.1rem;
+            transition: all 0.25s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .service-card:hover {
+            border-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .service-icon {
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .service-body {}
+
+        .service-role {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.2rem;
+        }
+
+        .service-venue {
+            font-size: 0.97rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.15rem;
+        }
+
+        .service-year {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
             font-weight: 500;
         }
 
         /* Projects Grid */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
         }
 
         .project-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 2.5rem 2rem;
+            border-radius: 14px;
             box-shadow: var(--shadow-sm);
             transition: all 0.3s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .project-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-8px);
+            transform: translateY(-6px);
             box-shadow: var(--shadow-lg);
+            border-color: transparent;
+        }
+
+        .project-header {
+            padding: 1.5rem 1.5rem 1rem;
+            background: var(--proj-gradient, linear-gradient(135deg, rgba(26,77,122,0.08), rgba(107,58,171,0.06)));
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+        }
+
+        .project-emoji {
+            font-size: 2rem;
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card);
+            border-radius: 10px;
+            box-shadow: var(--shadow-sm);
         }
 
         .project-title {
-            font-size: 1.15rem;
+            font-size: 1rem;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 0.75rem;
+            line-height: 1.35;
+        }
+
+        .project-body {
+            padding: 1.1rem 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .project-desc {
             color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
+            font-size: 0.88rem;
             line-height: 1.7;
+            flex: 1;
+            margin-bottom: 1rem;
         }
 
-        .project-links {
+        .project-tags {
             display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 1.1rem;
         }
 
-        .project-link {
-            color: var(--primary);
+        .project-tag {
+            background: rgba(107, 58, 171, 0.07);
+            color: var(--secondary);
+            border: 1px solid rgba(107, 58, 171, 0.15);
+            padding: 0.2rem 0.6rem;
+            border-radius: 8px;
+            font-size: 0.73rem;
+            font-weight: 600;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 0.6rem;
+            padding-top: 0.9rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-project-detail {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.6rem 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
             text-decoration: none;
-            font-size: 0.9rem;
+            transition: all 0.25s ease;
+        }
+
+        .btn-project-detail:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-project-code {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.6rem 1rem;
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .btn-project-code:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* ── Soft Skills ── */
+        #soft-skills {
+            background: var(--bg-light);
+        }
+
+        .soft-skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .soft-skill-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+
+        .soft-skill-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .soft-skill-icon {
+            font-size: 1.6rem;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+
+        .soft-skill-name {
             font-weight: 700;
-            transition: all 0.3s ease;
+            font-size: 0.92rem;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .soft-skill-desc {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* ── Blog ── */
+        #blog {
+            background: var(--bg-white);
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .blog-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: box-shadow 0.25s, transform 0.25s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .blog-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-3px);
+        }
+
+        .blog-card-cover {
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-card-body {
+            padding: 1.25rem 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-eyebrow {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.4;
+            margin-bottom: 0.6rem;
+        }
+
+        .blog-excerpt {
+            font-size: 0.83rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            flex: 1;
+            margin-bottom: 1rem;
+        }
+
+        .blog-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.78rem;
+            color: var(--text-tertiary);
+        }
+
+        .blog-read-more {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .blog-card-placeholder {
+            background: var(--bg-light);
+            border: 2px dashed var(--border);
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 2.5rem;
+            color: var(--text-tertiary);
+            font-size: 0.85rem;
+            text-align: center;
+            min-height: 220px;
+        }
+
+        .blog-card-placeholder .placeholder-icon {
+            font-size: 2rem;
+            opacity: 0.5;
+        }
+
+        .blog-platform-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.3rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.2rem 0.55rem;
+            border-radius: 20px;
+            margin-bottom: 0.5rem;
         }
 
-        .project-link:hover {
-            color: var(--secondary);
-            gap: 0.6rem;
+        .badge-medium {
+            background: #000;
+            color: #fff;
+        }
+
+        .blog-section-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--text-tertiary);
+            text-decoration: none;
+            font-size: 0.82rem;
+            margin-top: 0.5rem;
+            transition: color 0.2s;
+        }
+
+        .blog-section-link:hover {
+            color: var(--primary);
+        }
+
+        /* ── Contact ── */
+        #contact {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            text-align: center;
+        }
+
+        #contact h2 {
+            color: white;
+            margin-bottom: 0.75rem;
+        }
+
+        #contact h2::after {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .contact-tagline {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.05rem;
+            margin-bottom: 2.5rem;
+            max-width: 520px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn-contact-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0.85rem 1.75rem;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+        }
+
+        .btn-contact-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-contact-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.12);
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.3);
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .btn-contact-ghost:hover {
+            background: rgba(255,255,255,0.22);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
         }
 
         /* Footer */
@@ -899,7 +1619,10 @@
                 <a href="#experience">Experience</a>
                 <a href="#education">Education</a>
                 <a href="#publications">Publications</a>
+                <a href="#service">Service</a>
                 <a href="#projects">Projects</a>
+                <a href="#blog">Blog</a>
+                <a href="#contact">Contact</a>
                 <a href="cv.html" target="_blank">CV</a>
                 <a href="https://github.com/Ichraknaceur" target="_blank">GitHub</a>
                 <a href="https://linkedin.com/in/ichrak-ennaceur-8979b0114/" target="_blank">LinkedIn</a>
@@ -908,48 +1631,69 @@
     </header>
 
     <section class="hero">
-        <div class="hero-roles">
-            <span class="role-badge role-researcher">🔬 PhD Researcher · UCBL/LIRIS</span>
-            <span class="role-badge role-engineer">⚙️ Applied AI Engineer</span>
-            <span class="role-badge role-available">Open to full-time · Lyon / Paris</span>
-        </div>
+        <div class="hero-inner">
+            <div class="hero-text">
+                <div class="hero-roles">
+                    <span class="role-badge role-researcher">🔬 PhD Researcher · UCBL/LIRIS</span>
+                    <span class="role-badge role-engineer">⚙️ Applied AI Engineer</span>
+                    <span class="role-badge role-available">Open to full-time · Lyon / Paris</span>
+                </div>
 
-        <h1>Ichrak Ennaceur</h1>
-        <p class="hero-tagline">AI Engineer & Applied Researcher in Generative AI</p>
+                <h1>Ichrak Ennaceur</h1>
+                <p class="hero-tagline">AI Engineer & Applied Researcher in Generative AI</p>
 
-        <p class="subtitle">
-            I design and build AI systems end-to-end — RAG pipelines, LLM evaluation, and recommendation models.
-            PhD candidate at UCBL/LIRIS with 4 peer-reviewed publications and 6+ years delivering production-grade AI.
-        </p>
+                <p class="subtitle">
+                    I design and build AI systems end-to-end — RAG pipelines, LLM evaluation, and recommendation models.
+                    PhD candidate at UCBL/LIRIS with 4 peer-reviewed publications and 6+ years delivering production-grade AI.
+                </p>
 
-        <div class="cta-buttons">
-            <a href="mailto:ichraknaceurr@gmail.com" class="btn btn-primary">✉ Get in touch</a>
-            <a href="cv.html" target="_blank" class="btn btn-secondary">Download CV</a>
-            <a href="#experience" class="btn btn-ghost">View work ↓</a>
+                <div class="cta-buttons">
+                    <a href="mailto:ichraknaceurr@gmail.com" class="btn btn-primary">✉ Get in touch</a>
+                    <a href="cv.html" target="_blank" class="btn btn-secondary">Download CV</a>
+                    <a href="#experience" class="btn btn-ghost">View work ↓</a>
+                </div>
+            </div>
+
+            <div class="hero-photo-wrap">
+                <div class="hero-photo-frame">
+                    <img src="images/ichrak.jpeg" alt="Ichrak Ennaceur — AI Engineer">
+                </div>
+            </div>
         </div>
     </section>
 
     <section class="highlights">
-        <div class="highlights-container">
-            <div class="highlight-card">
-                <span class="highlight-icon">📚</span>
-                <h3>Publications</h3>
-                <p>4 peer-reviewed papers on RAG-based recommendation systems, LLMs, and educational AI.</p>
-            </div>
-            <div class="highlight-card">
-                <span class="highlight-icon">🔬</span>
-                <h3>PhD Research</h3>
-                <p>Industrial thesis on generative AI-based recommendation systems for educational platforms at UCBL/LIRIS.</p>
-            </div>
-            <div class="highlight-card">
-                <span class="highlight-icon">🏗️</span>
-                <h3>End-to-End Systems</h3>
-                <p>Expert in designing complete AI pipelines: ingestion, embeddings, retrieval, generation, and evaluation.</p>
-            </div>
-            <div class="highlight-card">
-                <span class="highlight-icon">⚙️</span>
-                <h3>Production Code</h3>
-                <p>FastAPI, Docker, LangGraph, LLM-as-a-Judge. Tested, documented, and ready for production deployment.</p>
+        <div class="highlights-inner">
+            <h2>What I bring</h2>
+            <div class="highlights-container">
+                <div class="highlight-card">
+                    <div class="highlight-card-top">
+                        <div class="highlight-stat">4</div>
+                        <h3>Peer-reviewed Publications</h3>
+                    </div>
+                    <p>Published at WISE 2025 and AICCSA 2025 on RAG-based recommendation systems, LLMs, and educational AI.</p>
+                </div>
+                <div class="highlight-card">
+                    <div class="highlight-card-top">
+                        <div class="highlight-stat">PhD</div>
+                        <h3>Industrial Research @ UCBL/LIRIS</h3>
+                    </div>
+                    <p>Thesis on generative AI recommendation systems — bridging academic research and real-world deployment at Inokufu.</p>
+                </div>
+                <div class="highlight-card">
+                    <div class="highlight-card-top">
+                        <div class="highlight-stat">E2E</div>
+                        <h3>Full-Stack AI Engineering</h3>
+                    </div>
+                    <p>I own the full pipeline — data ingestion, embeddings, retrieval, LLM generation, evaluation, and production deployment.</p>
+                </div>
+                <div class="highlight-card">
+                    <div class="highlight-card-top">
+                        <div class="highlight-stat">6+</div>
+                        <h3>Years Shipping Production AI</h3>
+                    </div>
+                    <p>From call center NLP to RAG systems and AI agents — delivering tested, documented, production-ready code across industries.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -1119,243 +1863,656 @@
     <section id="experience">
         <h2>Experience</h2>
         <div class="timeline">
+
+            <!-- Inokufu -->
             <div class="timeline-item">
                 <div class="timeline-header">
                     <div>
-                        <div class="timeline-title">Data Scientist R&D / Data Engineer</div>
-                        <div class="timeline-company">Inokufu, Lyon</div>
+                        <div class="timeline-title">AI Engineer & Research Scientist</div>
+                        <div class="timeline-meta">
+                            <span class="timeline-company">Inokufu · Lyon</span>
+                            <span class="contract-badge badge-fulltime">Full-time</span>
+                            <span class="contract-badge badge-current">Current</span>
+                            <span class="timeline-date">2022 – Present</span>
+                        </div>
                     </div>
-                    <div class="timeline-date">2022 - Present</div>
                 </div>
-                <div class="timeline-description">End-to-end AI systems: BERT4Rec + RAG + hallucination evaluation</div>
+                <div class="timeline-description">Designing production RAG systems + recommendation engines + hallucination evaluation — while co-authoring research at UCBL/LIRIS</div>
                 <div class="timeline-tags">
-                    <span class="tag">LLM</span>
                     <span class="tag">RAG</span>
                     <span class="tag">BERT4Rec</span>
-                    <span class="tag">FastAPI</span>
+                    <span class="tag">LLM-as-a-Judge</span>
                     <span class="tag">ChromaDB</span>
+                    <span class="tag">FastAPI</span>
+                    <span class="tag">LangGraph</span>
+                    <span class="tag">PyTorch</span>
                 </div>
+                <div class="expand-hint">Details <span class="arrow">▾</span></div>
                 <div class="details">
                     <ul>
-                        <li>Designed recommendation systems combining sequential models with RAG architectures</li>
-                        <li>Built pipelines integrating embeddings, vector search, and LLM-based generation</li>
-                        <li>Analyzed system reliability with a focus on hallucination detection and mitigation</li>
-                        <li>Contributed to the Learning Records Converter (SCORM, IMS Caliper, xAPI)</li>
-                        <li>Designed APIs and data pipelines for ingestion and validation</li>
+                        <li><strong>Architected a hybrid BERT4Rec + RAG recommendation engine</strong> for educational content, combining vector search (ChromaDB) and LLM generation — deployed end-to-end in production via FastAPI</li>
+                        <li><strong>Built an LLM-as-a-Judge evaluation pipeline</strong> to detect and mitigate hallucinations in RAG outputs, improving system reliability and user trust</li>
+                        <li><strong>Designed scalable data pipelines</strong> for ingestion, embedding, and validation of large-scale educational content datasets</li>
+                        <li><strong>Contributed to the open-source Learning Records Converter</strong> (SCORM, IMS Caliper, xAPI), improving learning data interoperability across EdTech platforms</li>
+                        <li><strong>Co-authored 2 peer-reviewed papers</strong> (WISE 2025, AICCSA 2025) on generative AI recommendation systems for education</li>
                     </ul>
                 </div>
             </div>
 
+            <!-- MathildeCreations -->
             <div class="timeline-item">
                 <div class="timeline-header">
                     <div>
                         <div class="timeline-title">Lead AI Engineer — Sales Forecasting Platform</div>
-                        <div class="timeline-company">MathildeCreations, Freelance</div>
+                        <div class="timeline-meta">
+                            <span class="timeline-company">MathildeCreations</span>
+                            <span class="contract-badge badge-freelance">Freelance</span>
+                            <span class="timeline-date">6 months</span>
+                        </div>
                     </div>
-                    <div class="timeline-date">6 months</div>
                 </div>
-                <div class="timeline-description">Backend architecture and AI agent for demand forecasting</div>
+                <div class="timeline-description">Architect and developer of an AI-powered forecasting platform with an LLM explainability agent</div>
                 <div class="timeline-tags">
                     <span class="tag">FastAPI</span>
                     <span class="tag">Hexagonal Architecture</span>
                     <span class="tag">Docker</span>
                     <span class="tag">LLM Agent</span>
+                    <span class="tag">CI/CD</span>
                 </div>
+                <div class="expand-hint">Details <span class="arrow">▾</span></div>
                 <div class="details">
                     <ul>
-                        <li>Python/FastAPI backend with hexagonal (clean) architecture</li>
-                        <li>Endpoints for sales forecasting and product potential analysis</li>
-                        <li>Docker-first environment for reproducible deployments</li>
-                        <li>Code quality tooling and automated test suite</li>
-                        <li>AI agent for prediction explainability</li>
+                        <li><strong>Designed and delivered a full Python/FastAPI backend</strong> with hexagonal (clean) architecture — enabling high testability, modularity, and long-term maintainability</li>
+                        <li><strong>Built ML-powered forecasting endpoints</strong> for sales prediction and product potential scoring, integrated directly into client workflows</li>
+                        <li><strong>Implemented an LLM agent that explains predictions in natural language</strong>, making AI outputs interpretable for non-technical business stakeholders</li>
+                        <li><strong>Set up a Docker-first CI/CD pipeline</strong> with automated testing and linting, ensuring reproducible and reliable deployments</li>
                     </ul>
                 </div>
             </div>
 
+            <!-- ContentCrea -->
             <div class="timeline-item">
                 <div class="timeline-header">
                     <div>
-                        <div class="timeline-title">Generative AI Engineer — Content Evaluation</div>
-                        <div class="timeline-company">ContentCrea, Freelance</div>
+                        <div class="timeline-title">Generative AI Engineer — LLM Content Evaluation</div>
+                        <div class="timeline-meta">
+                            <span class="timeline-company">ContentCrea</span>
+                            <span class="contract-badge badge-freelance">Freelance</span>
+                            <span class="timeline-date">6 months</span>
+                        </div>
                     </div>
-                    <div class="timeline-date">6 months</div>
                 </div>
-                <div class="timeline-description">Automated content evaluation system with LLM-as-a-Judge</div>
+                <div class="timeline-description">Automated multi-dimensional editorial quality scoring with LLM-as-a-Judge</div>
                 <div class="timeline-tags">
-                    <span class="tag">LLM-as-Judge</span>
+                    <span class="tag">LLM-as-a-Judge</span>
                     <span class="tag">Claude API</span>
                     <span class="tag">Prompt Engineering</span>
+                    <span class="tag">Evaluation</span>
                 </div>
+                <div class="expand-hint">Details <span class="arrow">▾</span></div>
                 <div class="details">
                     <ul>
-                        <li>LLM-as-a-Judge models to assess editorial content quality</li>
-                        <li>Generate → critique → refine pipeline for iterative text improvement</li>
-                        <li>User edit analysis to continuously optimize prompts</li>
+                        <li><strong>Designed a multi-dimensional LLM-as-a-Judge system</strong> using Claude API to automatically score editorial content on clarity, accuracy, tone, and SEO alignment</li>
+                        <li><strong>Built a generate → critique → refine pipeline</strong> that iteratively improves content quality with minimal human intervention, reducing manual review time</li>
+                        <li><strong>Extracted prompt optimization signals</strong> from real user correction patterns, continuously improving judge precision and reducing false positives</li>
                     </ul>
                 </div>
             </div>
 
+            <!-- 1waycom -->
             <div class="timeline-item">
                 <div class="timeline-header">
                     <div>
-                        <div class="timeline-title">Lead Data Scientist</div>
-                        <div class="timeline-company">1waycom, Tunis</div>
+                        <div class="timeline-title">Lead Data Scientist — NLP & Audio AI</div>
+                        <div class="timeline-meta">
+                            <span class="timeline-company">1waycom · Tunis</span>
+                            <span class="contract-badge badge-fulltime">Full-time</span>
+                            <span class="timeline-date">2020 – 2022</span>
+                        </div>
                     </div>
-                    <div class="timeline-date">2020 - 2022</div>
                 </div>
-                <div class="timeline-description">End-to-end auto-evaluation system for call centers</div>
+                <div class="timeline-description">Led AI development for call center automation: Speech-to-Text, sentiment analysis, and real-time dashboards</div>
                 <div class="timeline-tags">
                     <span class="tag">Deep Learning</span>
                     <span class="tag">NLP</span>
-                    <span class="tag">Audio</span>
-                    <span class="tag">Dashboard</span>
+                    <span class="tag">Speech-to-Text</span>
+                    <span class="tag">Sentiment Analysis</span>
+                    <span class="tag">Python</span>
                 </div>
+                <div class="expand-hint">Details <span class="arrow">▾</span></div>
                 <div class="details">
                     <ul>
-                        <li>Auto-evaluation system for agent productivity and customer sentiment analysis</li>
-                        <li>Deep Learning models for audio analysis (Speech-to-Text, sentiment)</li>
-                        <li>Python services deployed to production with a Laravel frontend</li>
-                        <li>Interactive dashboards and contribution to internal ERP</li>
+                        <li><strong>Led the design and delivery of an end-to-end auto-evaluation system</strong> for call center agents, covering productivity metrics, customer sentiment, and quality scoring</li>
+                        <li><strong>Trained and deployed Deep Learning models</strong> for Speech-to-Text transcription and audio-based sentiment analysis in a live production environment</li>
+                        <li><strong>Shipped Python microservices</strong> integrated with a Laravel frontend, serving real-time agent performance monitoring to operations teams</li>
+                        <li><strong>Built interactive management dashboards</strong> enabling live KPI tracking and data-driven decision-making across agent teams</li>
                     </ul>
                 </div>
             </div>
+
         </div>
     </section>
 
     <section id="education">
         <h2>Education</h2>
+        <div class="education-grid">
 
-        <div class="education-item">
-            <div class="education-school">Université Claude Bernard Lyon 1 — LIRIS</div>
-            <div class="education-degree">PhD in Artificial Intelligence (Industrial Thesis)</div>
-            <div class="education-period">2023 - 2026</div>
-        </div>
+            <!-- PhD -->
+            <div class="education-item featured">
+                <div class="education-accent" style="background: linear-gradient(180deg, #6b3aab, #2563eb);"></div>
+                <div class="education-body">
+                    <div class="education-left">
+                        <div class="education-top">
+                            <span class="education-school">Université Claude Bernard Lyon 1 — LIRIS</span>
+                            <span class="edu-badge edu-badge-current">In progress</span>
+                        </div>
+                        <div class="education-degree">PhD in Artificial Intelligence · Industrial Thesis (CIFRE)</div>
+                        <div class="education-thesis">
+                            "Generative AI-based Recommendation Systems for Educational Platforms" —
+                            Research conducted in partnership with Inokufu, focused on RAG architectures, LLM evaluation, and sequential recommendation models.
+                        </div>
+                        <div class="education-tags">
+                            <span class="edu-tag">RAG</span>
+                            <span class="edu-tag">LLMs</span>
+                            <span class="edu-tag">Recommendation Systems</span>
+                            <span class="edu-tag">EdTech</span>
+                            <span class="edu-tag">LIRIS Lab</span>
+                        </div>
+                    </div>
+                    <div class="education-right">
+                        <div class="education-period">2023 – 2026</div>
+                        <div class="education-location">📍 Lyon, France</div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="education-item">
-            <div class="education-school">University of Sfax</div>
-            <div class="education-degree">Master's in Data Science & Engineering</div>
-            <div class="education-period">2019 - 2021</div>
-        </div>
+            <!-- Master -->
+            <div class="education-item">
+                <div class="education-accent" style="background: linear-gradient(180deg, #1a4d7a, #0f9a8d);"></div>
+                <div class="education-body">
+                    <div class="education-left">
+                        <div class="education-top">
+                            <span class="education-school">University of Sfax</span>
+                        </div>
+                        <div class="education-degree">Master's in Data Science & Engineering</div>
+                        <div class="education-tags">
+                            <span class="edu-tag">Machine Learning</span>
+                            <span class="edu-tag">Data Engineering</span>
+                            <span class="edu-tag">Statistics</span>
+                            <span class="edu-tag">Deep Learning</span>
+                        </div>
+                    </div>
+                    <div class="education-right">
+                        <div class="education-period">2019 – 2021</div>
+                        <div class="education-location">📍 Sfax, Tunisia</div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="education-item">
-            <div class="education-school">University of Sfax</div>
-            <div class="education-degree">Bachelor's in Computer Science</div>
-            <div class="education-period">2015 - 2019</div>
+            <!-- Bachelor -->
+            <div class="education-item">
+                <div class="education-accent" style="background: linear-gradient(180deg, #0f9a8d, #2563eb);"></div>
+                <div class="education-body">
+                    <div class="education-left">
+                        <div class="education-top">
+                            <span class="education-school">University of Sfax</span>
+                        </div>
+                        <div class="education-degree">Bachelor's in Computer Science</div>
+                        <div class="education-tags">
+                            <span class="edu-tag">Algorithms</span>
+                            <span class="edu-tag">Software Engineering</span>
+                            <span class="edu-tag">Databases</span>
+                            <span class="edu-tag">Networks</span>
+                        </div>
+                    </div>
+                    <div class="education-right">
+                        <div class="education-period">2015 – 2019</div>
+                        <div class="education-location">📍 Sfax, Tunisia</div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
     <section id="publications">
         <h2>Publications</h2>
+        <div class="publications-list">
 
-        <div class="publication">
-            <div class="publication-title">
-                <a href="https://link.springer.com/conference/wise" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
-                    CLARE: A Category-Aware RAG-Based Framework for Recommending Learning Objects
-                </a>
+            <div class="publication">
+                <div class="pub-header">
+                    <div class="publication-title">
+                        <a href="https://link.springer.com/conference/wise" target="_blank" rel="noopener noreferrer">
+                            CLARE: A Category-Aware RAG-Based Framework for Recommending Learning Objects
+                        </a>
+                    </div>
+                </div>
+                <div class="publication-meta">
+                    <span class="pub-venue">WISE 2025</span>
+                    <span>Ichrak Ennaceur et al.</span>
+                </div>
+                <div class="pub-keywords">
+                    <span class="pub-kw">RAG</span>
+                    <span class="pub-kw">Recommender Systems</span>
+                    <span class="pub-kw">BERT4Rec</span>
+                    <span class="pub-kw">EdTech</span>
+                </div>
             </div>
-            <div class="publication-meta">
-                <span>📅 WISE 2025</span>
-                <span>✍️ Ichrak Ennaceur et al.</span>
-                <span>🏷️ RAG · Recommender Systems · Education</span>
+
+            <div class="publication best-paper">
+                <div class="pub-header">
+                    <div class="publication-title">
+                        <a href="https://aiccsa.net" target="_blank" rel="noopener noreferrer">
+                            Prompt-Based Recommendation with In-Context Learning and Category-Enriched Modeling
+                        </a>
+                    </div>
+                    <span class="best-paper-badge">🏆 Best Paper</span>
+                </div>
+                <div class="publication-meta">
+                    <span class="pub-venue">AICCSA 2025</span>
+                    <span>Ichrak Ennaceur et al.</span>
+                </div>
+                <div class="pub-keywords">
+                    <span class="pub-kw">LLM</span>
+                    <span class="pub-kw">In-Context Learning</span>
+                    <span class="pub-kw">Prompt Engineering</span>
+                    <span class="pub-kw">NLP</span>
+                </div>
             </div>
+
+            <div class="publication">
+                <div class="pub-header">
+                    <div class="publication-title">
+                        CLARE : un cadre de recommandation d'objets d'apprentissage intégrant un RAG centré sur les compétences pour l'éducation et la formation professionnelle
+                    </div>
+                </div>
+                <div class="publication-meta">
+                    <span class="pub-venue">EGC 2026</span>
+                    <span>Ichrak Ennaceur et al.</span>
+                </div>
+                <div class="pub-keywords">
+                    <span class="pub-kw">RAG</span>
+                    <span class="pub-kw">Skill-based Retrieval</span>
+                    <span class="pub-kw">Learning Objects</span>
+                    <span class="pub-kw">EdTech</span>
+                </div>
+            </div>
+
+            <div class="publication">
+                <div class="pub-header">
+                    <div class="publication-title">
+                        Diagnosing Hallucinations in RAG-Based Educational Recommendation Systems: A Controlled Comparative Study
+                    </div>
+                </div>
+                <div class="publication-meta">
+                    <span class="pub-venue">ISMIS 2026</span>
+                    <span>Ichrak Ennaceur et al.</span>
+                </div>
+                <div class="pub-keywords">
+                    <span class="pub-kw">Hallucination</span>
+                    <span class="pub-kw">RAG Evaluation</span>
+                    <span class="pub-kw">Groundedness</span>
+                    <span class="pub-kw">Evaluation Protocols</span>
+                </div>
+            </div>
+
         </div>
+    </section>
 
-        <div class="publication">
-            <div class="publication-title">
-                <a href="https://aiccsa.net" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
-                    Prompt-Based Recommendation with In-Context Learning and Category-Enriched Modeling
-                </a>
+    <section id="service">
+        <h2>Academic Service</h2>
+        <div class="service-grid">
+
+            <div class="service-card">
+                <div class="service-icon">🏛️</div>
+                <div class="service-body">
+                    <div class="service-role">Technical Committee Chair</div>
+                    <div class="service-venue">AICCSA 2025</div>
+                    <div class="service-year">ACS/IEEE International Conference · 2025</div>
+                </div>
             </div>
-            <div class="publication-meta">
-                <span>📅 AICCSA 2025</span>
-                <span>✍️ Ichrak Ennaceur et al.</span>
-                <span>🏷️ LLM · In-Context Learning · NLP</span>
+
+            <div class="service-card">
+                <div class="service-icon">🏛️</div>
+                <div class="service-body">
+                    <div class="service-role">Technical Committee Chair</div>
+                    <div class="service-venue">AICCSA 2026</div>
+                    <div class="service-year">ACS/IEEE International Conference · 2026</div>
+                </div>
             </div>
+
+            <div class="service-card">
+                <div class="service-icon">🏛️</div>
+                <div class="service-body">
+                    <div class="service-role">Technical Committee Chair</div>
+                    <div class="service-venue">APWebWAIM 2026</div>
+                    <div class="service-year">Asia Pacific Web & Web-Age Information Management · 2026</div>
+                </div>
+            </div>
+
         </div>
     </section>
 
     <section id="projects">
         <h2>Projects & Portfolio</h2>
-
         <div class="projects-grid">
-            <div class="project-card">
-                <div class="project-title">🔍 RAG Hallucination Evaluator</div>
-                <div class="project-desc">End-to-end framework for evaluating and correcting hallucinations in RAG pipelines. Uses Claude API as judge with an iterative correction loop.</div>
-                <div class="project-links">
-                    <a href="https://github.com/Ichraknaceur/rag-hallucination-eval" target="_blank" class="project-link">Code →</a>
+
+            <div class="project-card" style="--proj-gradient: linear-gradient(135deg, rgba(15,154,141,0.1), rgba(26,127,80,0.06));">
+                <div class="project-header">
+                    <div class="project-emoji">🎓</div>
+                    <div class="project-title">Course RAG API</div>
                 </div>
-                <div class="timeline-tags">
-                    <span class="tag">Claude API</span>
-                    <span class="tag">FastAPI</span>
-                    <span class="tag">ChromaDB</span>
-                    <span class="tag">LangGraph</span>
+                <div class="project-body">
+                    <div class="project-desc">Semantic course retrieval + LLM-powered recommendations for EdTech. Hexagonal architecture with pluggable FAISS/Qdrant/Milvus backends and OpenAI/Anthropic adapters.</div>
+                    <div class="project-tags">
+                        <span class="project-tag">FastAPI</span>
+                        <span class="project-tag">FAISS</span>
+                        <span class="project-tag">Sentence-Transformers</span>
+                        <span class="project-tag">OpenAI</span>
+                        <span class="project-tag">Anthropic</span>
+                    </div>
+                    <div class="project-actions">
+                        <a href="projects/courseragapi.html" class="btn-project-detail">View Details →</a>
+                        <a href="https://github.com/inokufu/COURSERAGAPI" target="_blank" class="btn-project-code">⌥ Code</a>
+                    </div>
                 </div>
             </div>
 
-            <div class="project-card">
-                <div class="project-title">🎯 BERT4Rec + RAG Recommender</div>
-                <div class="project-desc">Hybrid recommendation system combining sequential models with retrieval-augmented generation for educational content.</div>
-                <div class="project-links">
-                    <a href="https://github.com/Ichraknaceur/bert4rec-rag-recommender" target="_blank" class="project-link">Code →</a>
+            <div class="project-card" style="--proj-gradient: linear-gradient(135deg, rgba(79,70,229,0.1), rgba(107,58,171,0.06));">
+                <div class="project-header">
+                    <div class="project-emoji">🤖</div>
+                    <div class="project-title">Content Agent System</div>
                 </div>
-                <div class="timeline-tags">
-                    <span class="tag">BERT4Rec</span>
-                    <span class="tag">PyTorch</span>
-                    <span class="tag">RAG</span>
-                    <span class="tag">FAISS</span>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-title">📝 LLM Content Agent</div>
-                <div class="project-desc">Multi-task agent that transforms notes into LinkedIn posts and Medium articles. LangGraph orchestration with built-in quality evaluation.</div>
-                <div class="project-links">
-                    <a href="https://github.com/Ichraknaceur/llm-content-agent" target="_blank" class="project-link">Code →</a>
-                </div>
-                <div class="timeline-tags">
-                    <span class="tag">LangGraph</span>
-                    <span class="tag">Claude API</span>
-                    <span class="tag">Multi-Agent</span>
+                <div class="project-body">
+                    <div class="project-desc">End-to-end multi-agent AI system for personal branding automation: Medium articles, LinkedIn scheduling & outreach, AI monitoring — all with Human-in-the-Loop validation.</div>
+                    <div class="project-tags">
+                        <span class="project-tag">Claude + GPT-4o</span>
+                        <span class="project-tag">Playwright</span>
+                        <span class="project-tag">Streamlit</span>
+                        <span class="project-tag">Multi-Agent</span>
+                    </div>
+                    <div class="project-actions">
+                        <a href="projects/content-agent-system.html" class="btn-project-detail">View Details →</a>
+                    </div>
                 </div>
             </div>
 
-            <div class="project-card">
-                <div class="project-title">⚙️ FastAPI Hexagonal Template</div>
-                <div class="project-desc">Production-ready template with hexagonal (clean) architecture. Used in freelance projects with Docker, automated tests, and CI/CD.</div>
-                <div class="project-links">
-                    <a href="https://github.com/Ichraknaceur/fastapi-hexagonal-template" target="_blank" class="project-link">Code →</a>
+            <div class="project-card" style="--proj-gradient: linear-gradient(135deg, rgba(15,154,141,0.07), rgba(26,77,122,0.06));">
+                <div class="project-header">
+                    <div class="project-emoji">🏢</div>
+                    <div class="project-title">Enterprise Knowledge Assistant</div>
                 </div>
-                <div class="timeline-tags">
-                    <span class="tag">FastAPI</span>
-                    <span class="tag">Docker</span>
-                    <span class="tag">Clean Architecture</span>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-title">🌐 GitHub Profile</div>
-                <div class="project-desc">GitHub profile with pinned projects, active contributions, and thorough documentation. Reflects expertise in generative AI.</div>
-                <div class="project-links">
-                    <a href="https://github.com/Ichraknaceur" target="_blank" class="project-link">Visit →</a>
-                </div>
-                <div class="timeline-tags">
-                    <span class="tag">GitHub</span>
-                    <span class="tag">Portfolio</span>
+                <div class="project-body">
+                    <div class="project-desc">Production-oriented RAG system for enterprise internal knowledge bases. Clean layered architecture, source-backed answers, Milvus vector retrieval. <em style="color:var(--muted);font-size:0.8rem">In progress.</em></div>
+                    <div class="project-tags">
+                        <span class="project-tag">FastAPI</span>
+                        <span class="project-tag">Milvus</span>
+                        <span class="project-tag">RAG</span>
+                        <span class="project-tag">Python</span>
+                    </div>
+                    <div class="project-actions">
+                        <a href="projects/enterprise-knowledge-assistant.html" class="btn-project-detail">View Details →</a>
+                        <a href="https://github.com/Ichraknaceur/Entreprise-assistant" target="_blank" class="btn-project-code">⌥ Code</a>
+                    </div>
                 </div>
             </div>
 
-            <div class="project-card">
-                <div class="project-title">📚 Modern Web Portfolio</div>
-                <div class="project-desc">Landing page + one-pager CV with interactive sections, animated timeline, and dark mode. Deployed on Netlify with a custom domain.</div>
-                <div class="project-links">
-                    <a href="#" class="project-link">Visit →</a>
+            <div class="project-card" style="--proj-gradient: linear-gradient(135deg, rgba(37,99,235,0.08), rgba(15,154,141,0.05));">
+                <div class="project-header">
+                    <div class="project-emoji">🔍</div>
+                    <div class="project-title">RAG Hallucination Evaluator</div>
                 </div>
-                <div class="timeline-tags">
-                    <span class="tag">HTML/CSS</span>
-                    <span class="tag">Responsive</span>
-                    <span class="tag">Portfolio</span>
+                <div class="project-body">
+                    <div class="project-desc">End-to-end framework for evaluating and correcting hallucinations in RAG pipelines. Uses Claude API as judge with an iterative correction loop.</div>
+                    <div class="project-tags">
+                        <span class="project-tag">Claude API</span>
+                        <span class="project-tag">LangGraph</span>
+                        <span class="project-tag">ChromaDB</span>
+                        <span class="project-tag">FastAPI</span>
+                    </div>
+                    <div class="project-actions">
+                        <a href="projects/rag-hallucination-evaluator.html" class="btn-project-detail">View Details →</a>
+                        <a href="https://github.com/Ichraknaceur/rag-hallucination-eval" target="_blank" class="btn-project-code">⌥ Code</a>
+                    </div>
                 </div>
             </div>
+
+            <div class="project-card" style="--proj-gradient: linear-gradient(135deg, rgba(107,58,171,0.08), rgba(37,99,235,0.05));">
+                <div class="project-header">
+                    <div class="project-emoji">🎯</div>
+                    <div class="project-title">BERT4Rec + RAG Recommender</div>
+                </div>
+                <div class="project-body">
+                    <div class="project-desc">Hybrid recommendation system combining sequential models with retrieval-augmented generation for educational content.</div>
+                    <div class="project-tags">
+                        <span class="project-tag">BERT4Rec</span>
+                        <span class="project-tag">PyTorch</span>
+                        <span class="project-tag">RAG</span>
+                        <span class="project-tag">FAISS</span>
+                    </div>
+                    <div class="project-actions">
+                        <a href="projects/bert4rec-rag-recommender.html" class="btn-project-detail">View Details →</a>
+                        <a href="https://github.com/Ichraknaceur/bert4rec-rag-recommender" target="_blank" class="btn-project-code">⌥ Code</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card" style="--proj-gradient: linear-gradient(135deg, rgba(15,154,141,0.08), rgba(107,58,171,0.05));">
+                <div class="project-header">
+                    <div class="project-emoji">📝</div>
+                    <div class="project-title">LLM Content Agent</div>
+                </div>
+                <div class="project-body">
+                    <div class="project-desc">Multi-task agent that transforms notes into LinkedIn posts and Medium articles. LangGraph orchestration with built-in quality evaluation.</div>
+                    <div class="project-tags">
+                        <span class="project-tag">LangGraph</span>
+                        <span class="project-tag">Claude API</span>
+                        <span class="project-tag">Multi-Agent</span>
+                    </div>
+                    <div class="project-actions">
+                        <a href="projects/llm-content-agent.html" class="btn-project-detail">View Details →</a>
+                        <a href="https://github.com/Ichraknaceur/llm-content-agent" target="_blank" class="btn-project-code">⌥ Code</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card" style="--proj-gradient: linear-gradient(135deg, rgba(26,77,122,0.08), rgba(15,154,141,0.05));">
+                <div class="project-header">
+                    <div class="project-emoji">⚙️</div>
+                    <div class="project-title">FastAPI Hexagonal Template</div>
+                </div>
+                <div class="project-body">
+                    <div class="project-desc">Production-ready template with hexagonal (clean) architecture. Used in freelance projects with Docker, automated tests, and CI/CD.</div>
+                    <div class="project-tags">
+                        <span class="project-tag">FastAPI</span>
+                        <span class="project-tag">Docker</span>
+                        <span class="project-tag">Clean Architecture</span>
+                        <span class="project-tag">CI/CD</span>
+                    </div>
+                    <div class="project-actions">
+                        <a href="projects/fastapi-hexagonal-template.html" class="btn-project-detail">View Details →</a>
+                        <a href="https://github.com/Ichraknaceur/fastapi-hexagonal-template" target="_blank" class="btn-project-code">⌥ Code</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card" style="--proj-gradient: linear-gradient(135deg, rgba(37,99,235,0.06), rgba(26,77,122,0.04));">
+                <div class="project-header">
+                    <div class="project-emoji">🌐</div>
+                    <div class="project-title">GitHub Profile</div>
+                </div>
+                <div class="project-body">
+                    <div class="project-desc">GitHub profile with pinned projects, active contributions, and thorough documentation. Reflects expertise in generative AI.</div>
+                    <div class="project-tags">
+                        <span class="project-tag">Open Source</span>
+                        <span class="project-tag">Portfolio</span>
+                    </div>
+                    <div class="project-actions">
+                        <a href="https://github.com/Ichraknaceur" target="_blank" class="btn-project-detail">Visit Profile →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card" style="--proj-gradient: linear-gradient(135deg, rgba(107,58,171,0.06), rgba(15,154,141,0.04));">
+                <div class="project-header">
+                    <div class="project-emoji">📚</div>
+                    <div class="project-title">Modern Web Portfolio</div>
+                </div>
+                <div class="project-body">
+                    <div class="project-desc">This portfolio — built from scratch with HTML/CSS/JS. Interactive timeline, dark mode, animated hero, and deployed on Netlify.</div>
+                    <div class="project-tags">
+                        <span class="project-tag">HTML/CSS</span>
+                        <span class="project-tag">JavaScript</span>
+                        <span class="project-tag">Responsive</span>
+                        <span class="project-tag">Netlify</span>
+                    </div>
+                    <div class="project-actions">
+                        <a href="#" class="btn-project-detail">You're here →</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SOFT SKILLS -->
+    <section id="soft-skills">
+        <h2>Beyond Technical Skills</h2>
+        <div class="soft-skills-grid">
+
+            <div class="soft-skill-card">
+                <span class="soft-skill-icon">🗣️</span>
+                <div>
+                    <div class="soft-skill-name">Technical Communication</div>
+                    <div class="soft-skill-desc">4 peer-reviewed publications, conference presentations, and clear documentation. I write and speak about complex AI systems for both technical and non-technical audiences.</div>
+                </div>
+            </div>
+
+            <div class="soft-skill-card">
+                <span class="soft-skill-icon">🔗</span>
+                <div>
+                    <div class="soft-skill-name">Research × Industry Bridge</div>
+                    <div class="soft-skill-desc">Simultaneous PhD researcher and applied AI engineer — I translate academic findings into production systems and bring engineering rigor to research projects.</div>
+                </div>
+            </div>
+
+            <div class="soft-skill-card">
+                <span class="soft-skill-icon">🧠</span>
+                <div>
+                    <div class="soft-skill-name">Systems Thinking</div>
+                    <div class="soft-skill-desc">I design AI systems end-to-end: from data pipelines and vector indexing to LLM evaluation and production observability. I think in architectures, not just models.</div>
+                </div>
+            </div>
+
+            <div class="soft-skill-card">
+                <span class="soft-skill-icon">📐</span>
+                <div>
+                    <div class="soft-skill-name">Engineering Discipline</div>
+                    <div class="soft-skill-desc">Hexagonal architecture, clean contracts, CI/CD, type safety, and test coverage — I build AI features the same way senior engineers build any backend system.</div>
+                </div>
+            </div>
+
+            <div class="soft-skill-card">
+                <span class="soft-skill-icon">🚀</span>
+                <div>
+                    <div class="soft-skill-name">End-to-End Ownership</div>
+                    <div class="soft-skill-desc">From scoping and prototyping to delivery and documentation. I've shipped solo freelance projects and collaborated across research teams, taking full ownership at each step.</div>
+                </div>
+            </div>
+
+            <div class="soft-skill-card">
+                <span class="soft-skill-icon">🌍</span>
+                <div>
+                    <div class="soft-skill-name">Multilingual & International</div>
+                    <div class="soft-skill-desc">Fluent in French, English, and Arabic. Work experience across French industry (Lyon, Paris), and international academic collaborations (AICCSA, APWebWAIM).</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- BLOG -->
+    <section id="blog">
+        <h2>Writing & Articles</h2>
+        <a href="https://medium.com/@ichraknaceurr" target="_blank" class="blog-section-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
+            View all on Medium →
+        </a>
+        <div class="blog-grid" style="margin-top: 1.25rem;">
+
+            <!-- Article 1 — Published on Medium -->
+            <a href="https://medium.com/@ichraknaceurr/why-prompt-engineering-is-a-crucial-step-in-maximizing-ai-efficiency-e0650c48961e" target="_blank" class="blog-card">
+                <div class="blog-card-cover" style="background: linear-gradient(135deg, #1a1a2e 0%, #3d2b7a 50%, #5a4fcf 100%);">
+                    🧠
+                </div>
+                <div class="blog-card-body">
+                    <span class="blog-platform-badge badge-medium">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
+                        Medium
+                    </span>
+                    <div class="blog-eyebrow">AI Engineering · LLM Efficiency</div>
+                    <div class="blog-title">Why Prompt Engineering Is a Crucial Step in Maximizing AI Efficiency</div>
+                    <div class="blog-excerpt">A practical deep-dive into prompt engineering as a core production skill — not a nice-to-have but a critical lever for AI system performance.</div>
+                    <div class="blog-footer">
+                        <span>Ichrak Ennaceur</span>
+                        <span class="blog-read-more">Read on Medium →</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Article 2 — Local with SVG illustrations -->
+            <a href="blog/prompt-engineering.html" class="blog-card">
+                <div class="blog-card-cover" style="background: linear-gradient(135deg, #1a1a2e 0%, #3d2b7a 50%, #5a4fcf 100%);">
+                    ✍️
+                </div>
+                <div class="blog-card-body">
+                    <div class="blog-eyebrow">AI Engineering · Prompt Design</div>
+                    <div class="blog-title">Why Prompt Engineering Is the Skill No One Told You to Master</div>
+                    <div class="blog-excerpt">It's not about talking to an AI. It's about thinking precisely — and that changes everything about how you build with LLMs.</div>
+                    <div class="blog-footer">
+                        <span>Ichrak Ennaceur</span>
+                        <span class="blog-read-more">Read →</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Article 3 — Published on Medium -->
+            <a href="https://medium.com/@ichraknaceurr/building-smarter-llms-with-rag-from-documents-to-answers-b9474c412ab1" target="_blank" class="blog-card">
+                <div class="blog-card-cover" style="background: linear-gradient(135deg, #0a2e20 0%, #0d5c3a 50%, #1d9e75 100%);">
+                    📚
+                </div>
+                <div class="blog-card-body">
+                    <span class="blog-platform-badge badge-medium">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
+                        Medium
+                    </span>
+                    <div class="blog-eyebrow">RAG · LLM Architecture</div>
+                    <div class="blog-title">Building Smarter LLMs with RAG: From Documents to Answers</div>
+                    <div class="blog-excerpt">How Retrieval-Augmented Generation grounds LLM responses in real documents — architecture, retrieval pipeline, and production trade-offs.</div>
+                    <div class="blog-footer">
+                        <span>Ichrak Ennaceur</span>
+                        <span class="blog-read-more">Read on Medium →</span>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <h2>Let's Work Together</h2>
+        <p class="contact-tagline">Open to full-time positions in AI Engineering or Applied Research — Lyon, Paris, or remote. Let's talk about what you're building.</p>
+        <div class="contact-buttons">
+            <a href="mailto:ichraknaceurr@gmail.com" class="btn-contact-primary">✉ Send me an email</a>
+            <a href="https://linkedin.com/in/ichrak-ennaceur-8979b0114/" target="_blank" class="btn-contact-ghost">💼 LinkedIn</a>
+            <a href="https://github.com/Ichraknaceur" target="_blank" class="btn-contact-ghost">⌥ GitHub</a>
+            <a href="cv.html" target="_blank" class="btn-contact-ghost">📄 Download CV</a>
+        </div>
+        <div class="contact-info">
+            <span class="contact-info-item">📍 Lyon, France</span>
+            <span class="contact-info-item">🎓 PhD Candidate · UCBL / LIRIS</span>
+            <span class="contact-info-item">✅ Open to full-time · Lyon / Paris / Remote</span>
         </div>
     </section>
 
@@ -1371,12 +2528,16 @@
     </footer>
 
     <script>
-        // Timeline items - toggle details
+        // Timeline items - toggle details on expand-hint click
         document.querySelectorAll('.timeline-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const details = this.querySelector('.details');
+            const hint = item.querySelector('.expand-hint');
+            if (!hint) return;
+            hint.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const details = item.querySelector('.details');
                 if (details) {
                     details.classList.toggle('show');
+                    item.classList.toggle('open');
                 }
             });
         });

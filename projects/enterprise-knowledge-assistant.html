@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Knowledge Assistant — Ichrak Ennaceur</title>
+    <meta name="description" content="Production-oriented RAG system for enterprise knowledge bases. FastAPI, Milvus vector DB, clean layered architecture with source-backed answers.">
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2128;
+            --border: #30363d;
+            --text: #e6edf3;
+            --muted: #8b949e;
+            --accent: #58a6ff;
+            --green: #3fb950;
+            --teal: #0fa58d;
+            --orange: #f0883e;
+            --purple: #bc8cff;
+            --gold: #e3b341;
+            --amber: #f59e0b;
+        }
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg: #f6f8fa; --surface: #ffffff; --surface2: #f0f3f6;
+                --border: #d0d7de; --text: #1f2328; --muted: #656d76;
+                --accent: #0969da; --teal: #0fa58d;
+            }
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+        nav { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+        .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--text); text-decoration: none; }
+        .nav-back { font-size: 0.875rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+        .nav-back:hover { color: var(--accent); }
+
+        .hero { background: linear-gradient(135deg, #0f1e38 0%, #0c2020 50%, #0d1420 100%); border-bottom: 1px solid var(--border); padding: 4rem 2rem 3rem; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 65% 45%, rgba(15,165,141,0.1) 0%, transparent 55%); pointer-events: none; }
+        .hero-inner { max-width: 860px; margin: 0 auto; position: relative; }
+        .breadcrumb { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.5rem; }
+        .breadcrumb a { color: var(--muted); text-decoration: none; }
+        .breadcrumb a:hover { color: var(--accent); }
+        .breadcrumb span { margin: 0 0.4rem; }
+        .hero-emoji { font-size: 3.5rem; margin-bottom: 1rem; display: block; }
+        .hero h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+        .hero-tagline { font-size: 1.1rem; color: #9ec4c0; margin-bottom: 1.5rem; max-width: 640px; }
+        .hero-meta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem; }
+        .meta-pill { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 0.3rem 0.8rem; font-size: 0.8rem; color: #c9d5e0; }
+        .meta-pill.wip { background: rgba(245,158,11,0.15); border-color: rgba(245,158,11,0.35); color: var(--amber); }
+        .hero-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+        .btn-outline { display: inline-flex; align-items: center; gap: 0.4rem; background: transparent; border: 1px solid var(--border); color: var(--text); padding: 0.55rem 1.2rem; border-radius: 8px; text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: border-color 0.2s; }
+        .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+        .btn-gh { display: inline-flex; align-items: center; gap: 0.4rem; background: #238636; color: #fff; padding: 0.55rem 1.2rem; border-radius: 8px; text-decoration: none; font-size: 0.875rem; font-weight: 600; transition: background 0.2s; }
+        .btn-gh:hover { background: #2ea043; }
+        .btn-soon { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.06); border: 1px dashed rgba(255,255,255,0.2); color: rgba(255,255,255,0.5); padding: 0.55rem 1.2rem; border-radius: 8px; font-size: 0.875rem; cursor: default; }
+
+        .page-body { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem; display: grid; grid-template-columns: 1fr 300px; gap: 3rem; }
+        @media (max-width: 768px) { .page-body { grid-template-columns: 1fr; } }
+        main { min-width: 0; }
+        .sticky-sidebar { position: sticky; top: 72px; display: flex; flex-direction: column; gap: 1.25rem; }
+
+        .section { margin-bottom: 3rem; }
+        .section h2 { font-size: 1.25rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--teal); display: inline-block; }
+        .section p { color: var(--muted); margin-bottom: 0.875rem; }
+        .section p strong { color: var(--text); }
+        code { font-family: monospace; font-size: 0.85em; background: var(--surface2); padding: 0.1rem 0.35rem; border-radius: 4px; color: var(--teal); }
+
+        /* WIP BANNER */
+        .wip-banner { background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.3); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 2rem; display: flex; gap: 0.75rem; align-items: flex-start; }
+        .wip-icon { font-size: 1.3rem; flex-shrink: 0; }
+        .wip-text { font-size: 0.875rem; color: var(--muted); }
+        .wip-text strong { color: var(--amber); }
+
+        /* FLOW */
+        .flow-diagram { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; margin: 1.5rem 0; overflow-x: auto; }
+        .flow-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+        .flow-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 0.4rem 0.8rem; font-size: 0.82rem; color: var(--text); white-space: nowrap; }
+        .flow-box.teal { border-color: rgba(15,165,141,0.4); color: var(--teal); background: rgba(15,165,141,0.07); }
+        .flow-box.blue { border-color: rgba(88,166,255,0.4); color: var(--accent); background: rgba(88,166,255,0.07); }
+        .flow-box.green { border-color: rgba(63,185,80,0.4); color: var(--green); background: rgba(63,185,80,0.07); }
+        .flow-box.dim { opacity: 0.4; border-style: dashed; }
+        .flow-box.next { border-color: rgba(245,158,11,0.4); color: var(--amber); background: rgba(245,158,11,0.07); border-style: dashed; }
+        .flow-arrow { color: var(--muted); font-size: 1rem; }
+        .flow-label { font-size: 0.7rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+
+        /* LAYERS */
+        .layers { display: flex; flex-direction: column; gap: 0.5rem; margin: 1.25rem 0; }
+        .layer { display: flex; align-items: flex-start; gap: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; }
+        .layer-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 0.1rem; }
+        .layer-name { font-weight: 700; font-size: 0.9rem; color: var(--text); margin-bottom: 0.25rem; font-family: monospace; }
+        .layer-desc { font-size: 0.82rem; color: var(--muted); }
+
+        /* STATUS TABLE */
+        .status-table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.85rem; }
+        .status-table th { text-align: left; padding: 0.6rem 1rem; color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
+        .status-table td { padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+        .status-table tr:last-child td { border-bottom: none; }
+        .badge { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 20px; }
+        .badge.done { background: rgba(63,185,80,0.15); color: var(--green); }
+        .badge.next { background: rgba(245,158,11,0.15); color: var(--amber); }
+        .badge.later { background: rgba(139,148,158,0.15); color: var(--muted); }
+        .feat-name { color: var(--text); font-weight: 500; }
+        .feat-desc { color: var(--muted); font-size: 0.8rem; }
+
+        /* ENDPOINTS */
+        .endpoints { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 1.25rem 0; }
+        .endpoint { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--border); }
+        .endpoint:last-child { border-bottom: none; }
+        .ep-method { font-family: monospace; font-size: 0.78rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; min-width: 46px; text-align: center; }
+        .ep-method.get { background: rgba(63,185,80,0.15); color: #3fb950; }
+        .ep-method.post { background: rgba(88,166,255,0.15); color: var(--accent); }
+        .ep-path { font-family: monospace; font-size: 0.85rem; color: var(--text); }
+        .ep-desc { font-size: 0.8rem; color: var(--muted); margin-left: auto; }
+
+        /* SIDEBAR */
+        .sidebar-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+        .sidebar-card h3 { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 1rem; }
+        .tech-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .tech-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text); }
+        .tech-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .td-teal { background: var(--teal); }
+        .td-blue { background: var(--accent); }
+        .td-green { background: var(--green); }
+        .td-orange { background: var(--orange); }
+        .td-amber { background: var(--amber); }
+        .sidebar-meta { display: flex; flex-direction: column; gap: 0.5rem; }
+        .meta-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; }
+        .meta-key { color: var(--muted); }
+        .meta-val { color: var(--text); font-weight: 500; }
+        .meta-val.wip { color: var(--amber); }
+        .milestone-list { display: flex; flex-direction: column; gap: 0.4rem; }
+        .milestone { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; }
+        .milestone.done { color: var(--green); }
+        .milestone.active { color: var(--amber); font-weight: 600; }
+        .milestone.pending { color: var(--muted); }
+
+        footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); }
+        footer a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="../index.html" class="nav-logo">ichrak</a>
+    <a href="../index.html#projects" class="nav-back">← Back to Projects</a>
+</nav>
+
+<div class="hero">
+    <div class="hero-inner">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>/</span>
+            <a href="../index.html#projects">Projects</a>
+            <span>/</span>
+            Enterprise Knowledge Assistant
+        </div>
+        <span class="hero-emoji">🏢</span>
+        <h1>Enterprise Knowledge Assistant</h1>
+        <p class="hero-tagline">Production-oriented RAG system simulating an enterprise internal knowledge base — clean layered architecture, source-backed answers, and Milvus vector retrieval as the next milestone.</p>
+        <div class="hero-meta">
+            <span class="meta-pill">🐍 Python</span>
+            <span class="meta-pill">FastAPI</span>
+            <span class="meta-pill">Milvus</span>
+            <span class="meta-pill">RAG</span>
+            <span class="meta-pill wip">🚧 Work in progress</span>
+        </div>
+        <div class="hero-actions">
+            <a href="https://github.com/Ichraknaceur/Entreprise-assistant" target="_blank" class="btn-gh">⌥ View on GitHub</a>
+            <a href="../index.html#projects" class="btn-outline">← All Projects</a>
+        </div>
+    </div>
+</div>
+
+<div class="page-body">
+<main>
+
+    <!-- WIP BANNER -->
+    <div class="wip-banner">
+        <span class="wip-icon">🚧</span>
+        <div class="wip-text">
+            <strong>Work in progress.</strong> The backend foundation is fully implemented — API contract, document loader, chunker, and generator abstraction. The next milestone is plugging in <strong>Milvus</strong> for real vector retrieval and grounded answer generation. This page reflects the current state honestly.
+        </div>
+    </div>
+
+    <!-- CONTEXT -->
+    <div class="section">
+        <h2>Context</h2>
+        <p>
+            Enterprise knowledge management is one of the clearest ROI use cases for RAG. Employees ask questions in natural language; the system retrieves the right internal documents and generates a concise, <strong>source-backed answer</strong> — no hallucinated policies, no outdated procedures.
+        </p>
+        <p>
+            This project builds that system from scratch with a focus on <strong>engineering discipline</strong>: a stable API contract locked before retrieval is implemented, a tested document pipeline, and a clean layered architecture that makes each component replaceable. The goal is a system that could be deployed in a real company context, not just a notebook demo.
+        </p>
+    </div>
+
+    <!-- CURRENT FLOW -->
+    <div class="section">
+        <h2>Architecture & Pipeline</h2>
+        <div class="flow-diagram">
+            <div class="flow-label">Ingestion pipeline</div>
+            <div class="flow-row">
+                <div class="flow-box teal">Markdown docs (data/sample_docs/)</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box teal">KnowledgeDocument Loader</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box teal">KnowledgeChunk Chunker (overlap)</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box next">Embeddings ⬡ Milvus index</div>
+            </div>
+            <div class="flow-label" style="margin-top:1.25rem">Query pipeline</div>
+            <div class="flow-row">
+                <div class="flow-box blue">POST /query {question}</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box blue">QueryService</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box next">Retriever → top-k chunks</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box next">Generator (LLM + context)</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box green">answer + sources[]</div>
+            </div>
+        </div>
+        <p>Dashed boxes are the <strong>next milestone</strong> — everything before them is implemented and tested. The API contract (response schema with <code>answer</code> and <code>sources[]</code>) is already locked so the interface doesn't change as retrieval is plugged in.</p>
+    </div>
+
+    <!-- LAYERS -->
+    <div class="section">
+        <h2>Layered Architecture</h2>
+        <div class="layers">
+            <div class="layer">
+                <div class="layer-icon">🌐</div>
+                <div>
+                    <div class="layer-name">api/</div>
+                    <div class="layer-desc">FastAPI routes (<code>/health</code>, <code>/query</code>), request/response schemas, input validation. Thin — delegates everything to services.</div>
+                </div>
+            </div>
+            <div class="layer">
+                <div class="layer-icon">⚙️</div>
+                <div>
+                    <div class="layer-name">core/</div>
+                    <div class="layer-desc">Centralized settings, shared dependency wiring, structured logging. Single source of truth for configuration.</div>
+                </div>
+            </div>
+            <div class="layer">
+                <div class="layer-icon">🔀</div>
+                <div>
+                    <div class="layer-name">services/</div>
+                    <div class="layer-desc">Orchestrates use cases (QueryService). Keeps route handlers lightweight by owning the business logic coordination.</div>
+                </div>
+            </div>
+            <div class="layer">
+                <div class="layer-icon">📚</div>
+                <div>
+                    <div class="layer-name">rag/</div>
+                    <div class="layer-desc">Document loading, chunking with overlap, generator abstraction. Will expand to cover embeddings, Milvus adapter, retriever, and prompt building.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STATUS -->
+    <div class="section">
+        <h2>Implementation Status</h2>
+        <table class="status-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="feat-name">FastAPI app + routing</div>
+                        <div class="feat-desc">Entrypoint, route registration, CORS, config wiring</div>
+                    </td>
+                    <td><span class="badge done">✓ Done</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="feat-name">API contract (GET /health, POST /query)</div>
+                        <div class="feat-desc">Response schema locked with answer + sources[]</div>
+                    </td>
+                    <td><span class="badge done">✓ Done</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="feat-name">KnowledgeDocument loader</div>
+                        <div class="feat-desc">Markdown corpus under data/sample_docs/, tested</div>
+                    </td>
+                    <td><span class="badge done">✓ Done</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="feat-name">KnowledgeChunk chunker</div>
+                        <div class="feat-desc">Overlap support, tested, retrieval-ready</div>
+                    </td>
+                    <td><span class="badge done">✓ Done</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="feat-name">Generator abstraction + mock</div>
+                        <div class="feat-desc">Interface defined, mock implementation for dev/testing</div>
+                    </td>
+                    <td><span class="badge done">✓ Done</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="feat-name">Dev tooling (uv, Ruff, pytest, MkDocs)</div>
+                        <div class="feat-desc">Make targets for API, tests, and documentation</div>
+                    </td>
+                    <td><span class="badge done">✓ Done</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="feat-name">Milvus collection + chunk ingestion</div>
+                        <div class="feat-desc">Embed chunks → index into Milvus → enable vector search</div>
+                    </td>
+                    <td><span class="badge next">⬡ Next</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="feat-name">Vector retrieval → grounded generation</div>
+                        <div class="feat-desc">Wire retrieval results into /query, real LLM answers</div>
+                    </td>
+                    <td><span class="badge next">⬡ Next</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="feat-name">Streamlit UI + Docker packaging</div>
+                        <div class="feat-desc">Interactive frontend, containerized deployment</div>
+                    </td>
+                    <td><span class="badge later">○ Later</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ENDPOINTS -->
+    <div class="section">
+        <h2>API Endpoints</h2>
+        <div class="endpoints">
+            <div class="endpoint">
+                <span class="ep-method get">GET</span>
+                <span class="ep-path">/health</span>
+                <span class="ep-desc">Service health check</span>
+            </div>
+            <div class="endpoint">
+                <span class="ep-method post">POST</span>
+                <span class="ep-path">/query</span>
+                <span class="ep-desc">Natural language question → answer + sources</span>
+            </div>
+        </div>
+        <p style="margin-top:0.75rem">The contract is locked: <code>POST /query</code> already returns <code>{ answer, sources[] }</code> even with the mock generator. Real retrieval will plug in without changing the public interface.</p>
+    </div>
+
+</main>
+
+<aside>
+    <div class="sticky-sidebar">
+
+        <div class="sidebar-card">
+            <h3>Tech Stack</h3>
+            <div class="tech-list">
+                <div class="tech-item"><span class="tech-dot td-teal"></span>Python + FastAPI</div>
+                <div class="tech-item"><span class="tech-dot td-blue"></span>Milvus (vector DB)</div>
+                <div class="tech-item"><span class="tech-dot td-green"></span>sentence-transformers</div>
+                <div class="tech-item"><span class="tech-dot td-orange"></span>uv + Ruff + pytest</div>
+                <div class="tech-item"><span class="tech-dot td-amber"></span>MkDocs (docs)</div>
+                <div class="tech-item"><span class="tech-dot td-teal"></span>Make (workflow)</div>
+            </div>
+        </div>
+
+        <div class="sidebar-card">
+            <h3>Project Info</h3>
+            <div class="sidebar-meta">
+                <div class="meta-row">
+                    <span class="meta-key">Type</span>
+                    <span class="meta-val">Personal / Portfolio</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-key">Domain</span>
+                    <span class="meta-val">Enterprise RAG</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-key">Vector DB</span>
+                    <span class="meta-val">Milvus (open-source)</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-key">GitHub</span>
+                    <span class="meta-val"><a href="https://github.com/Ichraknaceur/Entreprise-assistant" target="_blank" style="color:var(--accent);text-decoration:none">Ichraknaceur ↗</a></span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-key">Status</span>
+                    <span class="meta-val wip">🚧 In progress</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-card">
+            <h3>Build Milestones</h3>
+            <div class="milestone-list">
+                <div class="milestone done">✓ API contract locked</div>
+                <div class="milestone done">✓ Doc loader + chunker tested</div>
+                <div class="milestone done">✓ Generator abstraction</div>
+                <div class="milestone done">✓ Dev toolchain (uv, Ruff, pytest)</div>
+                <div class="milestone active">⬡ Milvus integration</div>
+                <div class="milestone pending">○ Real retrieval → /query</div>
+                <div class="milestone pending">○ LLM grounded generation</div>
+                <div class="milestone pending">○ Streamlit UI</div>
+                <div class="milestone pending">○ Docker packaging</div>
+            </div>
+        </div>
+
+    </div>
+</aside>
+</div>
+
+<footer>
+    <p>Ichrak Ennaceur · <a href="../index.html">Back to Portfolio</a></p>
+</footer>
+
+</body>
+</html>

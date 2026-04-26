@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Agent System — Ichrak Ennaceur</title>
+    <meta name="description" content="Multi-agent AI system automating personal branding: Medium articles, LinkedIn scheduling, outreach automation, and AI monitoring — with Human-in-the-Loop.">
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2128;
+            --border: #30363d;
+            --text: #e6edf3;
+            --muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --purple: #bc8cff;
+            --gold: #e3b341;
+            --green: #3fb950;
+            --teal: #0fa58d;
+            --orange: #f0883e;
+            --red: #f78166;
+            --indigo: #818cf8;
+        }
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg: #f6f8fa; --surface: #ffffff; --surface2: #f0f3f6;
+                --border: #d0d7de; --text: #1f2328; --muted: #656d76;
+                --accent: #0969da; --accent2: #1a7f37; --teal: #0fa58d;
+                --indigo: #4f46e5;
+            }
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+        nav { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+        .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--text); text-decoration: none; }
+        .nav-back { font-size: 0.875rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+        .nav-back:hover { color: var(--accent); }
+
+        .hero { background: linear-gradient(135deg, #1a103d 0%, #2d1b4e 50%, #1a1030 100%); border-bottom: 1px solid var(--border); padding: 4rem 2rem 3rem; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 60% 40%, rgba(129,140,248,0.12) 0%, transparent 60%); pointer-events: none; }
+        .hero-inner { max-width: 860px; margin: 0 auto; position: relative; }
+        .breadcrumb { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.5rem; }
+        .breadcrumb a { color: var(--muted); text-decoration: none; }
+        .breadcrumb a:hover { color: var(--accent); }
+        .breadcrumb span { margin: 0 0.4rem; }
+        .hero-emoji { font-size: 3.5rem; margin-bottom: 1rem; display: block; }
+        .hero h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+        .hero-tagline { font-size: 1.1rem; color: #b4a8e0; margin-bottom: 1.5rem; max-width: 640px; }
+        .hero-meta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem; }
+        .meta-pill { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 0.3rem 0.8rem; font-size: 0.8rem; color: #c9d5e0; }
+        .meta-pill.warn { background: rgba(240,136,62,0.15); border-color: rgba(240,136,62,0.3); color: var(--orange); }
+        .hero-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+        .btn-outline { display: inline-flex; align-items: center; gap: 0.4rem; background: transparent; border: 1px solid var(--border); color: var(--text); padding: 0.55rem 1.2rem; border-radius: 8px; text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: border-color 0.2s; }
+        .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+        .btn-soon { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.06); border: 1px dashed rgba(255,255,255,0.2); color: rgba(255,255,255,0.5); padding: 0.55rem 1.2rem; border-radius: 8px; font-size: 0.875rem; cursor: default; }
+
+        .page-body { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem; display: grid; grid-template-columns: 1fr 300px; gap: 3rem; }
+        @media (max-width: 768px) { .page-body { grid-template-columns: 1fr; } }
+        main { min-width: 0; }
+        .sticky-sidebar { position: sticky; top: 72px; display: flex; flex-direction: column; gap: 1.25rem; }
+
+        .section { margin-bottom: 3rem; }
+        .section h2 { font-size: 1.25rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--indigo); display: inline-block; }
+        .section p { color: var(--muted); margin-bottom: 0.875rem; }
+        .section p strong { color: var(--text); }
+
+        /* PHASES */
+        .phases { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        @media (max-width: 600px) { .phases { grid-template-columns: 1fr; } }
+        .phase-card { border-radius: 12px; padding: 1.25rem; border: 1px solid var(--border); background: var(--surface); border-left: 4px solid; }
+        .phase-card.p1 { border-left-color: var(--green); }
+        .phase-card.p2 { border-left-color: var(--accent); }
+        .phase-card.p3 { border-left-color: var(--purple); }
+        .phase-card.p4 { border-left-color: var(--orange); }
+        .phase-num { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.3rem; }
+        .phase-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
+        .phase-desc { font-size: 0.82rem; color: var(--muted); }
+
+        /* WORKFLOW DIAGRAM */
+        .flow-diagram { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; margin: 1.5rem 0; }
+        .flow-steps { display: flex; flex-direction: column; gap: 0.5rem; }
+        .flow-row { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+        .flow-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 0.45rem 0.85rem; font-size: 0.82rem; color: var(--text); }
+        .flow-box.green { border-color: rgba(63,185,80,0.4); color: var(--green); background: rgba(63,185,80,0.07); }
+        .flow-box.blue { border-color: rgba(88,166,255,0.4); color: var(--accent); background: rgba(88,166,255,0.07); }
+        .flow-box.purple { border-color: rgba(188,140,255,0.4); color: var(--purple); background: rgba(188,140,255,0.07); }
+        .flow-box.orange { border-color: rgba(240,136,62,0.4); color: var(--orange); background: rgba(240,136,62,0.07); }
+        .flow-box.indigo { border-color: rgba(129,140,248,0.4); color: var(--indigo); background: rgba(129,140,248,0.07); }
+        .flow-box.hitl { border: 2px solid rgba(227,179,65,0.6); color: var(--gold); background: rgba(227,179,65,0.08); font-weight: 600; }
+        .flow-arrow { color: var(--muted); font-size: 1.1rem; }
+        .flow-sep { border-top: 1px dashed var(--border); margin: 0.75rem 0; }
+        .flow-label { font-size: 0.7rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem; }
+
+        /* AGENTS TABLE */
+        .agents-table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.85rem; }
+        .agents-table th { text-align: left; padding: 0.6rem 1rem; color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
+        .agents-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+        .agents-table tr:last-child td { border-bottom: none; }
+        .agent-name { font-family: monospace; color: var(--indigo); font-size: 0.82rem; }
+        .agent-role { color: var(--text); font-weight: 500; }
+        .agent-desc { color: var(--muted); font-size: 0.8rem; }
+
+        /* HITL highlight */
+        .hitl-banner { background: rgba(227,179,65,0.08); border: 1px solid rgba(227,179,65,0.3); border-radius: 10px; padding: 1rem 1.25rem; margin: 1.25rem 0; display: flex; gap: 0.75rem; align-items: flex-start; }
+        .hitl-icon { font-size: 1.4rem; flex-shrink: 0; }
+        .hitl-text { font-size: 0.88rem; color: var(--muted); }
+        .hitl-text strong { color: var(--gold); }
+
+        /* SIDEBAR */
+        .sidebar-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+        .sidebar-card h3 { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 1rem; }
+        .tech-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .tech-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text); }
+        .tech-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .td-green { background: var(--green); }
+        .td-blue { background: var(--accent); }
+        .td-purple { background: var(--purple); }
+        .td-indigo { background: var(--indigo); }
+        .td-orange { background: var(--orange); }
+        .td-teal { background: var(--teal); }
+        .sidebar-meta { display: flex; flex-direction: column; gap: 0.5rem; }
+        .meta-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; }
+        .meta-key { color: var(--muted); }
+        .meta-val { color: var(--text); font-weight: 500; }
+        .meta-val.warn { color: var(--orange); }
+        .meta-val.green { color: var(--green); }
+
+        footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); }
+        footer a { color: var(--accent); text-decoration: none; }
+        code { font-family: monospace; font-size: 0.85em; background: var(--surface2); padding: 0.1rem 0.35rem; border-radius: 4px; color: var(--indigo); }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="../index.html" class="nav-logo">ichrak</a>
+    <a href="../index.html#projects" class="nav-back">← Back to Projects</a>
+</nav>
+
+<div class="hero">
+    <div class="hero-inner">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>/</span>
+            <a href="../index.html#projects">Projects</a>
+            <span>/</span>
+            Content Agent System
+        </div>
+        <span class="hero-emoji">🤖</span>
+        <h1>Content Agent System</h1>
+        <p class="hero-tagline">End-to-end multi-agent AI system for automating professional online presence — Medium articles, LinkedIn scheduling, outreach automation, and AI monitoring, all with Human-in-the-Loop validation.</p>
+        <div class="hero-meta">
+            <span class="meta-pill">🐍 Python</span>
+            <span class="meta-pill">Streamlit</span>
+            <span class="meta-pill">Playwright</span>
+            <span class="meta-pill">Claude + GPT-4o-mini</span>
+            <span class="meta-pill warn">🔒 Private — GitHub coming soon</span>
+        </div>
+        <div class="hero-actions">
+            <span class="btn-soon">⏳ GitHub coming soon</span>
+            <a href="../index.html#projects" class="btn-outline">← All Projects</a>
+        </div>
+    </div>
+</div>
+
+<div class="page-body">
+<main>
+
+    <!-- CONTEXT -->
+    <div class="section">
+        <h2>Context</h2>
+        <p>
+            Building a strong AI presence on LinkedIn and Medium takes hours each week — writing articles, crafting posts, finding relevant people to connect with, and tracking the latest research. This project automates the entire workflow through <strong>specialized LLM agents</strong>, each handling one well-defined task.
+        </p>
+        <p>
+            The key design principle is <strong>Human-in-the-Loop</strong>: every critical action (publishing a post, sending a connection request) goes through a manual review step in the Streamlit dashboard before anything is executed. The agents generate and suggest; the human decides and approves.
+        </p>
+    </div>
+
+    <!-- 4 PHASES -->
+    <div class="section">
+        <h2>4-Phase Pipeline</h2>
+        <div class="phases">
+            <div class="phase-card p1">
+                <div class="phase-num">Phase 1</div>
+                <div class="phase-title">✍️ Medium Article Generation</div>
+                <div class="phase-desc">Full article pipeline: draft → SEO optimization → quality scoring → revision loop. Claude produces long-form, structured technical articles.</div>
+            </div>
+            <div class="phase-card p2">
+                <div class="phase-num">Phase 2</div>
+                <div class="phase-title">📅 LinkedIn Scheduling</div>
+                <div class="phase-desc">Weekly editorial calendar with post generation, manual approval UI, and Playwright-based auto-publishing to LinkedIn.</div>
+            </div>
+            <div class="phase-card p3">
+                <div class="phase-num">Phase 3</div>
+                <div class="phase-title">🤝 LinkedIn Outreach</div>
+                <div class="phase-desc">Profile search → enrichment → LLM-generated personalized connection notes (≤300 chars) → review → automated sending. Max 15/day limit enforced.</div>
+            </div>
+            <div class="phase-card p4">
+                <div class="phase-num">Phase 4</div>
+                <div class="phase-title">📡 AI Monitoring (Veille)</div>
+                <div class="phase-desc">RSS feeds from 7 curated AI sources (TDS, HuggingFace, The Batch, OpenAI…). LLM summaries + LinkedIn post suggestions sent directly to the scheduler.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GLOBAL FLOW -->
+    <div class="section">
+        <h2>End-to-End Flow</h2>
+        <div class="flow-diagram">
+            <div class="flow-label">Phase 4 → Phase 1 → Phase 2 → Phase 3</div>
+            <div class="flow-steps">
+                <div class="flow-row">
+                    <div class="flow-box orange">RSS Fetch (7 sources)</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box orange">LLM Summary</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box orange">LinkedIn Post Suggestion</div>
+                </div>
+                <div class="flow-row" style="margin-left:2rem">
+                    <span class="flow-arrow">↓ best article</span>
+                </div>
+                <div class="flow-row">
+                    <div class="flow-box green">MediumAgent (draft)</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box green">SEOAgent</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box green">QAJudgeAgent (score 0–10)</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box green">RevisionAgent</div>
+                </div>
+                <div class="flow-sep"></div>
+                <div class="flow-row">
+                    <div class="flow-box blue">Posts in Calendar</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box hitl">👤 Human Review</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box blue">Playwright → LinkedIn</div>
+                </div>
+                <div class="flow-sep"></div>
+                <div class="flow-row">
+                    <div class="flow-box purple">Search Profiles</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box purple">Enrich</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box purple">OutreachAgent (note ≤300c)</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box hitl">👤 Approve</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box purple">Send (15/day cap)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HITL -->
+    <div class="section">
+        <h2>Human-in-the-Loop Design</h2>
+        <div class="hitl-banner">
+            <span class="hitl-icon">🔐</span>
+            <div class="hitl-text">
+                <strong>No action is taken without human approval.</strong> Every generated post, connection note, and article passes through a review step in the Streamlit dashboard. The LLM suggests; the human decides. This prevents automation from damaging professional reputation and keeps content authentically personal.
+            </div>
+        </div>
+        <p>The outreach module also enforces a <strong>hard cap of 15 connections per day</strong> to comply with LinkedIn's limits and prevent account restrictions. Acceptance tracking is built in — a background check compares connection degree badges to detect accepted requests.</p>
+    </div>
+
+    <!-- AGENTS -->
+    <div class="section">
+        <h2>Agent Architecture</h2>
+        <p>All agents inherit from <code>BaseAgent</code> which implements a provider-agnostic <strong>agentic loop</strong> with tool calls. The LLM provider (Anthropic or OpenAI) can be switched dynamically from the UI sidebar without restarting the app.</p>
+
+        <table class="agents-table">
+            <thead>
+                <tr>
+                    <th>Agent</th>
+                    <th>Role</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="agent-name">BaseAgent</span></td>
+                    <td class="agent-role">Agentic loop core</td>
+                    <td class="agent-desc">Multi-provider (Anthropic / OpenAI), tool call dispatch, provider cache</td>
+                </tr>
+                <tr>
+                    <td><span class="agent-name">MediumAgent</span></td>
+                    <td class="agent-role">Article drafting</td>
+                    <td class="agent-desc">Generates full technical article: intro, body, conclusion in Markdown</td>
+                </tr>
+                <tr>
+                    <td><span class="agent-name">SEOAgent</span></td>
+                    <td class="agent-role">SEO optimization</td>
+                    <td class="agent-desc">Keywords, meta description, heading structure, internal links</td>
+                </tr>
+                <tr>
+                    <td><span class="agent-name">QAJudgeAgent</span></td>
+                    <td class="agent-role">Quality scoring</td>
+                    <td class="agent-desc">Scores article 0–10, flags issues. Triggers revision if score &lt; threshold</td>
+                </tr>
+                <tr>
+                    <td><span class="agent-name">RevisionAgent</span></td>
+                    <td class="agent-role">Article revision</td>
+                    <td class="agent-desc">Improves article based on QA feedback (max 2 revision loops)</td>
+                </tr>
+                <tr>
+                    <td><span class="agent-name">OutreachAgent</span></td>
+                    <td class="agent-role">Connection notes</td>
+                    <td class="agent-desc">Personalized LinkedIn notes ≤ 300 chars, context-injected from sidebar</td>
+                </tr>
+                <tr>
+                    <td><span class="agent-name">VeilleAgent</span></td>
+                    <td class="agent-role">AI monitoring</td>
+                    <td class="agent-desc">French summaries (~150 words) + engaging LinkedIn post suggestions</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- AUTOMATION LAYER -->
+    <div class="section">
+        <h2>Playwright Automation Layer</h2>
+        <p>LinkedIn interaction is handled by a <code>linkedin_scraper.py</code> module running <strong>Playwright in non-headless mode</strong> — LinkedIn is significantly better at detecting headless browsers, so visible Chrome is used for scraping, posting, and sending connections.</p>
+        <p>Anti-detection measures include human-like delays between actions, webdriver attribute spoofing, and persistent session cookies stored in <code>data/linkedin_cookies.json</code> (login required only once per session).</p>
+        <p>The <code>linkedin_poster.py</code> module handles the full LinkedIn post publishing flow via browser automation, while <code>check_acceptances()</code> visits each "sent" connection profile and detects if the degree badge changed to <strong>1st</strong> — confirming acceptance without any LinkedIn API access.</p>
+    </div>
+
+</main>
+
+<aside>
+    <div class="sticky-sidebar">
+
+        <div class="sidebar-card">
+            <h3>Tech Stack</h3>
+            <div class="tech-list">
+                <div class="tech-item"><span class="tech-dot td-indigo"></span>Anthropic Claude (Sonnet)</div>
+                <div class="tech-item"><span class="tech-dot td-green"></span>OpenAI GPT-4o-mini</div>
+                <div class="tech-item"><span class="tech-dot td-blue"></span>Playwright (Chrome)</div>
+                <div class="tech-item"><span class="tech-dot td-purple"></span>Streamlit (multi-page)</div>
+                <div class="tech-item"><span class="tech-dot td-orange"></span>BeautifulSoup + RSS</div>
+                <div class="tech-item"><span class="tech-dot td-teal"></span>Docker + docker-compose</div>
+                <div class="tech-item"><span class="tech-dot td-green"></span>JSON local persistence</div>
+            </div>
+        </div>
+
+        <div class="sidebar-card">
+            <h3>Project Info</h3>
+            <div class="sidebar-meta">
+                <div class="meta-row">
+                    <span class="meta-key">Type</span>
+                    <span class="meta-val">Personal project</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-key">Interface</span>
+                    <span class="meta-val">Streamlit dashboard</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-key">Agents</span>
+                    <span class="meta-val">7 specialized</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-key">Phases</span>
+                    <span class="meta-val">4 pipelines</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-key">GitHub</span>
+                    <span class="meta-val warn">Coming soon</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-key">Status</span>
+                    <span class="meta-val green">Active / In use</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-card">
+            <h3>RSS Sources (Phase 4)</h3>
+            <div class="tech-list">
+                <div class="tech-item" style="font-size:0.8rem">📰 Towards Data Science</div>
+                <div class="tech-item" style="font-size:0.8rem">🤗 HuggingFace Blog</div>
+                <div class="tech-item" style="font-size:0.8rem">📘 The Batch (DeepLearning.AI)</div>
+                <div class="tech-item" style="font-size:0.8rem">🟢 OpenAI Blog</div>
+                <div class="tech-item" style="font-size:0.8rem">🦜 LangChain Blog</div>
+                <div class="tech-item" style="font-size:0.8rem">🔵 Google AI Blog</div>
+                <div class="tech-item" style="font-size:0.8rem">📚 Sebastian Raschka</div>
+            </div>
+        </div>
+
+        <div class="sidebar-card">
+            <h3>Safety Limits</h3>
+            <div class="sidebar-meta">
+                <div class="meta-row">
+                    <span class="meta-key">Connections/day</span>
+                    <span class="meta-val warn">≤ 15</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-key">Note length</span>
+                    <span class="meta-val">≤ 300 chars</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-key">Headless mode</span>
+                    <span class="meta-val warn">OFF (stealth)</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-key">Review gate</span>
+                    <span class="meta-val green">All actions</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</aside>
+</div>
+
+<footer>
+    <p>Ichrak Ennaceur · <a href="../index.html">Back to Portfolio</a></p>
+</footer>
+
+</body>
+</html>

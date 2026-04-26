@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Content Agent — Ichrak Ennaceur</title>
+    <meta name="description" content="Multi-task LLM agent that transforms notes into LinkedIn posts and Medium articles using LangGraph orchestration.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%231a4d7a'/><text x='50' y='68' font-family='system-ui,sans-serif' font-size='52' font-weight='800' text-anchor='middle' fill='white'>IE</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #1a4d7a; --primary-light: #2563eb; --secondary: #6b3aab; --accent: #0f9a8d; --text-primary: #0f1419; --text-secondary: #4a5568; --text-tertiary: #718096; --bg-white: #ffffff; --bg-light: #f8fafc; --bg-card: #ffffff; --border: #e2e8f0; --shadow-sm: 0 1px 2px rgba(0,0,0,.05); --shadow-md: 0 4px 6px -1px rgba(0,0,0,.1); --shadow-lg: 0 10px 25px -5px rgba(0,0,0,.1); }
+        @media (prefers-color-scheme: dark) { :root { --text-primary: #f8fafc; --text-secondary: #cbd5e0; --text-tertiary: #a0aec0; --bg-white: #0f172a; --bg-light: #1e293b; --bg-card: #1a202c; --border: #334155; } }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg-white); color: var(--text-primary); line-height: 1.6; }
+        header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+        @media (prefers-color-scheme: dark) { header { background: rgba(15,23,42,0.85); } }
+        nav { max-width: 1100px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { font-size: 1.2rem; font-weight: 700; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+        .nav-back { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); text-decoration: none; padding: 0.4rem 0.9rem; border: 1px solid var(--border); border-radius: 20px; transition: all 0.2s; }
+        .nav-back:hover { color: var(--primary); border-color: var(--primary); }
+        .project-hero { background: linear-gradient(135deg, rgba(15,154,141,0.07), rgba(107,58,171,0.04)); padding: 4rem 2rem 3rem; border-bottom: 1px solid var(--border); }
+        .project-hero-inner { max-width: 1100px; margin: 0 auto; }
+        .project-breadcrumb { font-size: 0.8rem; color: var(--text-tertiary); margin-bottom: 1.5rem; }
+        .project-breadcrumb a { color: var(--primary); text-decoration: none; }
+        .project-hero-top { display: flex; align-items: flex-start; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .project-big-emoji { font-size: 3.5rem; width: 80px; height: 80px; background: var(--bg-card); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-md); flex-shrink: 0; }
+        .project-hero-text h1 { font-size: 2rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.5rem; letter-spacing: -0.5px; }
+        .project-hero-text .tagline { font-size: 1rem; color: var(--text-secondary); line-height: 1.6; max-width: 620px; }
+        .project-meta-row { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.5rem; }
+        .meta-tag { padding: 0.3rem 0.9rem; border-radius: 999px; font-size: 0.78rem; font-weight: 600; border: 1px solid; }
+        .meta-tag.stack { background: rgba(107,58,171,0.08); color: var(--secondary); border-color: rgba(107,58,171,0.2); }
+        .meta-tag.type { background: rgba(26,77,122,0.08); color: var(--primary); border-color: rgba(26,77,122,0.2); }
+        .project-links-row { display: flex; gap: 0.75rem; margin-top: 1.75rem; flex-wrap: wrap; }
+        .btn-gh { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1.4rem; background: var(--text-primary); color: var(--bg-white); border-radius: 8px; font-weight: 600; font-size: 0.85rem; text-decoration: none; transition: opacity 0.2s; }
+        .btn-gh:hover { opacity: 0.85; }
+        .project-content { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem; display: grid; grid-template-columns: 1fr 300px; gap: 3rem; align-items: start; }
+        @media (max-width: 768px) { .project-content { grid-template-columns: 1fr; } }
+        .main-content section { margin-bottom: 3rem; }
+        .main-content h2 { font-size: 1.4rem; font-weight: 800; color: var(--text-primary); margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--border); }
+        .main-content p { color: var(--text-secondary); line-height: 1.8; margin-bottom: 1rem; font-size: 0.95rem; }
+        .main-content ul { list-style: none; margin-bottom: 1rem; }
+        .main-content ul li { padding: 0.4rem 0 0.4rem 1.5rem; position: relative; color: var(--text-secondary); font-size: 0.93rem; line-height: 1.65; }
+        .main-content ul li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); }
+        .main-content strong { color: var(--text-primary); font-weight: 600; }
+        .arch-diagram { background: var(--bg-light); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin: 1.25rem 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 2; overflow-x: auto; }
+        .arch-step { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.4rem; flex-wrap: wrap; }
+        .arch-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 0.35rem 0.8rem; font-weight: 600; color: var(--text-primary); font-size: 0.8rem; white-space: nowrap; }
+        .arch-box.highlight { background: rgba(26,77,122,0.08); border-color: rgba(26,77,122,0.25); color: var(--primary); }
+        .arch-box.accent { background: rgba(15,154,141,0.08); border-color: rgba(15,154,141,0.25); color: var(--accent); }
+        .arch-box.purple { background: rgba(107,58,171,0.08); border-color: rgba(107,58,171,0.25); color: var(--secondary); }
+        .arch-arrow { color: var(--text-tertiary); }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin: 1.25rem 0; }
+        .metric-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem; text-align: center; }
+        .metric-value { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--accent), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .metric-label { font-size: 0.78rem; color: var(--text-tertiary); font-weight: 500; margin-top: 0.25rem; }
+        .sidebar { position: sticky; top: 80px; }
+        .sidebar-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--shadow-sm); }
+        .sidebar-card h3 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-tertiary); margin-bottom: 1rem; }
+        .sidebar-card p { font-size: 0.83rem; color: var(--text-secondary); line-height: 1.6; }
+        .stack-list { list-style: none; }
+        .stack-list li { display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; color: var(--text-secondary); }
+        .stack-list li:last-child { border-bottom: none; }
+        .stack-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        footer { background: var(--bg-light); border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-size: 0.85rem; color: var(--text-tertiary); }
+        footer a { color: var(--primary); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../index.html" class="nav-logo">ichrak</a>
+            <a href="../index.html#projects" class="nav-back">← Back to Projects</a>
+        </nav>
+    </header>
+
+    <div class="project-hero">
+        <div class="project-hero-inner">
+            <div class="project-breadcrumb">
+                <a href="../index.html">Home</a> / <a href="../index.html#projects">Projects</a> / LLM Content Agent
+            </div>
+            <div class="project-hero-top">
+                <div class="project-big-emoji">📝</div>
+                <div class="project-hero-text">
+                    <h1>LLM Content Agent</h1>
+                    <p class="tagline">Multi-task agentic system that transforms raw notes into polished LinkedIn posts and Medium articles — with LangGraph orchestration, quality evaluation, and a critique-refine loop.</p>
+                </div>
+            </div>
+            <div class="project-meta-row">
+                <span class="meta-tag type">Personal Project</span>
+                <span class="meta-tag stack">LangGraph</span>
+                <span class="meta-tag stack">Claude API</span>
+                <span class="meta-tag stack">Multi-Agent</span>
+                <span class="meta-tag stack">Python</span>
+            </div>
+            <div class="project-links-row">
+                <a href="https://github.com/Ichraknaceur/llm-content-agent" target="_blank" class="btn-gh">⌥ View on GitHub</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="project-content">
+        <div class="main-content">
+
+            <section>
+                <h2>🎯 Context & Problem</h2>
+                <p>AI engineers and researchers produce a lot of insights — in notes, papers, experiments, and meetings. But <strong>turning raw knowledge into polished, audience-ready content</strong> (LinkedIn posts, technical articles) is time-consuming and requires a different writing mode.</p>
+                <p>This project automates that pipeline: given rough notes or a topic, the agent produces platform-optimized content, critiques it, and refines it — all without human intervention in the loop.</p>
+            </section>
+
+            <section>
+                <h2>🏗️ Technical Architecture</h2>
+                <p>The system is a LangGraph stateful graph with specialized nodes — each responsible for one stage of the content pipeline.</p>
+
+                <div class="arch-diagram">
+                    <div class="arch-step">
+                        <div class="arch-box highlight">Raw Notes / Topic</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box purple">Planner Agent</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box">Content Brief</div>
+                    </div>
+                    <div class="arch-step" style="margin-left:2rem"><span class="arch-arrow">↓</span></div>
+                    <div class="arch-step">
+                        <div class="arch-box">LinkedIn Writer</div>
+                        <span class="arch-arrow">+</span>
+                        <div class="arch-box">Medium Writer</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box highlight">Draft Content</div>
+                    </div>
+                    <div class="arch-step" style="margin-left:2rem"><span class="arch-arrow">↓</span></div>
+                    <div class="arch-step">
+                        <div class="arch-box accent">Critic Agent (Claude)</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box">Quality Score + Feedback</div>
+                    </div>
+                    <div class="arch-step" style="margin-left:2rem"><span class="arch-arrow">↓ (if score &lt; threshold)</span></div>
+                    <div class="arch-step">
+                        <div class="arch-box purple">Refiner Agent</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box highlight">Final Content</div>
+                    </div>
+                </div>
+
+                <ul>
+                    <li><strong>LangGraph</strong> models the full pipeline as a directed graph with conditional edges — enabling branching (refine or publish) based on quality scores</li>
+                    <li><strong>Specialized writer nodes</strong> use platform-aware prompts: LinkedIn posts optimized for engagement, Medium articles for technical depth</li>
+                    <li><strong>Claude API as Critic</strong> scores content on clarity, accuracy, engagement, and platform fit — returning structured feedback</li>
+                    <li><strong>Iterative refinement loop</strong> runs up to 3 cycles, with each pass addressing the critic's specific objections</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>📊 Results & Key Insights</h2>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value">2</div>
+                        <div class="metric-label">Output formats: LinkedIn + Medium</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">≤3</div>
+                        <div class="metric-label">Critique-refine loops to reach quality threshold</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">0</div>
+                        <div class="metric-label">Human edits needed in the loop</div>
+                    </div>
+                </div>
+                <ul>
+                    <li>The critique-refine loop <strong>consistently improved content quality</strong> — especially on technical accuracy and hook strength for LinkedIn</li>
+                    <li>Platform-aware prompting <strong>significantly reduced the generic "AI-sounding" tone</strong> compared to single-shot generation</li>
+                    <li>Architecture pattern directly reused in the <strong>ContentCrea freelance project</strong> (editorial quality scoring system)</li>
+                </ul>
+            </section>
+
+        </div>
+
+        <aside class="sidebar">
+            <div class="sidebar-card">
+                <h3>Tech Stack</h3>
+                <ul class="stack-list">
+                    <li><span class="stack-dot" style="background:#0f9a8d"></span>LangGraph</li>
+                    <li><span class="stack-dot" style="background:#6b3aab"></span>Claude API</li>
+                    <li><span class="stack-dot" style="background:#2563eb"></span>Multi-Agent Systems</li>
+                    <li><span class="stack-dot" style="background:#1a4d7a"></span>Python 3.11+</li>
+                </ul>
+            </div>
+            <div class="sidebar-card">
+                <h3>Project Type</h3>
+                <ul class="stack-list">
+                    <li>🤖 Agentic AI</li>
+                    <li>✍️ Content Generation</li>
+                    <li>🔄 Critique-Refine Loop</li>
+                </ul>
+            </div>
+            <div class="sidebar-card">
+                <h3>Real-world Application</h3>
+                <p>Patterns from this project were applied in the ContentCrea freelance mission — building an LLM-as-a-Judge editorial evaluation system.</p>
+            </div>
+        </aside>
+    </div>
+
+    <footer>
+        <p>Ichrak Ennaceur · <a href="../index.html">Back to Portfolio</a></p>
+    </footer>
+</body>
+</html>

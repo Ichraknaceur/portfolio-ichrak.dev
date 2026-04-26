@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course RAG API — Ichrak Ennaceur</title>
+    <meta name="description" content="Course RAG API: semantic course retrieval + LLM-powered recommendations with hexagonal architecture, FAISS, OpenAI & Anthropic adapters.">
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface2: #1c2128;
+            --border: #30363d;
+            --text: #e6edf3;
+            --muted: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #3fb950;
+            --accent3: #f78166;
+            --purple: #bc8cff;
+            --gold: #e3b341;
+            --green: #3fb950;
+            --teal: #0fa58d;
+            --orange: #f0883e;
+        }
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg: #f6f8fa;
+                --surface: #ffffff;
+                --surface2: #f0f3f6;
+                --border: #d0d7de;
+                --text: #1f2328;
+                --muted: #656d76;
+                --accent: #0969da;
+                --accent2: #1a7f37;
+                --teal: #0fa58d;
+            }
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+        /* NAV */
+        nav { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+        .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--text); text-decoration: none; }
+        .nav-back { font-size: 0.875rem; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: color 0.2s; }
+        .nav-back:hover { color: var(--accent); }
+
+        /* HERO */
+        .hero { background: linear-gradient(135deg, #0d1f3c 0%, #0a2e2a 50%, #12182b 100%); border-bottom: 1px solid var(--border); padding: 4rem 2rem 3rem; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 70% 40%, rgba(26,127,100,0.12) 0%, transparent 60%); pointer-events: none; }
+        .hero-inner { max-width: 860px; margin: 0 auto; position: relative; }
+        .breadcrumb { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.5rem; }
+        .breadcrumb a { color: var(--muted); text-decoration: none; }
+        .breadcrumb a:hover { color: var(--accent); }
+        .breadcrumb span { margin: 0 0.4rem; }
+        .hero-emoji { font-size: 3.5rem; margin-bottom: 1rem; display: block; }
+        .hero h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+        .hero-tagline { font-size: 1.1rem; color: #a0b4cc; margin-bottom: 1.5rem; max-width: 640px; }
+        .hero-meta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem; }
+        .meta-pill { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 0.3rem 0.8rem; font-size: 0.8rem; color: #c9d5e0; }
+        .meta-pill.green { background: rgba(63,185,80,0.15); border-color: rgba(63,185,80,0.3); color: #3fb950; }
+        .hero-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+        .btn-gh { display: inline-flex; align-items: center; gap: 0.4rem; background: #238636; color: #fff; padding: 0.55rem 1.2rem; border-radius: 8px; text-decoration: none; font-size: 0.875rem; font-weight: 600; transition: background 0.2s; }
+        .btn-gh:hover { background: #2ea043; }
+        .btn-outline { display: inline-flex; align-items: center; gap: 0.4rem; background: transparent; border: 1px solid var(--border); color: var(--text); padding: 0.55rem 1.2rem; border-radius: 8px; text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: border-color 0.2s; }
+        .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* LAYOUT */
+        .page-body { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem; display: grid; grid-template-columns: 1fr 300px; gap: 3rem; }
+        @media (max-width: 768px) { .page-body { grid-template-columns: 1fr; } }
+        main { min-width: 0; }
+        aside { position: relative; }
+        .sticky-sidebar { position: sticky; top: 72px; display: flex; flex-direction: column; gap: 1.25rem; }
+
+        /* SECTIONS */
+        .section { margin-bottom: 3rem; }
+        .section h2 { font-size: 1.25rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--teal); display: inline-block; }
+        .section p { color: var(--muted); margin-bottom: 0.875rem; }
+        .section p strong { color: var(--text); }
+
+        /* METRICS */
+        .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .metric { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1rem; text-align: center; }
+        .metric-number { font-size: 2rem; font-weight: 800; color: var(--teal); line-height: 1; margin-bottom: 0.3rem; }
+        .metric-label { font-size: 0.78rem; color: var(--muted); }
+
+        /* ARCHITECTURE DIAGRAM */
+        .arch-diagram { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin: 1.5rem 0; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.82rem; overflow-x: auto; }
+        .arch-pipeline { display: flex; flex-direction: column; gap: 0.75rem; }
+        .arch-row { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+        .arch-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.85rem; color: var(--text); font-size: 0.82rem; white-space: nowrap; }
+        .arch-box.blue { border-color: rgba(88,166,255,0.4); color: var(--accent); background: rgba(88,166,255,0.07); }
+        .arch-box.green { border-color: rgba(63,185,80,0.4); color: var(--green); background: rgba(63,185,80,0.07); }
+        .arch-box.teal { border-color: rgba(15,165,141,0.4); color: var(--teal); background: rgba(15,165,141,0.07); }
+        .arch-box.purple { border-color: rgba(188,140,255,0.4); color: var(--purple); background: rgba(188,140,255,0.07); }
+        .arch-box.orange { border-color: rgba(240,136,62,0.4); color: var(--orange); background: rgba(240,136,62,0.07); }
+        .arch-arrow { color: var(--muted); font-size: 1rem; }
+        .arch-label { font-size: 0.72rem; color: var(--muted); font-style: italic; }
+        .arch-section-title { font-size: 0.75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 1.25rem; margin-bottom: 0.5rem; }
+
+        /* LAYERS */
+        .layers { display: flex; flex-direction: column; gap: 0.5rem; margin: 1.5rem 0; }
+        .layer { display: flex; align-items: flex-start; gap: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; }
+        .layer-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 0.1rem; }
+        .layer-name { font-weight: 700; font-size: 0.9rem; color: var(--text); margin-bottom: 0.2rem; }
+        .layer-desc { font-size: 0.82rem; color: var(--muted); }
+        .layer-badge { font-size: 0.72rem; color: var(--teal); background: rgba(15,165,141,0.1); border: 1px solid rgba(15,165,141,0.25); border-radius: 4px; padding: 0.15rem 0.45rem; margin-left: 0.5rem; }
+
+        /* ENDPOINTS */
+        .endpoints { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 1.5rem 0; }
+        .endpoint { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--border); }
+        .endpoint:last-child { border-bottom: none; }
+        .ep-method { font-family: monospace; font-size: 0.78rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; min-width: 46px; text-align: center; }
+        .ep-method.get { background: rgba(63,185,80,0.15); color: #3fb950; }
+        .ep-method.post { background: rgba(88,166,255,0.15); color: var(--accent); }
+        .ep-path { font-family: monospace; font-size: 0.85rem; color: var(--text); }
+        .ep-desc { font-size: 0.8rem; color: var(--muted); margin-left: auto; }
+
+        /* SIDEBAR CARDS */
+        .sidebar-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+        .sidebar-card h3 { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 1rem; }
+        .tech-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .tech-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text); }
+        .tech-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+        .tech-dot.blue { background: var(--accent); }
+        .tech-dot.purple { background: var(--purple); }
+        .tech-dot.green { background: var(--green); }
+        .tech-dot.orange { background: var(--orange); }
+        .sidebar-meta { display: flex; flex-direction: column; gap: 0.5rem; }
+        .meta-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; }
+        .meta-key { color: var(--muted); }
+        .meta-val { color: var(--text); font-weight: 500; }
+        .meta-val.green { color: var(--green); }
+        .meta-val.teal { color: var(--teal); }
+        .backend-grid { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.5rem; }
+        .backend-row { font-size: 0.78rem; }
+        .backend-key { color: var(--muted); font-weight: 600; }
+        .backend-val { color: var(--text); }
+
+        footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); }
+        footer a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="../index.html" class="nav-logo">ichrak</a>
+    <a href="../index.html#projects" class="nav-back">← Back to Projects</a>
+</nav>
+
+<div class="hero">
+    <div class="hero-inner">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>/</span>
+            <a href="../index.html#projects">Projects</a>
+            <span>/</span>
+            Course RAG API
+        </div>
+        <span class="hero-emoji">🎓</span>
+        <h1>Course RAG API</h1>
+        <p class="hero-tagline">Semantic course retrieval and LLM-powered recommendations for EdTech — built at Inokufu with hexagonal architecture, FAISS, and multi-provider LLM adapters.</p>
+        <div class="hero-meta">
+            <span class="meta-pill">🏢 Inokufu</span>
+            <span class="meta-pill">🐍 Python 3.14</span>
+            <span class="meta-pill">FastAPI</span>
+            <span class="meta-pill">FAISS</span>
+            <span class="meta-pill green">🟢 Open Source</span>
+        </div>
+        <div class="hero-actions">
+            <a href="https://github.com/inokufu/COURSERAGAPI" target="_blank" class="btn-gh">⌥ View on GitHub</a>
+            <a href="../index.html#projects" class="btn-outline">← All Projects</a>
+        </div>
+    </div>
+</div>
+
+<div class="page-body">
+    <main>
+
+        <!-- CONTEXT -->
+        <div class="section">
+            <h2>Context</h2>
+            <p>
+                <strong>Inokufu</strong> is a French EdTech company building learning intelligence products. The challenge: learners search for courses across a massive catalog in natural language — keyword matching is not enough to surface the right content.
+            </p>
+            <p>
+                Course RAG API addresses this by combining <strong>semantic vector search</strong> (FAISS + sentence-transformers) with <strong>LLM-generated recommendations</strong> that explain why each course was selected. The system is designed from day one to be production-ready: pluggable backends, strict output validation, full observability, and clean hexagonal architecture.
+            </p>
+        </div>
+
+        <!-- METRICS -->
+        <div class="section">
+            <h2>Key Metrics</h2>
+            <div class="metrics">
+                <div class="metric">
+                    <div class="metric-number">5</div>
+                    <div class="metric-label">API endpoints</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-number">4</div>
+                    <div class="metric-label">Vector backends</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-number">2</div>
+                    <div class="metric-label">LLM providers</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-number">6</div>
+                    <div class="metric-label">Sprint roadmap</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SYSTEM ARCHITECTURE -->
+        <div class="section">
+            <h2>System Architecture</h2>
+            <p>The system has two distinct pipelines that run independently:</p>
+
+            <div class="arch-diagram">
+                <div class="arch-section-title">Offline Pipeline (run once / on data refresh)</div>
+                <div class="arch-pipeline">
+                    <div class="arch-row">
+                        <div class="arch-box blue">Raw Datasets (CSV)</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box teal">prepare-data</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box teal">Curated CSV</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box teal">build-index</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box green">FAISS Index + JSONL Meta</div>
+                    </div>
+                </div>
+
+                <div class="arch-section-title">Online Pipeline (per request)</div>
+                <div class="arch-pipeline">
+                    <div class="arch-row">
+                        <div class="arch-box blue">User Query</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box teal">Embedding Adapter<br/><span style="font-size:0.75rem;color:#6b7280">MiniLM-L6-v2</span></div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box teal">FAISS Search</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box teal">Metadata Hydration</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box green">Ranked Results</div>
+                    </div>
+                    <div class="arch-row" style="margin-top:0.5rem">
+                        <div class="arch-box purple">+ Learner Profile</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box purple">Context Builder</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box purple">Prompt Builder<br/><span style="font-size:0.75rem;color:#6b7280">versioned</span></div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box orange">LLM (OpenAI / Anthropic)</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box green">Structured Recommendation</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HEXAGONAL LAYERS -->
+        <div class="section">
+            <h2>Hexagonal Architecture Layers</h2>
+            <div class="layers">
+                <div class="layer">
+                    <div class="layer-icon">📋</div>
+                    <div>
+                        <div class="layer-name">contracts/ <span class="layer-badge">Ports</span></div>
+                        <div class="layer-desc">Boundary interfaces: RetrieverServicePort, RecommendationLLMFactoryPort, LearnerProfileStorePort, RecommendationLogStorePort. No implementation, no dependencies.</div>
+                    </div>
+                </div>
+                <div class="layer">
+                    <div class="layer-icon">⚙️</div>
+                    <div>
+                        <div class="layer-name">services/ <span class="layer-badge">Use Cases</span></div>
+                        <div class="layer-desc">Application logic: RetrieveCoursesUseCase, RecommendCoursesUseCase, offline jobs (prepare_data, build_index). Depends only on ports.</div>
+                    </div>
+                </div>
+                <div class="layer">
+                    <div class="layer-icon">🔌</div>
+                    <div>
+                        <div class="layer-name">infrastructure/ <span class="layer-badge">Adapters</span></div>
+                        <div class="layer-desc">Concrete implementations: FAISS/Qdrant/Milvus/Pinecone vector adapters, sentence-transformers embedding, files/postgres/mongo catalog, memory/redis cache, OpenAI/Anthropic LLM adapters.</div>
+                    </div>
+                </div>
+                <div class="layer">
+                    <div class="layer-icon">🌐</div>
+                    <div>
+                        <div class="layer-name">api/ <span class="layer-badge">Delivery</span></div>
+                        <div class="layer-desc">FastAPI routers, request validation, response serialization, CORS. Completely decoupled from business logic.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API ENDPOINTS -->
+        <div class="section">
+            <h2>API Endpoints</h2>
+            <div class="endpoints">
+                <div class="endpoint">
+                    <span class="ep-method get">GET</span>
+                    <span class="ep-path">/v1/health</span>
+                    <span class="ep-desc">Service health check</span>
+                </div>
+                <div class="endpoint">
+                    <span class="ep-method get">GET</span>
+                    <span class="ep-path">/v1/info</span>
+                    <span class="ep-desc">Index metadata & config</span>
+                </div>
+                <div class="endpoint">
+                    <span class="ep-method get">GET</span>
+                    <span class="ep-path">/v1/retrieve?q=...&top_k=5</span>
+                    <span class="ep-desc">Semantic course retrieval</span>
+                </div>
+                <div class="endpoint">
+                    <span class="ep-method post">POST</span>
+                    <span class="ep-path">/v1/recommend</span>
+                    <span class="ep-desc">LLM recommendation with explanation</span>
+                </div>
+                <div class="endpoint">
+                    <span class="ep-method post">POST</span>
+                    <span class="ep-path">/v1/recommend/prompt-preview</span>
+                    <span class="ep-desc">Debug prompt rendering</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- RECOMMENDATION PIPELINE -->
+        <div class="section">
+            <h2>Recommendation Pipeline Design</h2>
+            <p>
+                The <code style="color:var(--teal);background:var(--surface);padding:0.1rem 0.3rem;border-radius:4px;">POST /v1/recommend</code> endpoint implements a full grounded recommendation flow: the LLM never generates course content from memory — it can only recommend courses already present in the retrieved candidate set.
+            </p>
+            <p>
+                <strong>Grounding validation</strong> rejects any recommendation that references a course ID not present in the FAISS search results. <strong>Structured output parsing</strong> validates JSON schema before returning any response. <strong>Fallback strategies</strong> handle provider timeouts, parse failures, and quota exhaustion gracefully.
+            </p>
+            <p>
+                Each recommendation includes: <strong>why the course was selected</strong>, which query signals matched, which profile signals matched, and retrieval score evidence — making the system explainable by design.
+            </p>
+            <div class="arch-diagram" style="margin-top:1rem">
+                <div class="arch-pipeline">
+                    <div class="arch-row">
+                        <div class="arch-box blue">Query + Learner Profile</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box teal">RetrieveCoursesUseCase</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box teal">Top-K Candidates</div>
+                    </div>
+                    <div class="arch-row">
+                        <div class="arch-box purple">RecommendationContextBuilder</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box purple">PromptBuilder (versioned)</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box orange">LLM call</div>
+                    </div>
+                    <div class="arch-row">
+                        <div class="arch-box green">JSON Parser + Validator</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box green">Grounding Check</div>
+                        <span class="arch-arrow">→</span>
+                        <div class="arch-box green">RecommendationResult</div>
+                    </div>
+                    <div class="arch-row">
+                        <div class="arch-box teal">Structured Log (trace_id, latency, tokens, cost)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- OBSERVABILITY -->
+        <div class="section">
+            <h2>Observability & Error Handling</h2>
+            <p>Every recommendation request is <strong>fully traceable</strong>: each log event captures request ID, user ID, provider, model, prompt version, pipeline version, retrieval latency, LLM latency, input/output tokens, estimated cost, parse success, and fallback usage.</p>
+            <p>The exception hierarchy maps failure modes explicitly — <code style="color:var(--teal);font-size:0.85rem">RecommendationGroundingError</code>, <code style="color:var(--teal);font-size:0.85rem">RecommendationOutputParseError</code>, <code style="color:var(--teal);font-size:0.85rem">RecommendationProviderError</code> — with deterministic HTTP status codes (422, 502, 503, 504) and structured log payloads.</p>
+        </div>
+
+    </main>
+
+    <aside>
+        <div class="sticky-sidebar">
+
+            <div class="sidebar-card">
+                <h3>Tech Stack</h3>
+                <div class="tech-list">
+                    <div class="tech-item"><span class="tech-dot teal"></span>Python 3.14 + FastAPI</div>
+                    <div class="tech-item"><span class="tech-dot blue"></span>FAISS (vector search)</div>
+                    <div class="tech-item"><span class="tech-dot blue"></span>sentence-transformers</div>
+                    <div class="tech-item"><span class="tech-dot purple"></span>OpenAI (GPT-5-mini)</div>
+                    <div class="tech-item"><span class="tech-dot purple"></span>Anthropic (Claude Sonnet)</div>
+                    <div class="tech-item"><span class="tech-dot green"></span>Docker + GitHub Actions</div>
+                    <div class="tech-item"><span class="tech-dot orange"></span>uv · Ruff · ty · pytest</div>
+                    <div class="tech-item"><span class="tech-dot teal"></span>MkDocs (documentation)</div>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <h3>Pluggable Backends</h3>
+                <div class="backend-grid">
+                    <div class="backend-row"><span class="backend-key">Vector:</span> <span class="backend-val">FAISS · Qdrant · Milvus · Pinecone</span></div>
+                    <div class="backend-row"><span class="backend-key">Catalog:</span> <span class="backend-val">Files · PostgreSQL · MongoDB</span></div>
+                    <div class="backend-row"><span class="backend-key">Cache:</span> <span class="backend-val">Memory · Redis</span></div>
+                    <div class="backend-row"><span class="backend-key">LLM:</span> <span class="backend-val">OpenAI · Anthropic</span></div>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <h3>Project Info</h3>
+                <div class="sidebar-meta">
+                    <div class="meta-row">
+                        <span class="meta-key">Organization</span>
+                        <span class="meta-val">Inokufu</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="meta-key">Type</span>
+                        <span class="meta-val">EdTech / Production</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="meta-key">License</span>
+                        <span class="meta-val">GPL-3.0</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="meta-key">Architecture</span>
+                        <span class="meta-val teal">Hexagonal / Clean</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="meta-key">Status</span>
+                        <span class="meta-val green">Active</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <h3>Roadmap Sprints</h3>
+                <div class="tech-list">
+                    <div class="tech-item"><span class="tech-dot green"></span>Sprint 1: Domain & Context</div>
+                    <div class="tech-item"><span class="tech-dot green"></span>Sprint 2: Prompt Robustness</div>
+                    <div class="tech-item"><span class="tech-dot teal"></span>Sprint 3: Error & Fallbacks</div>
+                    <div class="tech-item"><span class="tech-dot blue"></span>Sprint 4: Evaluation</div>
+                    <div class="tech-item"><span class="tech-dot blue"></span>Sprint 5: Observability</div>
+                    <div class="tech-item"><span class="tech-dot orange"></span>Sprint 6: A/B & Docs</div>
+                </div>
+            </div>
+
+        </div>
+    </aside>
+</div>
+
+<footer>
+    <p>Ichrak Ennaceur · <a href="../index.html">Back to Portfolio</a></p>
+</footer>
+
+</body>
+</html>
