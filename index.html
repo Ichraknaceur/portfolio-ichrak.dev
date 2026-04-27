@@ -627,6 +627,12 @@
             border: 1px solid rgba(107, 58, 171, 0.25);
         }
 
+        .badge-teaching {
+            background: rgba(234, 120, 40, 0.1);
+            color: #c4621a;
+            border: 1px solid rgba(234, 120, 40, 0.25);
+        }
+
         .badge-current {
             background: rgba(15, 154, 141, 0.1);
             color: var(--accent);
@@ -1201,44 +1207,102 @@
             background: var(--bg-light);
         }
 
-        .soft-skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
+        .docpro-ref {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            margin-top: 0.5rem;
+            margin-bottom: 2rem;
         }
 
-        .soft-skill-card {
+        .docpro-ref a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .docpro-ref a:hover { text-decoration: underline; }
+
+        .soft-skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .docpro-category {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.25rem 1.5rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
+            border-radius: 14px;
+            padding: 1.5rem;
+            border-top: 4px solid;
             transition: box-shadow 0.2s, transform 0.2s;
         }
 
-        .soft-skill-card:hover {
+        .docpro-category:hover {
             box-shadow: var(--shadow-md);
             transform: translateY(-2px);
         }
 
-        .soft-skill-icon {
-            font-size: 1.6rem;
+        .docpro-category.cat-coeur  { border-top-color: #b06fa0; }
+        .docpro-category.cat-perso  { border-top-color: #5aaa5a; }
+        .docpro-category.cat-gestion { border-top-color: #5580c8; }
+        .docpro-category.cat-strategie { border-top-color: #e07828; }
+
+        .docpro-cat-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.1rem;
+        }
+
+        .docpro-cat-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
             flex-shrink: 0;
-            margin-top: 0.1rem;
         }
 
-        .soft-skill-name {
-            font-weight: 700;
-            font-size: 0.92rem;
-            color: var(--text-primary);
-            margin-bottom: 0.3rem;
-        }
+        .cat-coeur .docpro-cat-icon    { background: rgba(176,111,160,0.12); }
+        .cat-perso .docpro-cat-icon    { background: rgba(90,170,90,0.12); }
+        .cat-gestion .docpro-cat-icon  { background: rgba(85,128,200,0.12); }
+        .cat-strategie .docpro-cat-icon { background: rgba(224,120,40,0.12); }
 
-        .soft-skill-desc {
+        .docpro-cat-title {
             font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .cat-coeur .docpro-cat-title    { color: #b06fa0; }
+        .cat-perso .docpro-cat-title    { color: #3d8a3d; }
+        .cat-gestion .docpro-cat-title  { color: #3a5fa0; }
+        .cat-strategie .docpro-cat-title { color: #c45a10; }
+
+        .docpro-skills-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .docpro-skill-item {}
+
+        .docpro-skill-name {
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: var(--text-primary);
+            margin-bottom: 0.2rem;
+        }
+
+        .docpro-skill-desc {
+            font-size: 0.8rem;
             color: var(--text-secondary);
             line-height: 1.5;
         }
@@ -1923,6 +1987,38 @@
                 </div>
             </div>
 
+            <!-- UCBL Teaching -->
+            <div class="timeline-item">
+                <div class="timeline-header">
+                    <div>
+                        <div class="timeline-title">Lecturer — Data Science & AI</div>
+                        <div class="timeline-meta">
+                            <span class="timeline-company">Université Claude Bernard Lyon 1 / Polytech Lyon</span>
+                            <span class="contract-badge badge-teaching">Teaching</span>
+                            <span class="contract-badge badge-current">Current</span>
+                            <span class="timeline-date">2024 – Present</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-description">Teaching data science, machine learning, deep learning, and business intelligence — with applied projects and LLM/RAG introductions</div>
+                <div class="timeline-tags">
+                    <span class="tag">Machine Learning</span>
+                    <span class="tag">Deep Learning</span>
+                    <span class="tag">RAG</span>
+                    <span class="tag">Data Science</span>
+                    <span class="tag">Business Intelligence</span>
+                </div>
+                <div class="expand-hint">Details <span class="arrow">▾</span></div>
+                <div class="details">
+                    <ul>
+                        <li><strong>Teaching data analysis, machine learning, deep learning, and business intelligence</strong> to engineering students at Polytech Lyon / UCBL</li>
+                        <li><strong>Designed and supervised end-to-end data science projects</strong> — guiding students through data preparation, modelling, and evaluation</li>
+                        <li><strong>Introduced students to LLM architectures and Retrieval-Augmented Generation (RAG)</strong> through applied hands-on projects</li>
+                        <li><strong>Mentored student teams</strong> on real-world AI/data challenges, from problem framing to production-ready solutions</li>
+                    </ul>
+                </div>
+            </div>
+
             <!-- MathildeCreations -->
             <div class="timeline-item">
                 <div class="timeline-header">
@@ -2242,24 +2338,6 @@
                 </div>
             </div>
 
-            <div class="project-card" style="--proj-gradient: linear-gradient(135deg, rgba(79,70,229,0.1), rgba(107,58,171,0.06));">
-                <div class="project-header">
-                    <div class="project-emoji">🤖</div>
-                    <div class="project-title">Content Agent System</div>
-                </div>
-                <div class="project-body">
-                    <div class="project-desc">End-to-end multi-agent AI system for personal branding automation: Medium articles, LinkedIn scheduling & outreach, AI monitoring — all with Human-in-the-Loop validation.</div>
-                    <div class="project-tags">
-                        <span class="project-tag">Claude + GPT-4o</span>
-                        <span class="project-tag">Playwright</span>
-                        <span class="project-tag">Streamlit</span>
-                        <span class="project-tag">Multi-Agent</span>
-                    </div>
-                    <div class="project-actions">
-                        <a href="projects/content-agent-system.html" class="btn-project-detail">View Details →</a>
-                    </div>
-                </div>
-            </div>
 
             <div class="project-card" style="--proj-gradient: linear-gradient(135deg, rgba(15,154,141,0.07), rgba(26,77,122,0.06));">
                 <div class="project-header">
@@ -2324,38 +2402,21 @@
             <div class="project-card" style="--proj-gradient: linear-gradient(135deg, rgba(15,154,141,0.08), rgba(107,58,171,0.05));">
                 <div class="project-header">
                     <div class="project-emoji">📝</div>
-                    <div class="project-title">LLM Content Agent</div>
+                    <div class="project-title">Career Signal</div>
                 </div>
                 <div class="project-body">
-                    <div class="project-desc">Multi-task agent that transforms notes into LinkedIn posts and Medium articles. LangGraph orchestration with built-in quality evaluation.</div>
+                    <div class="project-desc">AI-powered job search operating system — content generation, LinkedIn scheduling & autopublish, networking outreach, job tracking, and technical watch. All in one agentic platform.</div>
                     <div class="project-tags">
                         <span class="project-tag">LangGraph</span>
                         <span class="project-tag">Claude API</span>
-                        <span class="project-tag">Multi-Agent</span>
+                        <span class="project-tag">OpenAI</span>
+                        <span class="project-tag">FastAPI</span>
+                        <span class="project-tag">Playwright</span>
+                        <span class="project-tag">Docker</span>
                     </div>
                     <div class="project-actions">
                         <a href="projects/llm-content-agent.html" class="btn-project-detail">View Details →</a>
-                        <a href="https://github.com/Ichraknaceur/llm-content-agent" target="_blank" class="btn-project-code">⌥ Code</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card" style="--proj-gradient: linear-gradient(135deg, rgba(26,77,122,0.08), rgba(15,154,141,0.05));">
-                <div class="project-header">
-                    <div class="project-emoji">⚙️</div>
-                    <div class="project-title">FastAPI Hexagonal Template</div>
-                </div>
-                <div class="project-body">
-                    <div class="project-desc">Production-ready template with hexagonal (clean) architecture. Used in freelance projects with Docker, automated tests, and CI/CD.</div>
-                    <div class="project-tags">
-                        <span class="project-tag">FastAPI</span>
-                        <span class="project-tag">Docker</span>
-                        <span class="project-tag">Clean Architecture</span>
-                        <span class="project-tag">CI/CD</span>
-                    </div>
-                    <div class="project-actions">
-                        <a href="projects/fastapi-hexagonal-template.html" class="btn-project-detail">View Details →</a>
-                        <a href="https://github.com/Ichraknaceur/fastapi-hexagonal-template" target="_blank" class="btn-project-code">⌥ Code</a>
+                        <a href="https://github.com/Ichraknaceur/career-signal" target="_blank" class="btn-project-code">⌥ Code</a>
                     </div>
                 </div>
             </div>
@@ -2393,62 +2454,6 @@
                     <div class="project-actions">
                         <a href="#" class="btn-project-detail">You're here →</a>
                     </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- SOFT SKILLS -->
-    <section id="soft-skills">
-        <h2>Beyond Technical Skills</h2>
-        <div class="soft-skills-grid">
-
-            <div class="soft-skill-card">
-                <span class="soft-skill-icon">🗣️</span>
-                <div>
-                    <div class="soft-skill-name">Technical Communication</div>
-                    <div class="soft-skill-desc">4 peer-reviewed publications, conference presentations, and clear documentation. I write and speak about complex AI systems for both technical and non-technical audiences.</div>
-                </div>
-            </div>
-
-            <div class="soft-skill-card">
-                <span class="soft-skill-icon">🔗</span>
-                <div>
-                    <div class="soft-skill-name">Research × Industry Bridge</div>
-                    <div class="soft-skill-desc">Simultaneous PhD researcher and applied AI engineer — I translate academic findings into production systems and bring engineering rigor to research projects.</div>
-                </div>
-            </div>
-
-            <div class="soft-skill-card">
-                <span class="soft-skill-icon">🧠</span>
-                <div>
-                    <div class="soft-skill-name">Systems Thinking</div>
-                    <div class="soft-skill-desc">I design AI systems end-to-end: from data pipelines and vector indexing to LLM evaluation and production observability. I think in architectures, not just models.</div>
-                </div>
-            </div>
-
-            <div class="soft-skill-card">
-                <span class="soft-skill-icon">📐</span>
-                <div>
-                    <div class="soft-skill-name">Engineering Discipline</div>
-                    <div class="soft-skill-desc">Hexagonal architecture, clean contracts, CI/CD, type safety, and test coverage — I build AI features the same way senior engineers build any backend system.</div>
-                </div>
-            </div>
-
-            <div class="soft-skill-card">
-                <span class="soft-skill-icon">🚀</span>
-                <div>
-                    <div class="soft-skill-name">End-to-End Ownership</div>
-                    <div class="soft-skill-desc">From scoping and prototyping to delivery and documentation. I've shipped solo freelance projects and collaborated across research teams, taking full ownership at each step.</div>
-                </div>
-            </div>
-
-            <div class="soft-skill-card">
-                <span class="soft-skill-icon">🌍</span>
-                <div>
-                    <div class="soft-skill-name">Multilingual & International</div>
-                    <div class="soft-skill-desc">Fluent in French, English, and Arabic. Work experience across French industry (Lyon, Paris), and international academic collaborations (AICCSA, APWebWAIM).</div>
                 </div>
             </div>
 
@@ -2539,6 +2544,140 @@
                 </div>
             </a>
 
+        </div>
+    </section>
+
+    <!-- SOFT SKILLS -->
+    <section id="soft-skills">
+        <h2>Beyond Technical Skills</h2>
+        <p class="docpro-ref">
+            Structured around the <a href="https://www.mydocpro.org/fr/toutes-les-competences" target="_blank">DocPro 24 competencies framework</a> — the professional profile of PhD doctors.
+        </p>
+        <div class="soft-skills-grid">
+
+            <!-- Core expertise -->
+            <div class="docpro-category cat-coeur">
+                <div class="docpro-cat-header">
+                    <div class="docpro-cat-icon">🎯</div>
+                    <div class="docpro-cat-title">Core Expertise</div>
+                </div>
+                <ul class="docpro-skills-list">
+                    <li class="docpro-skill-item">
+                        <div class="docpro-skill-name">Expertise & Methods</div>
+                        <div class="docpro-skill-desc">Specialized in Generative AI, RAG, LLMs and recommendation systems — with 4 peer-reviewed publications and end-to-end production deployments.</div>
+                    </li>
+                    <li class="docpro-skill-item">
+                        <div class="docpro-skill-name">Evaluation</div>
+                        <div class="docpro-skill-desc">Designed LLM-as-a-Judge pipelines, groundedness evaluation protocols, and hallucination analysis frameworks for RAG systems.</div>
+                    </li>
+                    <li class="docpro-skill-item">
+                        <div class="docpro-skill-name">Knowledge Sharing</div>
+                        <div class="docpro-skill-desc">Lecturer at Polytech Lyon / UCBL: supervising end-to-end data science projects, teaching ML, deep learning and RAG architectures.</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Personal & relational qualities -->
+            <div class="docpro-category cat-perso">
+                <div class="docpro-cat-header">
+                    <div class="docpro-cat-icon">🤝</div>
+                    <div class="docpro-cat-title">Personal & Relational Qualities</div>
+                </div>
+                <ul class="docpro-skills-list">
+                    <li class="docpro-skill-item">
+                        <div class="docpro-skill-name">Analysis & Critical Thinking</div>
+                        <div class="docpro-skill-desc">Translates complex problems (RAG hallucinations, sequential recommendation) into system architectures and peer-reviewed research contributions.</div>
+                    </li>
+                    <li class="docpro-skill-item">
+                        <div class="docpro-skill-name">Communication</div>
+                        <div class="docpro-skill-desc">Scientific publications, Medium articles, teaching, and presenting to both technical and non-technical audiences. Trilingual: French, English, Arabic.</div>
+                    </li>
+                    <li class="docpro-skill-item">
+                        <div class="docpro-skill-name">Commitment & Integrity</div>
+                        <div class="docpro-skill-desc">Simultaneously running an industrial PhD, a full-time engineering role, and freelance missions — with documented deliverables and clean code at every step.</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Activity management -->
+            <div class="docpro-category cat-gestion">
+                <div class="docpro-cat-header">
+                    <div class="docpro-cat-icon">📊</div>
+                    <div class="docpro-cat-title">Activity Management & Value Creation</div>
+                </div>
+                <ul class="docpro-skills-list">
+                    <li class="docpro-skill-item">
+                        <div class="docpro-skill-name">Project Management</div>
+                        <div class="docpro-skill-desc">Led AI projects end-to-end — from design to production (Inokufu, MathildeCreations, ContentCrea) — working across research and product teams.</div>
+                    </li>
+                    <li class="docpro-skill-item">
+                        <div class="docpro-skill-name">Decision Making</div>
+                        <div class="docpro-skill-desc">Architecture choices (hexagonal, hybrid RAG, multi-agent), tech stack selection, and research/engineering trade-offs under real-world constraints.</div>
+                    </li>
+                    <li class="docpro-skill-item">
+                        <div class="docpro-skill-name">Delivering Results</div>
+                        <div class="docpro-skill-desc">4 publications, multiple AI systems in production, 2 freelance projects delivered — each with CI/CD, tests, and full documentation.</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Strategy & leadership -->
+            <div class="docpro-category cat-strategie">
+                <div class="docpro-cat-header">
+                    <div class="docpro-cat-icon">🚀</div>
+                    <div class="docpro-cat-title">Strategy & Leadership</div>
+                </div>
+                <ul class="docpro-skills-list">
+                    <li class="docpro-skill-item">
+                        <div class="docpro-skill-name">Strategy</div>
+                        <div class="docpro-skill-desc">Designing AI roadmaps — from business problem identification to system architecture, including evaluation metric selection and stakeholder alignment.</div>
+                    </li>
+                    <li class="docpro-skill-item">
+                        <div class="docpro-skill-name">Leadership</div>
+                        <div class="docpro-skill-desc">Lead AI Engineer on freelance projects, coordinator between research and product teams, mentor for data science and AI students.</div>
+                    </li>
+                    <li class="docpro-skill-item">
+                        <div class="docpro-skill-name">Change Management</div>
+                        <div class="docpro-skill-desc">Supporting the adoption of Generative AI in industrial settings — explaining limitations, risks, and integration best practices to technical and business stakeholders.</div>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- HOBBIES -->
+    <section id="hobbies" style="background:var(--bg-white);padding:4rem 2rem;">
+        <div style="max-width:1100px;margin:0 auto;">
+            <h2 style="font-size:1.6rem;font-weight:800;color:var(--text-primary);margin-bottom:0.5rem;">Outside of Work</h2>
+            <p style="color:var(--text-tertiary);font-size:0.9rem;margin-bottom:2rem;">What keeps me balanced and curious beyond the screen.</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+
+                <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:1.5rem;text-align:center;transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                    <div style="font-size:2.4rem;margin-bottom:0.75rem;">🎾</div>
+                    <div style="font-weight:700;font-size:0.95rem;color:var(--text-primary);margin-bottom:0.3rem;">Tennis</div>
+                    <div style="font-size:0.8rem;color:var(--text-tertiary);">Strategy on the court, precision under pressure.</div>
+                </div>
+
+                <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:1.5rem;text-align:center;transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                    <div style="font-size:2.4rem;margin-bottom:0.75rem;">🏊</div>
+                    <div style="font-weight:700;font-size:0.95rem;color:var(--text-primary);margin-bottom:0.3rem;">Swimming</div>
+                    <div style="font-size:0.8rem;color:var(--text-tertiary);">Clarity of mind through rhythm and flow.</div>
+                </div>
+
+                <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:1.5rem;text-align:center;transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                    <div style="font-size:2.4rem;margin-bottom:0.75rem;">⛺</div>
+                    <div style="font-weight:700;font-size:0.95rem;color:var(--text-primary);margin-bottom:0.3rem;">Camping</div>
+                    <div style="font-size:0.8rem;color:var(--text-tertiary);">Disconnecting to reconnect with what matters.</div>
+                </div>
+
+                <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:1.5rem;text-align:center;transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                    <div style="font-size:2.4rem;margin-bottom:0.75rem;">🎨</div>
+                    <div style="font-weight:700;font-size:0.95rem;color:var(--text-primary);margin-bottom:0.3rem;">Painting</div>
+                    <div style="font-size:0.8rem;color:var(--text-tertiary);">Creativity without constraints — a different kind of problem-solving.</div>
+                </div>
+
+            </div>
         </div>
     </section>
 

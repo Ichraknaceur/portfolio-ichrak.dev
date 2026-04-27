@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LLM Content Agent — Ichrak Ennaceur</title>
-    <meta name="description" content="Multi-task LLM agent that transforms notes into LinkedIn posts and Medium articles using LangGraph orchestration.">
+    <title>CareerSignal — Ichrak Ennaceur</title>
+    <meta name="description" content="CareerSignal — AI-powered job search operating system: content generation, LinkedIn scheduling, networking, job tracking, and technical watch.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%231a4d7a'/><text x='50' y='68' font-family='system-ui,sans-serif' font-size='52' font-weight='800' text-anchor='middle' fill='white'>IE</text></svg>">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,11 +25,12 @@
         .project-hero-top { display: flex; align-items: flex-start; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
         .project-big-emoji { font-size: 3.5rem; width: 80px; height: 80px; background: var(--bg-card); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-md); flex-shrink: 0; }
         .project-hero-text h1 { font-size: 2rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.5rem; letter-spacing: -0.5px; }
-        .project-hero-text .tagline { font-size: 1rem; color: var(--text-secondary); line-height: 1.6; max-width: 620px; }
+        .project-hero-text .tagline { font-size: 1rem; color: var(--text-secondary); line-height: 1.6; max-width: 680px; }
         .project-meta-row { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.5rem; }
         .meta-tag { padding: 0.3rem 0.9rem; border-radius: 999px; font-size: 0.78rem; font-weight: 600; border: 1px solid; }
         .meta-tag.stack { background: rgba(107,58,171,0.08); color: var(--secondary); border-color: rgba(107,58,171,0.2); }
         .meta-tag.type { background: rgba(26,77,122,0.08); color: var(--primary); border-color: rgba(26,77,122,0.2); }
+        .meta-tag.devops { background: rgba(15,154,141,0.08); color: var(--accent); border-color: rgba(15,154,141,0.2); }
         .project-links-row { display: flex; gap: 0.75rem; margin-top: 1.75rem; flex-wrap: wrap; }
         .btn-gh { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1.4rem; background: var(--text-primary); color: var(--bg-white); border-radius: 8px; font-weight: 600; font-size: 0.85rem; text-decoration: none; transition: opacity 0.2s; }
         .btn-gh:hover { opacity: 0.85; }
@@ -37,22 +38,32 @@
         @media (max-width: 768px) { .project-content { grid-template-columns: 1fr; } }
         .main-content section { margin-bottom: 3rem; }
         .main-content h2 { font-size: 1.4rem; font-weight: 800; color: var(--text-primary); margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--border); }
+        .main-content h3 { font-size: 1rem; font-weight: 700; color: var(--text-primary); margin: 1.5rem 0 0.75rem; }
         .main-content p { color: var(--text-secondary); line-height: 1.8; margin-bottom: 1rem; font-size: 0.95rem; }
         .main-content ul { list-style: none; margin-bottom: 1rem; }
         .main-content ul li { padding: 0.4rem 0 0.4rem 1.5rem; position: relative; color: var(--text-secondary); font-size: 0.93rem; line-height: 1.65; }
         .main-content ul li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); }
         .main-content strong { color: var(--text-primary); font-weight: 600; }
-        .arch-diagram { background: var(--bg-light); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin: 1.25rem 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 2; overflow-x: auto; }
-        .arch-step { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.4rem; flex-wrap: wrap; }
-        .arch-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 0.35rem 0.8rem; font-weight: 600; color: var(--text-primary); font-size: 0.8rem; white-space: nowrap; }
-        .arch-box.highlight { background: rgba(26,77,122,0.08); border-color: rgba(26,77,122,0.25); color: var(--primary); }
-        .arch-box.accent { background: rgba(15,154,141,0.08); border-color: rgba(15,154,141,0.25); color: var(--accent); }
-        .arch-box.purple { background: rgba(107,58,171,0.08); border-color: rgba(107,58,171,0.25); color: var(--secondary); }
-        .arch-arrow { color: var(--text-tertiary); }
-        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin: 1.25rem 0; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin: 1.25rem 0; }
         .metric-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem; text-align: center; }
         .metric-value { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--accent), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .metric-label { font-size: 0.78rem; color: var(--text-tertiary); font-weight: 500; margin-top: 0.25rem; }
+        .metric-label { font-size: 0.75rem; color: var(--text-tertiary); font-weight: 500; margin-top: 0.25rem; line-height: 1.4; }
+        .engines-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin: 1.25rem 0; }
+        .engine-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+        .engine-card-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+        .engine-icon { font-size: 1.4rem; }
+        .engine-name { font-weight: 700; font-size: 0.95rem; color: var(--text-primary); }
+        .engine-card ul { margin: 0; }
+        .arch-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin: 1.25rem 0; }
+        .arch-layer { background: var(--bg-light); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; }
+        .arch-layer-name { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-tertiary); margin-bottom: 0.5rem; }
+        .arch-layer-desc { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; }
+        .status-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 1.25rem 0; }
+        .status-table th { text-align: left; padding: 0.6rem 1rem; background: var(--bg-light); color: var(--text-tertiary); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
+        .status-table td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+        .badge-done { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.6rem; background: rgba(15,154,141,0.1); color: var(--accent); border-radius: 99px; font-size: 0.75rem; font-weight: 600; }
+        .badge-next { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.6rem; background: rgba(26,77,122,0.1); color: var(--primary); border-radius: 99px; font-size: 0.75rem; font-weight: 600; }
+        .badge-later { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.6rem; background: rgba(107,58,171,0.08); color: var(--secondary); border-radius: 99px; font-size: 0.75rem; font-weight: 600; }
         .sidebar { position: sticky; top: 80px; }
         .sidebar-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--shadow-sm); }
         .sidebar-card h3 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-tertiary); margin-bottom: 1rem; }
@@ -61,6 +72,7 @@
         .stack-list li { display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; color: var(--text-secondary); }
         .stack-list li:last-child { border-bottom: none; }
         .stack-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .stack-group { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-tertiary); padding: 0.75rem 0 0.3rem; }
         footer { background: var(--bg-light); border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-size: 0.85rem; color: var(--text-tertiary); }
         footer a { color: var(--primary); text-decoration: none; }
     </style>
@@ -68,7 +80,30 @@
 <body>
     <header>
         <nav>
-            <a href="../index.html" class="nav-logo">ichrak</a>
+            <a href="../index.html" class="nav-logo" style="display:inline-flex;align-items:center;line-height:0;">
+                <svg width="44" height="44" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="48" height="48" rx="11" fill="#080d1a"/>
+                    <defs>
+                        <linearGradient id="ie-g" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#4d90ff"/>
+                            <stop offset="100%" stop-color="#aa44ff"/>
+                        </linearGradient>
+                    </defs>
+                    <rect x="8" y="10" width="7" height="28" rx="1.5" fill="url(#ie-g)"/>
+                    <line x1="11.5" y1="24" x2="11.5" y2="30" stroke="#080d1a" stroke-width="1.5"/>
+                    <circle cx="11.5" cy="30" r="2.2" fill="none" stroke="#080d1a" stroke-width="1.5"/>
+                    <rect x="19" y="10" width="5" height="28" rx="1.5" fill="url(#ie-g)"/>
+                    <rect x="19" y="10" width="19" height="5" rx="1.5" fill="url(#ie-g)"/>
+                    <rect x="19" y="21.5" width="15" height="5" rx="1.5" fill="url(#ie-g)"/>
+                    <rect x="19" y="33" width="19" height="5" rx="1.5" fill="url(#ie-g)"/>
+                    <line x1="38" y1="12.5" x2="42" y2="12.5" stroke="#4d90ff" stroke-width="1.2" opacity="0.7"/>
+                    <circle cx="42" cy="12.5" r="1.8" fill="none" stroke="#4d90ff" stroke-width="1.2" opacity="0.7"/>
+                    <line x1="34" y1="24" x2="38" y2="24" stroke="#8844ff" stroke-width="1.2" opacity="0.7"/>
+                    <circle cx="38" cy="24" r="1.8" fill="none" stroke="#8844ff" stroke-width="1.2" opacity="0.7"/>
+                    <line x1="38" y1="35.5" x2="42" y2="35.5" stroke="#aa44ff" stroke-width="1.2" opacity="0.7"/>
+                    <circle cx="42" cy="35.5" r="1.8" fill="none" stroke="#aa44ff" stroke-width="1.2" opacity="0.7"/>
+                </svg>
+            </a>
             <a href="../index.html#projects" class="nav-back">← Back to Projects</a>
         </nav>
     </header>
@@ -76,24 +111,29 @@
     <div class="project-hero">
         <div class="project-hero-inner">
             <div class="project-breadcrumb">
-                <a href="../index.html">Home</a> / <a href="../index.html#projects">Projects</a> / LLM Content Agent
+                <a href="../index.html">Home</a> / <a href="../index.html#projects">Projects</a> / CareerSignal
             </div>
             <div class="project-hero-top">
-                <div class="project-big-emoji">📝</div>
+                <div class="project-big-emoji">📡</div>
                 <div class="project-hero-text">
-                    <h1>LLM Content Agent</h1>
-                    <p class="tagline">Multi-task agentic system that transforms raw notes into polished LinkedIn posts and Medium articles — with LangGraph orchestration, quality evaluation, and a critique-refine loop.</p>
+                    <h1>CareerSignal</h1>
+                    <p class="tagline">An AI-powered job search operating system for technical candidates — combining content generation, editorial scheduling, LinkedIn networking, job tracking, and technical watch into a single agentic platform.</p>
                 </div>
             </div>
             <div class="project-meta-row">
                 <span class="meta-tag type">Personal Project</span>
                 <span class="meta-tag stack">LangGraph</span>
                 <span class="meta-tag stack">Claude API</span>
-                <span class="meta-tag stack">Multi-Agent</span>
-                <span class="meta-tag stack">Python</span>
+                <span class="meta-tag stack">OpenAI</span>
+                <span class="meta-tag stack">FastAPI</span>
+                <span class="meta-tag stack">Streamlit</span>
+                <span class="meta-tag stack">Playwright</span>
+                <span class="meta-tag stack">SQLite</span>
+                <span class="meta-tag devops">Docker</span>
+                <span class="meta-tag devops">GitHub Actions</span>
             </div>
             <div class="project-links-row">
-                <a href="https://github.com/Ichraknaceur/llm-content-agent" target="_blank" class="btn-gh">⌥ View on GitHub</a>
+                <a href="https://github.com/Ichraknaceur/career-signal" target="_blank" class="btn-gh">⌥ View on GitHub</a>
             </div>
         </div>
     </div>
@@ -102,99 +142,194 @@
         <div class="main-content">
 
             <section>
-                <h2>🎯 Context & Problem</h2>
-                <p>AI engineers and researchers produce a lot of insights — in notes, papers, experiments, and meetings. But <strong>turning raw knowledge into polished, audience-ready content</strong> (LinkedIn posts, technical articles) is time-consuming and requires a different writing mode.</p>
-                <p>This project automates that pipeline: given rough notes or a topic, the agent produces platform-optimized content, critiques it, and refines it — all without human intervention in the loop.</p>
-            </section>
+                <h2>🎯 What it does</h2>
+                <p>CareerSignal is built around one idea: <strong>turn professional visibility into career opportunities</strong>. For an AI/Data candidate, that means consistently producing quality content, building a targeted network, and tracking every opportunity — all with minimal manual effort.</p>
+                <p>The platform links four loops together: create professional signal → turn that signal into better conversations → track opportunities and follow-ups → feed everything with structured technical watch.</p>
 
-            <section>
-                <h2>🏗️ Technical Architecture</h2>
-                <p>The system is a LangGraph stateful graph with specialized nodes — each responsible for one stage of the content pipeline.</p>
-
-                <div class="arch-diagram">
-                    <div class="arch-step">
-                        <div class="arch-box highlight">Raw Notes / Topic</div>
-                        <span class="arch-arrow">→</span>
-                        <div class="arch-box purple">Planner Agent</div>
-                        <span class="arch-arrow">→</span>
-                        <div class="arch-box">Content Brief</div>
-                    </div>
-                    <div class="arch-step" style="margin-left:2rem"><span class="arch-arrow">↓</span></div>
-                    <div class="arch-step">
-                        <div class="arch-box">LinkedIn Writer</div>
-                        <span class="arch-arrow">+</span>
-                        <div class="arch-box">Medium Writer</div>
-                        <span class="arch-arrow">→</span>
-                        <div class="arch-box highlight">Draft Content</div>
-                    </div>
-                    <div class="arch-step" style="margin-left:2rem"><span class="arch-arrow">↓</span></div>
-                    <div class="arch-step">
-                        <div class="arch-box accent">Critic Agent (Claude)</div>
-                        <span class="arch-arrow">→</span>
-                        <div class="arch-box">Quality Score + Feedback</div>
-                    </div>
-                    <div class="arch-step" style="margin-left:2rem"><span class="arch-arrow">↓ (if score &lt; threshold)</span></div>
-                    <div class="arch-step">
-                        <div class="arch-box purple">Refiner Agent</div>
-                        <span class="arch-arrow">→</span>
-                        <div class="arch-box highlight">Final Content</div>
-                    </div>
-                </div>
-
-                <ul>
-                    <li><strong>LangGraph</strong> models the full pipeline as a directed graph with conditional edges — enabling branching (refine or publish) based on quality scores</li>
-                    <li><strong>Specialized writer nodes</strong> use platform-aware prompts: LinkedIn posts optimized for engagement, Medium articles for technical depth</li>
-                    <li><strong>Claude API as Critic</strong> scores content on clarity, accuracy, engagement, and platform fit — returning structured feedback</li>
-                    <li><strong>Iterative refinement loop</strong> runs up to 3 cycles, with each pass addressing the critic's specific objections</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>📊 Results & Key Insights</h2>
                 <div class="metrics-grid">
                     <div class="metric-card">
+                        <div class="metric-value">5</div>
+                        <div class="metric-label">Core product engines</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">6+</div>
+                        <div class="metric-label">FastAPI endpoints</div>
+                    </div>
+                    <div class="metric-card">
                         <div class="metric-value">2</div>
-                        <div class="metric-label">Output formats: LinkedIn + Medium</div>
+                        <div class="metric-label">LLM providers (Claude + OpenAI)</div>
                     </div>
                     <div class="metric-card">
-                        <div class="metric-value">≤3</div>
-                        <div class="metric-label">Critique-refine loops to reach quality threshold</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">0</div>
-                        <div class="metric-label">Human edits needed in the loop</div>
+                        <div class="metric-value">CI/CD</div>
+                        <div class="metric-label">GitHub Actions + Docker</div>
                     </div>
                 </div>
-                <ul>
-                    <li>The critique-refine loop <strong>consistently improved content quality</strong> — especially on technical accuracy and hook strength for LinkedIn</li>
-                    <li>Platform-aware prompting <strong>significantly reduced the generic "AI-sounding" tone</strong> compared to single-shot generation</li>
-                    <li>Architecture pattern directly reused in the <strong>ContentCrea freelance project</strong> (editorial quality scoring system)</li>
-                </ul>
+            </section>
+
+            <section>
+                <h2>⚙️ Core Engines</h2>
+
+                <div class="engines-grid">
+                    <div class="engine-card">
+                        <div class="engine-card-header">
+                            <span class="engine-icon">✍️</span>
+                            <span class="engine-name">Content Engine</span>
+                        </div>
+                        <ul>
+                            <li>Generate Medium articles and LinkedIn posts from a topic, URL, PDF, or GitHub repo</li>
+                            <li>QA loop with critique-refine before publication</li>
+                            <li>Multi-provider LLM support (Claude, OpenAI)</li>
+                        </ul>
+                    </div>
+                    <div class="engine-card">
+                        <div class="engine-card-header">
+                            <span class="engine-icon">📅</span>
+                            <span class="engine-name">Publishing Engine</span>
+                        </div>
+                        <ul>
+                            <li>LinkedIn content calendar with editable date, time, content and hashtags</li>
+                            <li>Approve / reject / re-open workflow</li>
+                            <li>Time-aware autopublish worker</li>
+                        </ul>
+                    </div>
+                    <div class="engine-card">
+                        <div class="engine-card-header">
+                            <span class="engine-icon">🤝</span>
+                            <span class="engine-name">Networking Engine</span>
+                        </div>
+                        <ul>
+                            <li>Search LinkedIn profiles and recruiter targets</li>
+                            <li>Profile enrichment via scraping</li>
+                            <li>Generate personalized connection notes</li>
+                            <li>Outreach status tracking with rate limits</li>
+                        </ul>
+                    </div>
+                    <div class="engine-card">
+                        <div class="engine-card-header">
+                            <span class="engine-icon">💼</span>
+                            <span class="engine-name">Jobs Engine</span>
+                        </div>
+                        <ul>
+                            <li>Search and deduplicate LinkedIn job postings</li>
+                            <li>SQLite-backed persistence for every opportunity</li>
+                            <li>Status and notes tracking per saved job</li>
+                            <li>Dedicated Streamlit UI page</li>
+                        </ul>
+                    </div>
+                    <div class="engine-card">
+                        <div class="engine-card-header">
+                            <span class="engine-icon">📡</span>
+                            <span class="engine-name">Watch Engine</span>
+                        </div>
+                        <ul>
+                            <li>Collect articles from RSS feeds and scraped sources</li>
+                            <li>Summarize technical content with LLMs</li>
+                            <li>Suggest LinkedIn posts from watch articles</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>🏗️ Architecture</h2>
+                <p>The repo is in active transition from a working prototype to a clean layered architecture. The target design separates business logic from runtime adapters and external integrations.</p>
+
+                <div class="arch-grid">
+                    <div class="arch-layer">
+                        <div class="arch-layer-name">app/</div>
+                        <div class="arch-layer-desc">Runtime adapters — Streamlit UI, FastAPI, CLI, background workers</div>
+                    </div>
+                    <div class="arch-layer">
+                        <div class="arch-layer-name">domain/</div>
+                        <div class="arch-layer-desc">Pure business rules, entities, statuses, use cases</div>
+                    </div>
+                    <div class="arch-layer">
+                        <div class="arch-layer-name">services/</div>
+                        <div class="arch-layer-desc">External adapters — LinkedIn, Medium, RSS, LLM providers</div>
+                    </div>
+                    <div class="arch-layer">
+                        <div class="arch-layer-name">storage/</div>
+                        <div class="arch-layer-desc">SQLite, migrations, repositories (replacing legacy JSON)</div>
+                    </div>
+                    <div class="arch-layer">
+                        <div class="arch-layer-name">observability/</div>
+                        <div class="arch-layer-desc">Structured logs, workflow run IDs, execution events</div>
+                    </div>
+                </div>
+
+                <p>Every workflow carries a <strong>run_id</strong>. Every sensitive action leaves a persistent trace. SQLite is the source of truth — JSON files are transitional legacy being progressively migrated.</p>
+            </section>
+
+            <section>
+                <h2>📊 Implementation Status</h2>
+                <table class="status-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>LinkedIn Scheduling + autopublish worker</td><td><span class="badge-done">✓ Done</span></td></tr>
+                        <tr><td>Jobs Tracker with SQLite persistence</td><td><span class="badge-done">✓ Done</span></td></tr>
+                        <tr><td>FastAPI layer (health, db-init, jobs, autopublish)</td><td><span class="badge-done">✓ Done</span></td></tr>
+                        <tr><td>Content Engine (Medium + LinkedIn generation)</td><td><span class="badge-done">✓ Done</span></td></tr>
+                        <tr><td>Networking Engine (outreach + profile scraping)</td><td><span class="badge-done">✓ Done</span></td></tr>
+                        <tr><td>Docker + GitHub Actions CI/CD</td><td><span class="badge-done">✓ Done</span></td></tr>
+                        <tr><td>Migrate scheduling/outreach to SQLite</td><td><span class="badge-next">→ Next</span></td></tr>
+                        <tr><td>Recruiter enrichment in Jobs Tracker</td><td><span class="badge-next">→ Next</span></td></tr>
+                        <tr><td>Workflow run persistence + audit trails</td><td><span class="badge-next">→ Next</span></td></tr>
+                        <tr><td>Analytics dashboards</td><td><span class="badge-later">Later</span></td></tr>
+                        <tr><td>Multi-user support + authentication</td><td><span class="badge-later">Later</span></td></tr>
+                    </tbody>
+                </table>
             </section>
 
         </div>
 
         <aside class="sidebar">
             <div class="sidebar-card">
-                <h3>Tech Stack</h3>
+                <h3>Application</h3>
                 <ul class="stack-list">
+                    <li><span class="stack-dot" style="background:#1a4d7a"></span>Python 3.11</li>
+                    <li><span class="stack-dot" style="background:#ff4b4b"></span>Streamlit</li>
+                    <li><span class="stack-dot" style="background:#009688"></span>FastAPI</li>
+                    <li><span class="stack-dot" style="background:#003b57"></span>SQLite</li>
+                </ul>
+                <div class="stack-group">AI & Automation</div>
+                <ul class="stack-list">
+                    <li><span class="stack-dot" style="background:#6b3aab"></span>Claude API (Anthropic)</li>
+                    <li><span class="stack-dot" style="background:#412991"></span>OpenAI GPT</li>
                     <li><span class="stack-dot" style="background:#0f9a8d"></span>LangGraph</li>
-                    <li><span class="stack-dot" style="background:#6b3aab"></span>Claude API</li>
-                    <li><span class="stack-dot" style="background:#2563eb"></span>Multi-Agent Systems</li>
-                    <li><span class="stack-dot" style="background:#1a4d7a"></span>Python 3.11+</li>
+                    <li><span class="stack-dot" style="background:#2ead33"></span>Playwright</li>
+                </ul>
+                <div class="stack-group">DevOps & Quality</div>
+                <ul class="stack-list">
+                    <li><span class="stack-dot" style="background:#2496ed"></span>Docker</li>
+                    <li><span class="stack-dot" style="background:#2088ff"></span>GitHub Actions</li>
+                    <li><span class="stack-dot" style="background:#0a9edc"></span>Pytest</li>
+                    <li><span class="stack-dot" style="background:#2a6db2"></span>MyPy + Ruff</li>
+                </ul>
+            </div>
+            <div class="sidebar-card">
+                <h3>API Endpoints</h3>
+                <ul class="stack-list">
+                    <li>GET /health</li>
+                    <li>POST /db/init</li>
+                    <li>GET /scheduled-posts</li>
+                    <li>POST /publishing/linkedin/autopublish/run-once</li>
+                    <li>POST /jobs/search</li>
+                    <li>GET /job-postings</li>
                 </ul>
             </div>
             <div class="sidebar-card">
                 <h3>Project Type</h3>
                 <ul class="stack-list">
-                    <li>🤖 Agentic AI</li>
-                    <li>✍️ Content Generation</li>
-                    <li>🔄 Critique-Refine Loop</li>
+                    <li>🤖 Multi-Agent System</li>
+                    <li>🔄 LLM Orchestration</li>
+                    <li>🌐 Browser Automation</li>
+                    <li>📦 Docker + CI/CD</li>
                 </ul>
-            </div>
-            <div class="sidebar-card">
-                <h3>Real-world Application</h3>
-                <p>Patterns from this project were applied in the ContentCrea freelance mission — building an LLM-as-a-Judge editorial evaluation system.</p>
             </div>
         </aside>
     </div>
